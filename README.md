@@ -14,6 +14,8 @@
 
 Find a rare album. Browse a collector's shared files. Keep your favorite sources close. slskprime brings those everyday Soulseek tasks into a clean web interface with smaller typography, useful filters and a choice of themes.
 
+Created and maintained by [Hernani Moskwen (@moskwen)](https://github.com/moskwen), with AI-assisted development.
+
 This is a modified version of slskd. It is not maintained by, endorsed by, or affiliated with the slskd project or its author(s).
 
 slskprime is an independent frontend based on the slskd 0.26.2 web interface. It works with a separately installed, unmodified official backend. It does not implement a Soulseek network client or redistribute a modified backend.
