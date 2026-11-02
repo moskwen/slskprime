@@ -1,0 +1,11 @@
+node_modules/
+build/
+.env*
+!.env.example
+*.zip
+*.tar.gz
+
+installation-contacts.json
+appdata/
+downloads/
+.env

@@ -1,0 +1,7 @@
+This is a modified version of slskd. It is not maintained by, endorsed by, or affiliated with the slskd project or its author(s).
+
+Origin: slskd 0.26.2 frontend, JP Dillingham and contributors.
+Modifications: 2026 slskprime contributors; interface design, search and transfer tools, contact browsing, palettes, typography and browser-local preferences.
+See LICENSE for the complete AGPLv3 license and Additional Terms.
+The backend is a separately installed official dependency and is not part of this frontend distribution.
+
