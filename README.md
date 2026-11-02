@@ -2,7 +2,17 @@
 
 <p align="center"><img src="slskprime-logo.svg" alt="slskprime" width="520"></p>
 
-**A modern Soulseek web interface.** Compact, customizable and built for browsing music collections.
+<p align="center"><strong>Your music hunt, refined.</strong><br>A compact, customizable web interface for the Soulseek network.</p>
+
+<p align="center">
+  <a href="https://github.com/moskwen/slskprime/releases"><img src="https://img.shields.io/github/v/release/moskwen/slskprime?color=75d8b7&amp;label=release" alt="Latest release"></a>
+  <a href="https://github.com/moskwen/slskprime/actions/workflows/ci.yml"><img src="https://github.com/moskwen/slskprime/actions/workflows/ci.yml/badge.svg" alt="Build and test"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPLv3%20%2B%20Additional%20Terms-8899aa" alt="AGPLv3 with Additional Terms"></a>
+</p>
+
+<p align="center"><a href="https://github.com/moskwen/slskprime/releases/latest"><strong>Download</strong></a> · <a href="#existing-installation">Install on your server</a> · <a href="#new-docker-compose-installation">Docker Compose</a> · <a href="https://github.com/moskwen/slskprime/issues">Feedback &amp; ideas</a></p>
+
+Find a rare album. Browse a collector's shared files. Keep your favorite sources close. slskprime brings those everyday Soulseek tasks into a clean web interface with smaller typography, useful filters and a choice of themes.
 
 This is a modified version of slskd. It is not maintained by, endorsed by, or affiliated with the slskd project or its author(s).
 
@@ -10,14 +20,26 @@ slskprime is an independent frontend based on the slskd 0.26.2 web interface. It
 
 ## Features
 
-- English interface, compact typography and responsive navigation.
-- Jade, Midnight, Plum and Paper themes; self-hosted Inter, Manrope, IBM Plex Sans and system fonts.
-- Contact list with presence, file browsing, private browser-local notes and export.
-- Saved searches run on demand, default search filters, quick quality filters and source ranking.
-- Favorites filtering, source hiding and visible folder-download actions.
-- Transfer filters, pagination, album progress and manual alternative-source searches.
+| Area | What you get |
+| --- | --- |
+| **Make it yours** | Jade, Midnight, Plum and Paper themes; three text sizes; locally hosted Inter, Manrope and IBM Plex Sans, plus your system font. |
+| **Find better sources** | Quality shortcuts, saved filter defaults, available-slot filtering and source ranking. |
+| **Keep your people close** | Contact list, presence checks, direct browsing of shared files, personal notes and contact export. |
+| **Download with less friction** | Visible folder-download actions, selection tools and a manual search for another source. |
+| **Stay organized** | Saved searches, hidden sources, transfer filters, pagination and album progress. |
+| **Run it yourself** | Prebuilt frontend download, checksummed installer with backup, and Docker Compose for a new installation. |
+
+The interface is in English. Fonts are bundled with the app; no font service is contacted while you use it.
 
 Contacts, notes, searches and preferences are browser-local. There is no scheduled wishlist or automatic source replacement. No personal contacts are included in the repository or releases.
+
+## Choose your installation
+
+| Your setup | Start here |
+| --- | --- |
+| You already run slskd | [Install the frontend](#existing-installation). Keep your existing backend, account, downloads and mounts. |
+| You are starting fresh | [Use Docker Compose](#new-docker-compose-installation). Set your own paths and credentials. |
+| You want to change the code | [Build and test locally](#build-and-test). Contributions and reproducible bug reports are welcome. |
 
 ## Existing installation
 
@@ -91,6 +113,16 @@ DISABLE_ESLINT_PLUGIN=true GENERATE_SOURCEMAP=false pnpm run build
 The inherited CRA ESLint webpack integration is disabled for production builds because its plugin configuration does not resolve reliably. Behavior tests run separately in CI. The upstream dependency stack is retained; validate compatibility before upgrading beyond backend 0.26.2.
 
 Optional `installation-contacts.json` can contain a JSON array of usernames beside `index.html`. It seeds contacts when the browser has no saved list. It is a static asset, not a secret store; never put credentials in it. It is excluded from Git, Docker builds and releases.
+
+## Questions
+
+**Is slskprime an official Soulseek or slskd release?** No. It is an independently modified frontend, with its own branding and source repository.
+
+**Does it replace the backend?** No. The official, unmodified slskd backend handles the Soulseek connection, authentication, file transfers and storage.
+
+**Will installing the frontend move my downloads?** No. The existing-installation method updates web files only and creates a backup first. Keep your existing storage configuration.
+
+**Can I share an idea or report a problem?** Yes. [Open an issue](https://github.com/moskwen/slskprime/issues/new/choose). Include the frontend and backend versions, steps to reproduce and the browser you used. Leave out passwords, tokens and private configuration.
 
 ## License and origin
 
