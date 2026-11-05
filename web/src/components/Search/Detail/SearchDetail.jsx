@@ -261,9 +261,10 @@ const SearchDetail = ({
               className="search-filter"
               label={{ content: 'Filter', icon: 'filter' }}
               onChange={(_event, data) => setResultFilters(data.value)}
-              placeholder="Filter by name, format or quality…"
+              placeholder={'e.g. islossless "deluxe edition" -"live at"'}
               value={resultFilters}
             />
+            <p className="studio-note">Use "exact phrases", -word or -"excluded phrase". Quality: islossless, minbitrate:320, minbitdepth:24.</p>
           </Segment>
         )}
         {loaded &&

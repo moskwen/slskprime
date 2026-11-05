@@ -25,6 +25,8 @@ export const saveWish=(query)=>{
 };
 export const removeWish=(query)=>write(wishesKey,getWishes().filter(w=>w.query!==query));
 export const markWishRun=(query,id)=>write(wishesKey,getWishes().map(w=>w.query===query?{...w,lastRunAt:new Date().toISOString(),lastSearchId:id}:w));
+export const updateWish=(query,patch)=>write(wishesKey,getWishes().map(w=>w.query===query?{...w,...patch}:w));
+export const setWishInterval=(query,minutes)=>updateWish(query,{intervalMinutes:[30,60,180].includes(minutes)?minutes:0});
 export const getBlockedSources=()=>read(blockedKey);
 export const isSourceBlocked=(name)=>getBlockedSources().some(n=>n.toLowerCase()===name.toLowerCase());
 export const blockSource=(name)=>{if(!isSourceBlocked(name))write(blockedKey,[...getBlockedSources(),name]);};

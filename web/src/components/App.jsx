@@ -18,6 +18,8 @@ import './App.css';
 import './Studio.css';
 import './Appearance.css';
 import Appearance from './Appearance';
+import WishlistWorker from './WishlistWorker';
+import PreferencesBackup from './PreferencesBackup';
 import StudioHeading from './StudioHeading';
 import Brand from './Brand';
 import StudioFavorites from './StudioFavorites';
@@ -469,6 +471,7 @@ class App extends Component {
               inverted
             >
               <Appearance />
+              <PreferencesBackup />
               <ModeSpecificConnectButton
                 connectionWatchdog={connectionWatchdog}
                 controller={controller}
@@ -572,6 +575,7 @@ class App extends Component {
                 // eslint-disable-next-line react/jsx-no-constructed-context-values
                 value={{ options: applicationOptions, state: applicationState }}
               >
+                {!isAgent && <WishlistWorker connected={applicationState.server?.isConnected && applicationState.server?.isLoggedIn} />}
                 {isAgent ? (
                   <Switch>
                     <Redirect from={`${urlBase}/favorites`} to={`${urlBase}/users`} />

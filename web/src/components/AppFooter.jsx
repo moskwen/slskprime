@@ -76,7 +76,7 @@ const AppFooter = ({
         </span>
       </Menu.Item>
       <Menu.Menu position="right">
-        <Menu.Item as="a" href="https://github.com/moskwen/slskprime/tree/v0.1.0">Source code</Menu.Item>
+        <Menu.Item as="a" href="https://github.com/moskwen/slskprime/tree/v0.2.0">Source code</Menu.Item>
         <Menu.Item
           as="a"
           href="https://github.com/moskwen/slskprime/blob/main/NOTICE"
@@ -88,7 +88,7 @@ const AppFooter = ({
             className="footer-logo"
             src={`${urlBase}/prime-icon.svg`}
           />
-          slskprime v0.1.0 · modified frontend
+          slskprime v0.2.0 · modified frontend
           <span className="footer-version">based on slskd {current}</span>
           <span className="footer-license">AGPLv3</span>
         </Menu.Item>

@@ -15,7 +15,7 @@ jobs:
       - run: corepack enable && corepack prepare pnpm@11.25.0 --activate
       - run: pnpm install --frozen-lockfile --ignore-scripts && pnpm exec semantic-ui-css-patch
         working-directory: web
-      - run: pnpm exec craco test --watchAll=false --runInBand --runTestsByPath src/lib/appearance.test.js src/lib/studio.test.js src/lib/installationContacts.test.js src/components/StudioFavorites.test.jsx src/components/Search/Response.studio.test.jsx src/components/Transfers/TransferList.studio.test.jsx
+      - run: pnpm exec craco test --watchAll=false --runInBand
         working-directory: web
         env:
           CI: "true"

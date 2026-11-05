@@ -235,3 +235,8 @@ html body .dashboard .ui.statistics .statistic>.label { font-size:10px!important
 @media(max-width:600px){.studio-user-row{grid-template-columns:minmax(70px,1fr) 85px;}.studio-user-actions{grid-column:1 / 3;justify-content:flex-start;margin-top:4px;}.studio-user-columns{display:none;}.studio-user-name{font-size:11px;}.studio-user-toolbar .ui.button{font-size:10px!important;}.studio-user-status{text-align:right;}}
 @media(max-width:767px) { html body .search-detail-header-segment>.header { width:100%; font-size:15px!important; } }
 
+.studio-wish-actions { display:flex; flex-wrap:wrap; gap:6px; align-items:center; justify-content:flex-end; }
+.studio-wish-actions .ui.selection.dropdown { min-width:155px; font-size:12px; }
+.studio-saved-row > div:first-child { min-width:0; overflow-wrap:anywhere; }
+.studio-backup-actions { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0; }
+@media(max-width:700px) { .studio-saved-row { flex-direction:column; align-items:stretch; gap:12px; } .studio-wish-actions { justify-content:flex-start; } }

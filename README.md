@@ -25,15 +25,17 @@ slskprime is an independent frontend based on the slskd 0.26.2 web interface. It
 | Area | What you get |
 | --- | --- |
 | **Make it yours** | Jade, Midnight, Plum and Paper themes; three text sizes; locally hosted Inter, Manrope and IBM Plex Sans, plus your system font. |
-| **Find better sources** | Quality shortcuts, saved filter defaults, available-slot filtering and source ranking. |
+| **Find better sources** | Quality shortcuts, exact phrase includes/excludes, saved filter defaults, available-slot filtering and source ranking. |
 | **Keep your people close** | Contact list, presence checks, direct browsing of shared files, personal notes and contact export. |
 | **Download with less friction** | Visible folder-download actions, selection tools and a manual search for another source. |
-| **Stay organized** | Saved searches, hidden sources, transfer filters, pagination and album progress. |
+| **Stay organized** | Optional repeating wishlist searches with result alerts, hidden sources, transfer filters, pagination and album progress. |
 | **Run it yourself** | Prebuilt frontend download, checksummed installer with backup, and Docker Compose for a new installation. |
 
 The interface is in English. Fonts are bundled with the app; no font service is contacted while you use it.
 
-Contacts, notes, searches and preferences are browser-local. There is no scheduled wishlist or automatic source replacement. No personal contacts are included in the repository or releases.
+Contacts, notes, searches and preferences are browser-local. Use **Backup** to export them as JSON and merge them into another browser. No passwords or login tokens are exported. Newly imported searches start in manual mode.
+
+Saved searches can repeat every 30 minutes, one hour or three hours while the app is open, logged in and connected. Browser sleep or background throttling may delay searches; they do not run after the app closes. A browser-local lease coordinates tabs, and failed attempts wait for the configured interval. An in-app alert links to results. Downloads and source replacement stay manual. No personal contacts are included in the repository or releases.
 
 ## Choose your installation
 
@@ -48,7 +50,7 @@ Contacts, notes, searches and preferences are browser-local. There is no schedul
 Download the prebuilt UI and checksum from [Releases](https://github.com/moskwen/slskprime/releases). If your backend already serves a custom UI directory, clone this repository and run:
 
 ```sh
-sh scripts/install-ui.sh /absolute/path/to/existing/ui-directory v0.1.0
+sh scripts/install-ui.sh /absolute/path/to/existing/ui-directory v0.2.0
 ```
 
 The installer verifies the checksum, backs up the UI directory and installs without deleting existing files. It preserves local installation contacts. It does not touch the container, credentials, downloads or shares. No restart is needed when the content path is unchanged.
@@ -69,7 +71,7 @@ Compose builds a one-shot frontend exporter, then starts the official, unmodifie
 ```sh
 git clone https://github.com/moskwen/slskprime.git
 cd slskprime
-git checkout v0.1.0
+git checkout v0.2.0
 cp .env.example .env
 mkdir -p appdata downloads/complete downloads/incomplete
 ```
@@ -108,7 +110,7 @@ corepack enable
 corepack prepare pnpm@11.25.0 --activate
 pnpm install --frozen-lockfile --ignore-scripts
 pnpm exec semantic-ui-css-patch
-CI=true pnpm exec craco test --watchAll=false --runInBand --runTestsByPath src/lib/appearance.test.js src/lib/studio.test.js src/lib/installationContacts.test.js src/components/StudioFavorites.test.jsx src/components/Search/Response.studio.test.jsx src/components/Transfers/TransferList.studio.test.jsx
+CI=true pnpm exec craco test --watchAll=false --runInBand
 DISABLE_ESLINT_PLUGIN=true GENERATE_SOURCEMAP=false pnpm run build
 ```
 

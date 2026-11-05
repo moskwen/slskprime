@@ -158,6 +158,16 @@ describe('filterResponse', () => {
 });
 
 describe('parseFiltersFromString', () => {
+  it('supports quoted includes and exclusions with whitespace, ignoring empty exclusions', () => {
+    expect(search.parseFiltersFromString('  islossless "deluxe edition" -"live at" -remix -  ')).toMatchObject({include:['deluxe edition'],exclude:['live at','remix'],isLossless:true});
+    expect(search.parseFiltersFromString('  ')).toMatchObject({include:[],exclude:[]});
+    expect(search.parseFiltersFromString('"islossless" -"title: edition"')).toMatchObject({include:['islossless'],exclude:['title: edition'],isLossless:false});
+  });
+  it('does not allow unknown metadata to pass a minimum quality requirement', () => {
+    const response={files:[{filename:'unknown.flac'},{filename:'24bit.flac',bitDepth:24}],lockedFiles:[],fileCount:2,lockedFileCount:0};
+    expect(search.filterResponse({filters:search.parseFiltersFromString('minbitdepth:24'),response}).files.map(f=>f.filename)).toEqual(['24bit.flac']);
+    expect(search.filterResponse({filters:search.parseFiltersFromString('minfilesinfolder:3'),response})).toMatchObject({files:[],lockedFiles:[],fileCount:0,lockedFileCount:0});
+  });
   it('returns correct minBitrate', () => {
     expect(search.parseFiltersFromString('foo minbr:42 bar')).toMatchObject({
       minBitRate: 42,

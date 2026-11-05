@@ -12,14 +12,15 @@ export const remove = ({ id }) => {
   return api.delete(`/searches/${encodeURIComponent(id)}`);
 };
 
-export const create = ({ id, searchText }) => {
-  return api.post('/searches', { id, searchText });
+export const create = ({ id, searchText, timeout }) => {
+  return api.post('/searches', { id, searchText }, { timeout });
 };
 
-export const getStatus = async ({ id, includeResponses = false }) => {
+export const getStatus = async ({ id, includeResponses = false, timeout }) => {
   return (
     await api.get(
       `/searches/${encodeURIComponent(id)}?includeResponses=${includeResponses}`,
+      { timeout },
     )
   ).data;
 };
@@ -48,6 +49,8 @@ const getNthMatch = (string, regex, n) => {
 };
 
 export const parseFiltersFromString = (string) => {
+  const tokens = string.toLowerCase().match(/-?"[^"]*"|\S+/gu) || [];
+  const controls = tokens.filter(term => !term.includes('"')).join(' ');
   const filters = {
     exclude: [],
     include: [],
@@ -63,40 +66,39 @@ export const parseFiltersFromString = (string) => {
   };
 
   filters.minBitRate =
-    getNthMatch(string, /(minbr|minbitrate):(\d+)/iu, 2) || filters.minBitRate;
+    getNthMatch(controls, /(?:^|\s)(minbr|minbitrate):(\d+)(?=\s|$)/iu, 2) || filters.minBitRate;
   filters.minBitDepth =
-    getNthMatch(string, /(minbd|minbitdepth):(\d+)/iu, 2) ||
+    getNthMatch(controls, /(?:^|\s)(minbd|minbitdepth):(\d+)(?=\s|$)/iu, 2) ||
     filters.minBitDepth;
   filters.minFileSize =
-    getNthMatch(string, /(minfs|minfilesize):(\d+)/iu, 2) ||
+    getNthMatch(controls, /(?:^|\s)(minfs|minfilesize):(\d+)(?=\s|$)/iu, 2) ||
     filters.minFileSize;
   filters.minLength =
-    getNthMatch(string, /(minlen|minlength):(\d+)/iu, 2) || filters.minLength;
+    getNthMatch(controls, /(?:^|\s)(minlen|minlength):(\d+)(?=\s|$)/iu, 2) || filters.minLength;
   filters.minFilesInFolder =
-    getNthMatch(string, /(minfif|minfilesinfolder):(\d+)/iu, 2) ||
+    getNthMatch(controls, /(?:^|\s)(minfif|minfilesinfolder):(\d+)(?=\s|$)/iu, 2) ||
     filters.minFilesInFolder;
 
-  filters.isVBR = Boolean(/isvbr/iu.test(string));
-  filters.isCBR = Boolean(/iscbr/iu.test(string));
-  filters.isLossless = Boolean(/islossless/iu.test(string));
-  filters.isLossy = Boolean(/islossy/iu.test(string));
+  filters.isVBR = tokens.includes('isvbr');
+  filters.isCBR = tokens.includes('iscbr');
+  filters.isLossless = tokens.includes('islossless');
+  filters.isLossy = tokens.includes('islossy');
 
-  const terms = string
-    .toLowerCase()
-    .split(' ')
+  const terms = tokens
     .filter(
       (term) =>
-        !term.includes(':') &&
+        (term.includes('"') || !term.includes(':')) &&
         term !== 'isvbr' &&
         term !== 'iscbr' &&
         term !== 'islossless' &&
         term !== 'islossy',
     );
 
-  filters.include = terms.filter((term) => !term.startsWith('-'));
+  const unquote = (term) => term.replace(/^"|"$/gu, '');
+  filters.include = terms.filter((term) => !term.startsWith('-')).map(unquote).filter(Boolean);
   filters.exclude = terms
     .filter((term) => term.startsWith('-'))
-    .map((term) => term.slice(1));
+    .map((term) => unquote(term.slice(1))).filter(Boolean);
 
   return filters;
 };
@@ -125,7 +127,7 @@ export const filterResponse = ({
     response.fileCount + response.lockedFileCount <
     filters.minFilesInFolder
   ) {
-    return { ...response, files: [] };
+    return { ...response, files: [], lockedFiles: [], fileCount: 0, lockedFileCount: 0 };
   }
 
   const filterFiles = (filesToFilter) =>
@@ -158,10 +160,10 @@ export const filterResponse = ({
         return false;
       if (isLossless && (!sampleRate || !bitDepth)) return false;
       if (isLossy && (sampleRate || bitDepth)) return false;
-      if (bitRate < minBitRate) return false;
-      if (bitDepth < minBitDepth) return false;
-      if (size < minFileSize) return false;
-      if (length < minLength) return false;
+      if (minBitRate > 0 && !(bitRate >= minBitRate)) return false;
+      if (minBitDepth > 0 && !(bitDepth >= minBitDepth)) return false;
+      if (minFileSize > 0 && !(size >= minFileSize)) return false;
+      if (minLength > 0 && !(length >= minLength)) return false;
 
       if (
         include.length > 0 &&
