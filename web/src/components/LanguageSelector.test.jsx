@@ -9,13 +9,26 @@ import {saveWish,getWishes} from '../lib/studio';
 jest.mock('../lib/searches',()=>({create:jest.fn().mockResolvedValue({})}));
 beforeEach(()=>{localStorage.clear();saveLanguage('en');});
 afterEach(()=>saveLanguage('en'));
-test('selector exposes ten native language names and saves Brazilian Portuguese before reloading',()=>{
+test('language dialog survives pointer movement and parent refreshes, then saves Brazilian Portuguese',()=>{
   const root=document.createElement('div'),reload=jest.fn();document.body.appendChild(root);
   act(()=>{ReactDOM.render(<LanguageSelector onReload={reload}/>,root);});
-  const select=root.querySelector('select');expect(select.options).toHaveLength(10);
-  expect([...select.options].some(o=>o.text==='Português (Brasil)')).toBe(true);
-  act(()=>{Simulate.change(select,{target:{value:'pt-BR'}});});
+  const trigger=root.querySelector('[aria-haspopup="dialog"]');
+  act(()=>{Simulate.click(trigger);});
+  expect(document.querySelectorAll('[data-language]')).toHaveLength(10);
+  act(()=>{Simulate.mouseLeave(trigger);ReactDOM.render(<LanguageSelector onReload={reload}/>,root);});
+  const portuguese=document.querySelector('[data-language="pt-BR"]');
+  expect(portuguese.textContent).toBe('Português (Brasil)');
+  expect(document.querySelectorAll('[data-language]')).toHaveLength(10);
+  act(()=>{Simulate.click(portuguese);});
   expect(readLanguage()).toBe('pt-BR');expect(reload).toHaveBeenCalledTimes(1);
+  act(()=>{ReactDOM.unmountComponentAtNode(root);});root.remove();
+});
+test('choosing the current language closes the dialog without reloading',()=>{
+  const root=document.createElement('div'),reload=jest.fn();document.body.appendChild(root);
+  act(()=>{ReactDOM.render(<LanguageSelector onReload={reload}/>,root);});
+  act(()=>{Simulate.click(root.querySelector('[aria-haspopup="dialog"]'));});
+  act(()=>{Simulate.click(document.querySelector('[data-language="en"]'));});
+  expect(reload).not.toHaveBeenCalled();expect(root.querySelector('[aria-expanded="false"]')).not.toBeNull();
   act(()=>{ReactDOM.unmountComponentAtNode(root);});root.remove();
 });
 test('Portuguese controls keep internal schedule values unchanged',()=>{

@@ -1,11 +1,11 @@
 #!/bin/sh
 # Copyright (c) 2026 slskprime contributors. AGPL-3.0-only with Additional Terms; see LICENSE.
 set -eu
-destination=${1:?Usage: install-ui.sh /absolute/existing/ui-directory [v0.3.0]}
-version=${2:-v0.3.0}
+destination=${1:?Usage: install-ui.sh /absolute/existing/ui-directory [v0.3.1]}
+version=${2:-v0.3.1}
 case "$destination" in /*) ;; *) echo 'Use an absolute UI directory.' >&2; exit 1;; esac
 [ "$destination" != / ] && [ -d "$destination" ] || { echo 'The existing UI directory is required.' >&2; exit 1; }
-printf '%s\n' "$version" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$' || { echo 'Use an explicit release tag, such as v0.3.0.' >&2; exit 1; }
+printf '%s\n' "$version" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$' || { echo 'Use an explicit release tag, such as v0.3.1.' >&2; exit 1; }
 temporary=$(mktemp -d)
 trap 'rm -f "$temporary/slskprime-ui.tar.gz" "$temporary/SHA256SUMS"; rmdir "$temporary"' EXIT HUP INT TERM
 base="https://github.com/moskwen/slskprime/releases/download/$version"

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.1 — 2026-11-05
+
+- Replace the native language dropdown with a modal containing ten explicit language buttons. The picker stays open during pointer movement and parent updates; selecting the current language closes it without reloading.
+- Stop the Search page from focusing its input during every render. Initial focus happens on mount; live search updates no longer steal focus from language selection or other controls.
+- Add regression coverage for pointer movement, parent refreshes, live search updates, persisted selection and no-op selection.
+
+
 ## 0.3.0 — 2026-11-05
 
 - Language selector on the sidebar and sign-in screen, with ten bundled catalogs: English, Simplified Mandarin Chinese, Hindi, Spanish, Arabic, French, Bengali, Brazilian Portuguese, Indonesian and Urdu.

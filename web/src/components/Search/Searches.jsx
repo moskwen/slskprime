@@ -217,8 +217,6 @@ const Searches = ({ server } = {}) => {
     history.replace(match.url.replace(`/${searchId}`, ''));
   }
 
-  inputRef?.current?.inputRef?.current.focus();
-
   return (
     <>
       <Segment
@@ -251,6 +249,7 @@ const Searches = ({ server } = {}) => {
           disabled={creating || !server.isConnected}
           input={
             <input
+              autoFocus
               data-lpignore="true"
               placeholder={
                 server.isConnected

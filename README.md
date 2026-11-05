@@ -52,7 +52,7 @@ Saved searches can repeat every 30 minutes, one hour or three hours while the ap
 Download the prebuilt UI and checksum from [Releases](https://github.com/moskwen/slskprime/releases). If your backend already serves a custom UI directory, clone this repository and run:
 
 ```sh
-sh scripts/install-ui.sh /absolute/path/to/existing/ui-directory v0.3.0
+sh scripts/install-ui.sh /absolute/path/to/existing/ui-directory v0.3.1
 ```
 
 The installer verifies the checksum, backs up the UI directory and installs without deleting existing files. It preserves local installation contacts. It does not touch the container, credentials, downloads or shares. No restart is needed when the content path is unchanged.
@@ -73,7 +73,7 @@ Compose builds a one-shot frontend exporter, then starts the official, unmodifie
 ```sh
 git clone https://github.com/moskwen/slskprime.git
 cd slskprime
-git checkout v0.3.0
+git checkout v0.3.1
 cp .env.example .env
 mkdir -p appdata downloads/complete downloads/incomplete
 ```
