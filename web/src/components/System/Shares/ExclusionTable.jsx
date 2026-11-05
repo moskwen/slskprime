@@ -1,3 +1,4 @@
+import { t } from '../../../lib/i18n';
 import { Switch } from '../../Shared';
 import React from 'react';
 import { Icon, Table } from 'semantic-ui-react';
@@ -7,7 +8,7 @@ const ExclusionTable = ({ exclusions = [] } = {}) => {
     <Table>
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell>Excluded Paths</Table.HeaderCell>
+          <Table.HeaderCell>{t("Excluded Paths")}</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
@@ -21,9 +22,7 @@ const ExclusionTable = ({ exclusions = [] } = {}) => {
                     padding: '10px !important',
                     textAlign: 'center',
                   }}
-                >
-                  No exclusions configured
-                </Table.Cell>
+                >{t("No exclusions configured")}</Table.Cell>
               </Table.Row>
             )
           }

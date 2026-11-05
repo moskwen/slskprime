@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 /*
  * Copyright (c) 2026 slskprime contributors.
  * Modified: independent branding, English UI, compact design and browser-local discovery tools.
@@ -26,7 +27,7 @@ const HISTORY_RANGES = [
   { label: '90d', days: 90, buckets: 90 },
   { label: '180d', days: 180, buckets: 90 },
   { label: '1y', days: 365, buckets: 100 },
-  { label: 'All', days: null, buckets: 100 },
+  { label: t("All"), days: null, buckets: 100 },
 ];
 
 const initialState = {

@@ -31,7 +31,7 @@ export async function wishlistTick({ api, makeId, owner, notify = () => {}, acti
           const count = Number(status.fileCount) || 0;
           updateWish(pending.query, { pendingSearchId: null, resultCount: count,
             resultCheckedAt: new Date(now()).toISOString(), lastError: null });
-          if (count > 0 && active()) notify(`${pending.query}: ${count} files found`, pending.pendingSearchId);
+          if (count > 0 && active()) notify(`${pending.query}: ${count} files found`, pending.pendingSearchId, {query:pending.query,count});
         }
       } catch (error) {
         if (error.response?.status === 404) updateWish(pending.query, { pendingSearchId: null, lastError: 'Results expired. The next scheduled search will run normally.' });

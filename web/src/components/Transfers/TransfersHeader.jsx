@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 import { isStateCancellable, isStateRetryable } from '../../lib/transfers';
 import { Div, Nbsp } from '../Shared';
 import ShrinkableDropdownButton from '../Shared/ShrinkableDropdownButton';
@@ -117,12 +118,12 @@ const TransfersHeader = ({
           onChange={(_, data) => setRetryOption(data.value)}
           onClick={() => onRetryAll(getRetryableFiles({ files, retryOption }))}
           options={[
-            { key: 'errored', text: 'Errored', value: 'Errored' },
-            { key: 'cancelled', text: 'Cancelled', value: 'Cancelled' },
-            { key: 'all', text: 'All', value: 'All' },
+            { key: 'errored', text: t("Errored"), value: 'Errored' },
+            { key: 'cancelled', text: t("Cancelled"), value: 'Cancelled' },
+            { key: 'all', text: t("All"), value: 'All' },
           ]}
         >
-          {`Retry ${retryOption === 'All' ? retryOption : `All ${retryOption}`}`}
+          {t("Retry {0}", [t(retryOption)])}
         </ShrinkableDropdownButton>
         <Nbsp />
         <ShrinkableDropdownButton
@@ -136,12 +137,12 @@ const TransfersHeader = ({
             onCancelAll(getCancellableFiles({ cancelOption, files }))
           }
           options={[
-            { key: 'all', text: 'All', value: 'All' },
-            { key: 'queued', text: 'Queued', value: 'Queued' },
-            { key: 'inProgress', text: 'In Progress', value: 'In Progress' },
+            { key: 'all', text: t("All"), value: 'All' },
+            { key: 'queued', text: t("Queued"), value: 'Queued' },
+            { key: 'inProgress', text: t("In Progress"), value: 'In Progress' },
           ]}
         >
-          {`Cancel ${cancelOption === 'All' ? cancelOption : `All ${cancelOption}`}`}
+          {t("Cancel {0}", [t(cancelOption)])}
         </ShrinkableDropdownButton>
         <Nbsp />
         <ShrinkableDropdownButton
@@ -154,13 +155,13 @@ const TransfersHeader = ({
             onRemoveAll(getRemovableFiles({ files, removeOption }))
           }
           options={[
-            { key: 'succeeded', text: 'Succeeded', value: 'Succeeded' },
-            { key: 'errored', text: 'Errored', value: 'Errored' },
-            { key: 'cancelled', text: 'Cancelled', value: 'Cancelled' },
-            { key: 'completed', text: 'Completed', value: 'Completed' },
+            { key: 'succeeded', text: t("Succeeded"), value: 'Succeeded' },
+            { key: 'errored', text: t("Errored"), value: 'Errored' },
+            { key: 'cancelled', text: t("Cancelled"), value: 'Cancelled' },
+            { key: 'completed', text: t("Completed"), value: 'Completed' },
           ]}
         >
-          {`Remove All ${removeOption}`}
+          {t("Remove All {0}", [t(removeOption)])}
         </ShrinkableDropdownButton>
       </Div>
     </Segment>

@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 import './Chat.css';
 import { activeChatKey } from '../../config';
 import * as chat from '../../lib/chat';
@@ -254,7 +255,7 @@ class Chat extends Component {
         </Segment>
         {Boolean(active) === false ? (
           <PlaceholderSegment
-            caption="No chats to display"
+            caption={t("No chats to display")}
             icon="comment"
           />
         ) : (

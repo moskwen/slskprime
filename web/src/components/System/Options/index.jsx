@@ -1,3 +1,4 @@
+import { t } from '../../../lib/i18n';
 import {
   CodeEditor,
   LoaderSegment,
@@ -24,9 +25,7 @@ const DebugButton = ({
       mediaQuery="(max-width: 516px)"
       onClick={() => setDebugModal(true)}
       {...props}
-    >
-      Debug View
-    </ShrinkableButton>
+    >{t("Debug View")}</ShrinkableButton>
   );
 };
 
@@ -37,9 +36,7 @@ const EditButton = ({ remoteConfiguration, setEditModal, ...props }) => {
         disabled
         icon="lock"
         mediaQuery="(max-width: 516px)"
-      >
-        Remote Configuration Disabled
-      </ShrinkableButton>
+      >{t("Remote Configuration Disabled")}</ShrinkableButton>
     );
   }
 
@@ -50,9 +47,7 @@ const EditButton = ({ remoteConfiguration, setEditModal, ...props }) => {
       onClick={() => setEditModal(true)}
       primary
       {...props}
-    >
-      Edit
-    </ShrinkableButton>
+    >{t("Edit")}</ShrinkableButton>
   );
 };
 

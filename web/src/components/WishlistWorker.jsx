@@ -1,3 +1,4 @@
+import { t } from '../lib/i18n';
 /* Copyright (c) 2026 slskprime contributors. AGPL-3.0-only with Additional Terms; see LICENSE. */
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -17,7 +18,7 @@ export default function WishlistWorker({ connected }) {
       working = true;
       try {
         await wishlistTick({ api: searches, makeId: uuid, owner, active: () => !stopped,
-          notify: (message, id) => toast.info(<Link to={`${urlBase}/searches/${id}`}>{message} · View results</Link>, { autoClose: 12000 }) });
+          notify: (message, id, result) => toast.info(<Link to={`${urlBase}/searches/${id}`}>{t("{0} · View results", [result?t("{0}: {1} files found",[result.query,result.count]):message])}</Link>, { autoClose: 12000 }) });
       } catch (error) { console.debug('Wishlist paused:', error.message); }
       finally { working = false; }
     };

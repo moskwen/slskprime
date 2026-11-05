@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 import * as transfers from '../../lib/transfers';
 import { formatBytes } from '../../lib/util';
 import FileBrowser from './FileBrowser';
@@ -59,7 +60,7 @@ class Selection extends Component {
   handleSelectionChange = (selectedFilenames) => {
     if (selectedFilenames.length > MAX_SELECTED_FILES) {
       toast.error(
-        `Maximum number of selected files is limited to ${MAX_SELECTED_FILES.toLocaleString()}. Narrow your selection.`,
+        t("Maximum number of selected files is limited to {0}. Narrow your selection.", [MAX_SELECTED_FILES.toLocaleString()]),
       );
       return;
     }
@@ -185,7 +186,7 @@ class Selection extends Component {
             <span>
               <Button
                 color="green"
-                content="Download"
+                content={t("Download")}
                 disabled={downloadRequest === 'inProgress'}
                 icon="download"
                 label={{
@@ -219,8 +220,8 @@ class Selection extends Component {
                   />
                   <Label>
                     {downloadError?.data
-                      ? `${downloadError.data} (HTTP ${downloadError.status} ${downloadError.statusText})`
-                      : 'Download failed'}
+                      ? t("{0} (HTTP {1} {2})", [downloadError.data, downloadError.status, downloadError.statusText])
+                      : t("Download failed")}
                   </Label>
                 </span>
               )}

@@ -1,3 +1,4 @@
+import { t } from '../../../lib/i18n';
 import { deleteDirectory, deleteFile, list } from '../../../lib/files';
 import { formatBytes, formatDate } from '../../../lib/util';
 import { LoaderSegment } from '../../Shared';
@@ -26,7 +27,7 @@ const FileRow = ({
           actions={[
             'Cancel',
             {
-              content: 'Delete',
+              content: t("Delete"),
               key: 'done',
               negative: true,
               onClick: async () => {
@@ -39,10 +40,10 @@ const FileRow = ({
             },
           ]}
           centered
-          content={`Are you sure you want to delete file '${fullName}'?`}
+          content={t("Are you sure you want to delete file '{0}'?", [fullName])}
           header={
             <Header
-              content="Confirm File Delete"
+              content={t("Confirm File Delete")}
               icon="trash alternate"
             />
           }
@@ -86,7 +87,7 @@ const DirectoryRow = ({
           actions={[
             'Cancel',
             {
-              content: 'Delete',
+              content: t("Delete"),
               key: 'done',
               negative: true,
               onClick: async () => {
@@ -99,10 +100,10 @@ const DirectoryRow = ({
             },
           ]}
           centered
-          content={`Are you sure you want to delete directory '${fullName}'?`}
+          content={t("Are you sure you want to delete directory '{0}'?", [fullName])}
           header={
             <Header
-              content="Confirm Directory Delete"
+              content={t("Confirm Directory Delete")}
               icon="trash alternate"
             />
           }
@@ -216,9 +217,7 @@ const Explorer = ({ remoteFileManagement, root }) => {
               className="explorer-list-name"
               onClick={() => handleSort('name')}
               style={{ cursor: 'pointer' }}
-            >
-              Name
-              {sortColumn === 'name' && (
+            >{<>{t("Name")}{sortColumn === 'name' && (
                 <Icon
                   name={
                     sortDirection === 'ascending'
@@ -226,15 +225,12 @@ const Explorer = ({ remoteFileManagement, root }) => {
                       : 'chevron down'
                   }
                 />
-              )}
-            </Table.HeaderCell>
+              )}</>}</Table.HeaderCell>
             <Table.HeaderCell
               className="explorer-list-date"
               onClick={() => handleSort('date')}
               style={{ cursor: 'pointer' }}
-            >
-              Date Modified
-              {sortColumn === 'date' && (
+            >{<>{t("Date Modified")}{sortColumn === 'date' && (
                 <Icon
                   name={
                     sortDirection === 'ascending'
@@ -242,11 +238,8 @@ const Explorer = ({ remoteFileManagement, root }) => {
                       : 'chevron down'
                   }
                 />
-              )}
-            </Table.HeaderCell>
-            <Table.HeaderCell className="explorer-list-size">
-              Size
-            </Table.HeaderCell>
+              )}</>}</Table.HeaderCell>
+            <Table.HeaderCell className="explorer-list-size">{t("Size")}</Table.HeaderCell>
             <Table.HeaderCell className="explorer-list-action" />
           </Table.Row>
         </Table.Header>
@@ -260,9 +253,7 @@ const Explorer = ({ remoteFileManagement, root }) => {
                   padding: '10px !important',
                   textAlign: 'center',
                 }}
-              >
-                No files or directories
-              </Table.Cell>
+              >{t("No files or directories")}</Table.Cell>
             </Table.Row>
           ) : (
             <>

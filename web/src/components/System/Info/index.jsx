@@ -1,3 +1,4 @@
+import { t } from '../../../lib/i18n';
 import { getVersion, restart, shutdown } from '../../../lib/application';
 import {
   CodeEditor,
@@ -32,9 +33,7 @@ const Info = ({ state, theme }) => {
             mediaQuery="(max-width: 686px)"
             onClick={() => getVersion({ forceCheck: true })}
             primary
-          >
-            Check for Updates
-          </ShrinkableButton>
+          >{t("Check for Updates")}</ShrinkableButton>
           <ShrinkableButton
             color="yellow"
             disabled={!contents}
@@ -46,25 +45,23 @@ const Info = ({ state, theme }) => {
                 '_blank',
               )
             }
-          >
-            Get Privileges
-          </ShrinkableButton>
+          >{t("Get Privileges")}</ShrinkableButton>
         </div>
         <Modal
           actions={[
             'Cancel',
             {
-              content: 'Shut Down',
+              content: t("Shut Down"),
               key: 'done',
               negative: true,
               onClick: shutdown,
             },
           ]}
           centered
-          content="Are you sure you want to shut the application down?  You'll need to manually start it again."
+          content={t("Are you sure you want to shut the application down?  You'll need to manually start it again.")}
           header={
             <Header
-              content="Confirm Shutdown"
+              content={t("Confirm Shutdown")}
               icon="redo"
             />
           }
@@ -75,26 +72,24 @@ const Info = ({ state, theme }) => {
               icon="shutdown"
               mediaQuery="(max-width: 686px)"
               negative
-            >
-              Shut Down
-            </ShrinkableButton>
+            >{t("Shut Down")}</ShrinkableButton>
           }
         />
         <Modal
           actions={[
             'Cancel',
             {
-              content: 'Restart',
+              content: t("Restart"),
               key: 'done',
               negative: true,
               onClick: restart,
             },
           ]}
           centered
-          content="Are you sure you want restart the application?"
+          content={t("Are you sure you want restart the application?")}
           header={
             <Header
-              content="Confirm Restart"
+              content={t("Confirm Restart")}
               icon="redo"
             />
           }
@@ -106,9 +101,7 @@ const Info = ({ state, theme }) => {
               icon="redo"
               mediaQuery="(max-width: 686px)"
               negative={!pendingRestart}
-            >
-              Restart
-            </ShrinkableButton>
+            >{t("Restart")}</ShrinkableButton>
           }
         />
       </div>

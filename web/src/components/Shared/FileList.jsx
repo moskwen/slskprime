@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 /*
  * Copyright (c) 2026 slskprime contributors.
  * Modified: independent branding, English UI, compact design and browser-local discovery tools.
@@ -49,7 +50,7 @@ const FileList = ({
             size="large"
           />
           <span className="studio-folder-title" title={directoryName}>{directoryName.split(/[\\/]/).filter(Boolean).pop() || directoryName}<small>{directoryName}</small></span>
-          {onDownloadDirectory && <div className="studio-folder-action"><span>{files.length} files · {formatBytes(files.reduce((sum,f)=>sum+f.size,0))}</span><Button size="small" color="green" icon="download" content="Download folder" disabled={disabled || locked} loading={downloadPending} onClick={onDownloadDirectory} /></div>}
+          {onDownloadDirectory && <div className="studio-folder-action"><span>{t("{0} files · {1}", [files.length, formatBytes(files.reduce((sum,f)=>sum+f.size,0))])}</span><Button size="small" color="green" icon="download" content={t("Download folder")} disabled={disabled || locked} loading={downloadPending} onClick={onDownloadDirectory} /></div>}
 
           {Boolean(onClose) && (
             <Icon
@@ -78,18 +79,10 @@ const FileList = ({
                       }
                     />
                   </Table.HeaderCell>
-                  <Table.HeaderCell className="filelist-filename">
-                    File
-                  </Table.HeaderCell>
-                  <Table.HeaderCell className="filelist-size">
-                    Size
-                  </Table.HeaderCell>
-                  <Table.HeaderCell className="filelist-attributes">
-                    Quality
-                  </Table.HeaderCell>
-                  <Table.HeaderCell className="filelist-length">
-                    Duration
-                  </Table.HeaderCell>
+                  <Table.HeaderCell className="filelist-filename">{t("File")}</Table.HeaderCell>
+                  <Table.HeaderCell className="filelist-size">{t("Size")}</Table.HeaderCell>
+                  <Table.HeaderCell className="filelist-attributes">{t("Quality")}</Table.HeaderCell>
+                  <Table.HeaderCell className="filelist-length">{t("Duration")}</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>

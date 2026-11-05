@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 /*
  * Copyright (c) 2026 slskprime contributors.
  * Modified: independent branding, English UI, compact design and browser-local discovery tools.
@@ -154,8 +155,8 @@ class TransferGroup extends Component {
               name={isFolded ? 'chevron right' : 'chevron down'}
               onClick={() => this.toggleFolded()}
             />
-            <Link to={{ pathname: `${urlBase}/user-info`, state: { user: user.username } }} title="View user profile">{user.username}</Link>
-            <Button as={Link} to={{ pathname: `${urlBase}/browse`, state: { user: user.username } }} size="mini" icon="folder open outline" content="Browse files" floated="right" />
+            <Link to={{ pathname: `${urlBase}/user-info`, state: { user: user.username } }} title={t("View user profile")}>{user.username}</Link>
+            <Button as={Link} to={{ pathname: `${urlBase}/browse`, state: { user: user.username } }} size="mini" icon="folder open outline" content={t("Browse files")} floated="right" />
           </Card.Header>
           {user.directories &&
             !isFolded &&
@@ -181,7 +182,7 @@ class TransferGroup extends Component {
               {allRetryable && (
                 <Button
                   color="green"
-                  content={`Retry${all}`}
+                  content={t("Retry{0}", [all])}
                   icon="redo"
                   onClick={() => this.retryAll(selected)}
                 />
@@ -190,7 +191,7 @@ class TransferGroup extends Component {
               {anyCancellable && (
                 <Button
                   color="red"
-                  content={`Cancel${all}`}
+                  content={t("Cancel{0}", [all])}
                   icon="x"
                   onClick={() =>
                     this.cancelAll(direction, user.username, selected)
@@ -202,7 +203,7 @@ class TransferGroup extends Component {
               )}
               {allRemovable && (
                 <Button
-                  content={`Remove${all}`}
+                  content={t("Remove{0}", [all])}
                   icon="trash alternate"
                   onClick={() =>
                     this.removeAll(direction, user.username, selected)

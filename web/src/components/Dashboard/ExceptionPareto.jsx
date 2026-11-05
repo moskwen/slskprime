@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 import { truncate } from '../../lib/util';
 import React from 'react';
 import {
@@ -22,7 +23,7 @@ const ExceptionPareto = ({ direction, loading, onDirectionChange, rows }) => {
         style={{ alignItems: 'center', display: 'flex' }}
       >
         <Icon name="sort amount down" />
-        <Header.Content>Error Count By Type</Header.Content>
+        <Header.Content>{t("Error Count By Type")}</Header.Content>
         <ButtonGroup
           size="mini"
           style={{ marginLeft: 'auto' }}
@@ -44,13 +45,11 @@ const ExceptionPareto = ({ direction, loading, onDirectionChange, rows }) => {
       >
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>Direction</Table.HeaderCell>
-            <Table.HeaderCell>Exception</Table.HeaderCell>
+            <Table.HeaderCell>{t("Direction")}</Table.HeaderCell>
+            <Table.HeaderCell>{t("Exception")}</Table.HeaderCell>
             <Table.HeaderCell style={{ width: '120px' }} />
-            <Table.HeaderCell textAlign="right">Count</Table.HeaderCell>
-            <Table.HeaderCell textAlign="right">
-              Distinct Users
-            </Table.HeaderCell>
+            <Table.HeaderCell textAlign="right">{t("Count")}</Table.HeaderCell>
+            <Table.HeaderCell textAlign="right">{t("Distinct Users")}</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -73,9 +72,7 @@ const ExceptionPareto = ({ direction, loading, onDirectionChange, rows }) => {
               <Table.Cell
                 colSpan={5}
                 style={{ opacity: 0.5, textAlign: 'center' }}
-              >
-                No data to display
-              </Table.Cell>
+              >{t("No data to display")}</Table.Cell>
             </Table.Row>
           )}
           {!loading &&

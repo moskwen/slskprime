@@ -1,3 +1,4 @@
+import { t } from '../../../lib/i18n';
 import * as sharesLibrary from '../../../lib/shares';
 import { LoaderSegment, ShrinkableButton, Switch } from '../../Shared';
 import ContentsModal from './ContentsModal';
@@ -16,9 +17,7 @@ const ScanButton = ({ rescan, scanPending, working }) => (
     mediaQuery="(max-width: 516px)"
     onClick={() => rescan()}
     primary={!scanPending}
-  >
-    Rescan Shares
-  </ShrinkableButton>
+  >{t("Rescan Shares")}</ShrinkableButton>
 );
 
 const CancelButton = ({ cancel, working }) => (
@@ -28,9 +27,7 @@ const CancelButton = ({ cancel, working }) => (
     icon="x"
     mediaQuery="(max-width: 516px)"
     onClick={() => cancel()}
-  >
-    Cancel Scan
-  </ShrinkableButton>
+  >{t("Cancel Scan")}</ShrinkableButton>
 );
 
 const Shares = ({ state = {}, theme } = {}) => {
@@ -138,9 +135,7 @@ const Shares = ({ state = {}, theme } = {}) => {
             <LoaderSegment>
               <div>
                 <div>{Math.round(scanProgress * 100)}%</div>
-                <div className="share-scan-detail">
-                  Found {files} files in {directories} directories
-                </div>
+                <div className="share-scan-detail">{t("Found {0} files in {1} directories", [files, directories])}</div>
               </div>
             </LoaderSegment>
           )

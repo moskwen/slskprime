@@ -1,3 +1,4 @@
+import { t } from '../lib/i18n';
 /*
  * Copyright (c) 2026 slskprime contributors.
  * Modified: independent branding, English UI, compact design and browser-local discovery tools.
@@ -19,12 +20,12 @@ import { themes, fonts, readAppearance, saveAppearance } from '../lib/appearance
 export default function Appearance() {
  const [open,setOpen]=useState(false), [value,setValue]=useState(readAppearance);
  const change=(key,next)=>{const updated={...value,[key]:next};setValue(updated);saveAppearance(updated);};
- return <><Menu.Item onClick={()=>setOpen(true)}><Icon name="paint brush"/>Appearance</Menu.Item>
+ return <><Menu.Item onClick={()=>setOpen(true)}><Icon name="paint brush"/>{t("Appearance")}</Menu.Item>
  <Modal className="dc-appearance" size="small" open={open} onClose={()=>setOpen(false)} closeIcon>
- <Modal.Header>Appearance</Modal.Header><Modal.Content>
- <h3>Theme</h3><div className="dc-theme-grid">{Object.entries(themes).map(([id,label])=><button key={id} aria-pressed={value.theme===id} onClick={()=>change('theme',id)} className={'dc-theme dc-'+id}><span/><strong>{label}</strong>{value.theme===id&&<Icon name="check"/>}</button>)}</div>
- <h3>Font</h3><div className="dc-font-grid">{Object.entries(fonts).map(([id,label])=><button key={id} style={{fontFamily:id==='system'?'Segoe UI':label}} aria-pressed={value.font===id} onClick={()=>change('font',id)}><strong>Aa</strong>{label}</button>)}</div>
- <h3>Size</h3><div className="dc-sizes">{[[12,'Compact'],[13,'Default'],[14,'Comfortable']].map(([size,label])=><Button key={size} color={value.size===size?'green':undefined} onClick={()=>change('size',size)}>{label}</Button>)}</div>
- <p className="studio-note">Saved in this browser. Fonts are included locally; no external services.</p>
- </Modal.Content><Modal.Actions><Button color="green" onClick={()=>setOpen(false)}>Done</Button></Modal.Actions></Modal></>;
+ <Modal.Header>{t("Appearance")}</Modal.Header><Modal.Content>
+ <h3>{t("Theme")}</h3><div className="dc-theme-grid">{Object.entries(themes).map(([id,label])=><button key={id} aria-pressed={value.theme===id} onClick={()=>change('theme',id)} className={'dc-theme dc-'+id}><span/><strong>{t(label)}</strong>{value.theme===id&&<Icon name="check"/>}</button>)}</div>
+ <h3>{t("Font")}</h3><div className="dc-font-grid">{Object.entries(fonts).map(([id,label])=><button key={id} style={{fontFamily:id==='system'?'Segoe UI':label}} aria-pressed={value.font===id} onClick={()=>change('font',id)}><strong>Aa</strong>{t(label)}</button>)}</div>
+ <h3>{t("Size")}</h3><div className="dc-sizes">{[[12,t("Compact")],[13,t("Default")],[14,t("Comfortable")]].map(([size,label])=><Button key={size} color={value.size===size?'green':undefined} onClick={()=>change('size',size)}>{label}</Button>)}</div>
+ <p className="studio-note">{t("Saved in this browser. Fonts are included locally; no external services.")}</p>
+ </Modal.Content><Modal.Actions><Button color="green" onClick={()=>setOpen(false)}>{t("Done")}</Button></Modal.Actions></Modal></>;
 }

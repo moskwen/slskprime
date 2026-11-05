@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0 — 2026-11-05
+
+- Language selector on the sidebar and sign-in screen, with ten bundled catalogs: English, Simplified Mandarin Chinese, Hindi, Spanish, Arabic, French, Bengali, Brazilian Portuguese, Indonesian and Urdu.
+- More than 330 interface messages localized across navigation, search, transfers, contacts, appearance, backups and system controls. User content and backend protocol values are preserved.
+- Browser-local language persistence, locale-aware number/date display, right-to-left direction for Arabic and Urdu, and language preference backup/restore compatible with older backups.
+- Translation catalogs are local assets, with English fallback for future messages and no translation service contacted at runtime. Initial machine-assisted translations include a Brazilian Portuguese terminology pass; community corrections are welcome.
+
+
 ## 0.2.0 — 2026-11-05
 
 - Optional repeating saved searches: every 30 minutes, one hour or three hours, while the app is open and connected. Manual mode remains the default. In-app alerts link to completed results; no automatic downloads.

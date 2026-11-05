@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 import { formatBytes, formatSpeed, formatWait } from '../../lib/util';
 import { Graph, LoaderSegment } from '../Shared';
 import Leaderboard from './Leaderboard';
@@ -181,7 +182,7 @@ const HistoricalStatistics = ({
 
   const historyPanes = [
     {
-      menuItem: { content: 'Users', icon: 'users', key: 'users' },
+      menuItem: { content: t("Users"), icon: 'users', key: 'users' },
       render: () => (
         <Tab.Pane>
           <Leaderboard
@@ -194,7 +195,7 @@ const HistoricalStatistics = ({
       ),
     },
     {
-      menuItem: { content: 'Content', icon: 'folder open', key: 'content' },
+      menuItem: { content: t("Content"), icon: 'folder open', key: 'content' },
       render: () => (
         <Tab.Pane>
           <TopDirectories rows={directories} />
@@ -202,7 +203,7 @@ const HistoricalStatistics = ({
       ),
     },
     {
-      menuItem: { content: 'Errors', icon: 'warning sign', key: 'errors' },
+      menuItem: { content: t("Errors"), icon: 'warning sign', key: 'errors' },
       render: () => (
         <Tab.Pane>
           <TransferErrors
@@ -235,7 +236,7 @@ const HistoricalStatistics = ({
               style={{ margin: 0 }}
             >
               <Icon name="history" />
-              <Header.Content>History</Header.Content>
+              <Header.Content>{t("History")}</Header.Content>
             </Header>
             <ButtonGroup size="mini">
               {historyRanges.map(({ label }) => (
@@ -265,10 +266,7 @@ const HistoricalStatistics = ({
                   {formatBytesParts(sumBytes(summary.Download ?? {})).unit}
                 </span>
               </Statistic.Value>
-              <Statistic.Label>
-                Downloaded ·{' '}
-                {sumCounts(summary.Download ?? {}).toLocaleString()} files
-              </Statistic.Label>
+              <Statistic.Label>{t("Downloaded ·{0}{1} files", [' ', sumCounts(summary.Download ?? {}).toLocaleString()])}</Statistic.Label>
             </Statistic>
             <Statistic color="green">
               <Statistic.Value>
@@ -282,10 +280,7 @@ const HistoricalStatistics = ({
                   {formatBytesParts(sumBytes(summary.Upload ?? {})).unit}
                 </span>
               </Statistic.Value>
-              <Statistic.Label>
-                Uploaded · {sumCounts(summary.Upload ?? {}).toLocaleString()}{' '}
-                files
-              </Statistic.Label>
+              <Statistic.Label>{t("Uploaded · {0}{1}files", [sumCounts(summary.Upload ?? {}).toLocaleString(), ' '])}</Statistic.Label>
             </Statistic>
             <Statistic color={shareRatioColor}>
               <Statistic.Value>
@@ -296,7 +291,7 @@ const HistoricalStatistics = ({
                 />
                 {shareRatio !== null ? shareRatio.toFixed(2) : '—'}
               </Statistic.Value>
-              <Statistic.Label>Share ratio (↑/↓)</Statistic.Label>
+              <Statistic.Label>{t("Share ratio (↑/↓)")}</Statistic.Label>
             </Statistic>
             <Statistic>
               <Statistic.Value>
@@ -310,7 +305,7 @@ const HistoricalStatistics = ({
                   (summary.Download?.Succeeded?.distinctUsers ?? 0)
                 ).toLocaleString()}
               </Statistic.Value>
-              <Statistic.Label>Distinct peers</Statistic.Label>
+              <Statistic.Label>{t("Distinct peers")}</Statistic.Label>
             </Statistic>
           </Statistic.Group>
           <div style={{ marginTop: '1.5em' }}>

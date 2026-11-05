@@ -1,3 +1,4 @@
+import { t } from '../../../lib/i18n';
 import ErrorSegment from '../../Shared/ErrorSegment';
 import Switch from '../../Shared/Switch';
 import SearchListRow from './SearchListRow';
@@ -39,21 +40,11 @@ const SearchList = ({
                   <Table.HeaderCell className="search-list-action">
                     <Icon name="info circle" />
                   </Table.HeaderCell>
-                  <Table.HeaderCell className="search-list-phrase">
-                    Search
-                  </Table.HeaderCell>
-                  <Table.HeaderCell className="search-list-files">
-                    Files
-                  </Table.HeaderCell>
-                  <Table.HeaderCell className="search-list-locked">
-                    Locked
-                  </Table.HeaderCell>
-                  <Table.HeaderCell className="search-list-responses">
-                    Responses
-                  </Table.HeaderCell>
-                  <Table.HeaderCell className="search-list-started">
-                    Ended
-                  </Table.HeaderCell>
+                  <Table.HeaderCell className="search-list-phrase">{t("Search")}</Table.HeaderCell>
+                  <Table.HeaderCell className="search-list-files">{t("Files")}</Table.HeaderCell>
+                  <Table.HeaderCell className="search-list-locked">{t("Locked")}</Table.HeaderCell>
+                  <Table.HeaderCell className="search-list-responses">{t("Responses")}</Table.HeaderCell>
+                  <Table.HeaderCell className="search-list-started">{t("Ended")}</Table.HeaderCell>
                   <Table.HeaderCell className="search-list-action" />
                 </Table.Row>
               </Table.Header>

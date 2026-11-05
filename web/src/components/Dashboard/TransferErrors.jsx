@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 import * as reports from '../../lib/reports';
 import { Graph } from '../Shared';
 import ExceptionList from './ExceptionList';
@@ -141,8 +142,7 @@ const TransferErrors = ({ chartData, download, end, start, upload }) => {
   return (
     <div>
       <Header size="small">
-        <Icon name="history" /> Errors
-      </Header>
+        <Icon name="history" />{" " + t("Errors")}</Header>
       <Graph
         data={chartData ?? []}
         defaultSeries={DEFAULT_ERRORS_SERIES}

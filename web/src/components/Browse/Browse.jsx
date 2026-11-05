@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 /*
  * Copyright (c) 2026 slskprime contributors.
  * Modified: independent branding, English UI, compact design and browser-local discovery tools.
@@ -212,7 +213,7 @@ class Browse extends Component {
         error.name === 'QuotaExceededError' || error.code === 22;
       if (isQuotaError) {
         toast.error(
-          'Selection is too large to save — try selecting fewer files.',
+          t("Selection is too large to save — try selecting fewer files."),
         );
       }
     }
@@ -365,7 +366,7 @@ class Browse extends Component {
       link
       name="share"
       onClick={() => this.handleDirectoryNavigate(dir.name)}
-      title="Navigate to this directory"
+      title={t("Navigate to this directory")}
     />
   );
 
@@ -400,13 +401,13 @@ class Browse extends Component {
           input={
             <input
               data-lpignore="true"
-              placeholder="Username"
+              placeholder={t("Username")}
               type="search"
             />
           }
           loading={pending}
           onKeyUp={(event) => (event.key === 'Enter' ? this.browse() : '')}
-          placeholder="Username"
+          placeholder={t("Username")}
           ref={(input) => (this.inputtext = input)}
           size="big"
         />
@@ -466,7 +467,7 @@ class Browse extends Component {
     const { browseError, browseLoading, tree, username } = this.state;
 
     if (browseError) {
-      return <span className="browse-error">Failed to browse {username}</span>;
+      return <span className="browse-error">{t("Failed to browse {0}", [username])}</span>;
     }
 
     const emptyTree = !(tree && tree.length > 0);
@@ -477,12 +478,10 @@ class Browse extends Component {
           className="search-loader"
           inline="centered"
           size="big"
-        >
-          Loading saved results
-        </Loader>
+        >{t("Loading saved results")}</Loader>
       ) : (
         <PlaceholderSegment
-          caption="User is not sharing any files"
+          caption={t("User is not sharing any files")}
           icon="folder open"
         />
       );
@@ -507,10 +506,7 @@ class Browse extends Component {
             className="search-loader"
             inline="centered"
             size="big"
-          >
-            Downloaded {Math.round(browseStatus.percentComplete || 0)}% of
-            Response
-          </Loader>
+          >{t("Downloaded {0}% of Response", [Math.round(browseStatus.percentComplete || 0)])}</Loader>
         ) : (
           <div>{this.renderResults(selectedDirectory)}</div>
         )}

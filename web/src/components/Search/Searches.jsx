@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 /*
  * Copyright (c) 2026 slskprime contributors.
  * Modified: independent branding, English UI, compact design and browser-local discovery tools.
@@ -241,7 +242,7 @@ const Searches = ({ server } = {}) => {
               <Button
                 disabled={creating || !server.isConnected}
                 icon="search"
-                content="Search"
+                content={t("Search")}
                 onClick={() => create({ navigate: true })}
               />
             </>
@@ -253,15 +254,15 @@ const Searches = ({ server } = {}) => {
               data-lpignore="true"
               placeholder={
                 server.isConnected
-                  ? 'Artist, album or track…'
-                  : 'Connect to server to perform a search'
+                  ? t("Artist, album or track…")
+                  : t("Connect to server to perform a search")
               }
               type="search"
             />
           }
           loading={creating}
           onKeyUp={(keyUpEvent) => (keyUpEvent.key === 'Enter' ? create({ navigate: true }) : '')}
-          placeholder="Artist, album or track…"
+          placeholder={t("Artist, album or track…")}
           ref={inputRef}
           size="big"
         />
@@ -269,7 +270,7 @@ const Searches = ({ server } = {}) => {
       <StudioSearchTools searches={searches} />
       {Object.keys(searches).length === 0 ? (
         <PlaceholderSegment
-          caption="No searches to display"
+          caption={t("No searches to display")}
           icon="search"
         />
       ) : (

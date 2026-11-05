@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 /*
  * Copyright (c) 2026 slskprime contributors.
  * Modified: independent branding, English UI, compact design and browser-local discovery tools.
@@ -73,13 +74,10 @@ const User = ({
         <Presence presence={presence} />
         {username}
       </Item.Header>
-      <Item.Meta>
-        Free Upload Slot: <FreeUploadSlot hasFreeUploadSlot />, Total Upload
-        Slots: {uploadSlots}, Queue Length: {queueLength}, IP Address: {address}
-        , Port: {port}
+      <Item.Meta>{t("Free Upload Slot:") + " "}<FreeUploadSlot hasFreeUploadSlot />{t(", Total Upload Slots:") + " "}{uploadSlots}{t(", Queue Length:") + " "}{queueLength}{t(", IP Address:") + " "}{address}{t(", Port:") + " "}{port}
       </Item.Meta>
-      <Item.Description>{description || 'No description.'}</Item.Description>
-      <Button as={Link} to={{pathname: `${urlBase}/browse`, state:{user:username}}} color="green" icon="folder open outline" content="Browse files" style={{marginTop:16}} />
+      <Item.Description>{description || t("No description.")}</Item.Description>
+      <Button as={Link} to={{pathname: `${urlBase}/browse`, state:{user:username}}} color="green" icon="folder open outline" content={t("Browse files")} style={{marginTop:16}} />
     </Item.Content>
   </Item>
 );

@@ -1,3 +1,4 @@
+import { t } from '../../../lib/i18n';
 import {
   getYaml,
   getYamlLocation,
@@ -76,15 +77,12 @@ const EditModal = ({ onClose, open, theme }) => {
       size="large"
     >
       <Modal.Header>
-        <Icon name="edit" />
-        Edit Options
-        <Div hidden={loading}>
+        <Icon name="edit" />{t("Edit Options")}<Div hidden={loading}>
           <Message
             className="no-grow edit-code-header"
             warning
           >
-            <Icon name="warning sign" />
-            Editing {location}
+            <Icon name="warning sign" />{t("Editing") + " "}{location}
           </Message>
         </Div>
       </Modal.Header>
@@ -128,16 +126,12 @@ const EditModal = ({ onClose, open, theme }) => {
           onClick={() => save(yaml)}
           primary
         >
-          <Icon name="save" />
-          Save
-        </Button>
+          <Icon name="save" />{t("Save")}</Button>
         <Button
           negative
           onClick={onClose}
         >
-          <Icon name="close" />
-          Cancel
-        </Button>
+          <Icon name="close" />{t("Cancel")}</Button>
       </Modal.Actions>
     </Modal>
   );

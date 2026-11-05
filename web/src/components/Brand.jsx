@@ -1,3 +1,4 @@
+import { t } from '../lib/i18n';
 /*
  * Copyright (c) 2026 slskprime contributors.
  * Modified: independent branding, English UI, compact design and browser-local discovery tools.
@@ -17,6 +18,6 @@ import React from 'react';
 export default function Brand({compact=false}) {
  return <div className={'prime-brand'+(compact?' compact':'')} aria-label="slskprime — Soulseek web client">
   <svg className="prime-symbol" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="13" fill="currentColor" opacity=".1"/><path d="M13 34V14h14a8 8 0 0 1 0 16h-8" fill="none" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round"/><path d="m33 10 3-5" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/><circle cx="27" cy="22" r="2.3" fill="currentColor"/></svg>
-  <div className="prime-wordmark"><strong>slsk<span>prime</span></strong>{!compact&&<small>SOULSEEK WEB CLIENT</small>}</div>
+  <div className="prime-wordmark"><strong>slsk<span>prime</span></strong>{!compact&&<small>{t("SOULSEEK WEB CLIENT")}</small>}</div>
  </div>;
 }

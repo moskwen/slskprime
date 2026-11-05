@@ -1,12 +1,13 @@
+import { t } from '../../lib/i18n';
 import * as reports from '../../lib/reports';
 import { formatBytes, formatSpeed } from '../../lib/util';
 import React, { useEffect, useRef, useState } from 'react';
 import { Divider, Grid, Header, Icon, Loader, Table } from 'semantic-ui-react';
 
 const SORT_FIELDS = [
-  { label: 'Count', sort: 'Count' },
-  { label: 'Total Size', sort: 'TotalBytes' },
-  { label: 'Avg Speed', sort: 'AverageSpeed' },
+  { label: t("Count"), sort: 'Count' },
+  { label: t("Total Size"), sort: 'TotalBytes' },
+  { label: t("Avg Speed"), sort: 'AverageSpeed' },
 ];
 
 const sortHeaderStyle = { cursor: 'pointer', userSelect: 'none' };
@@ -24,7 +25,7 @@ const LeaderboardTable = ({ loading, onSort, rows, sortBy }) => (
         >
           #
         </Table.HeaderCell>
-        <Table.HeaderCell>Username</Table.HeaderCell>
+        <Table.HeaderCell>{t("Username")}</Table.HeaderCell>
         {SORT_FIELDS.map(({ label, sort }) => (
           <Table.HeaderCell
             key={sort}
@@ -63,9 +64,7 @@ const LeaderboardTable = ({ loading, onSort, rows, sortBy }) => (
           <Table.Cell
             colSpan={5}
             style={{ opacity: 0.5, textAlign: 'center' }}
-          >
-            No data to display
-          </Table.Cell>
+          >{t("No data to display")}</Table.Cell>
         </Table.Row>
       )}
       {!loading &&
@@ -170,8 +169,7 @@ const Leaderboard = ({ downloads, end, start, uploads }) => {
     >
       <Grid.Column>
         <Header size="small">
-          <Icon name="download" /> Downloads
-        </Header>
+          <Icon name="download" />{" " + t("Downloads")}</Header>
         <LeaderboardTable
           loading={state.loading.download}
           onSort={onSort}
@@ -182,8 +180,7 @@ const Leaderboard = ({ downloads, end, start, uploads }) => {
       <Divider vertical />
       <Grid.Column>
         <Header size="small">
-          <Icon name="upload" /> Uploads
-        </Header>
+          <Icon name="upload" />{" " + t("Uploads")}</Header>
         <LeaderboardTable
           loading={state.loading.upload}
           onSort={onSort}

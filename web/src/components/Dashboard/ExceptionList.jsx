@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 import { formatDate, getFileName, truncate } from '../../lib/util';
 import React from 'react';
 import {
@@ -18,7 +19,7 @@ const ExceptionList = ({ direction, loading, onDirectionChange, rows }) => (
       style={{ alignItems: 'center', display: 'flex' }}
     >
       <Icon name="clipboard outline" />
-      <Header.Content>Recent Errors</Header.Content>
+      <Header.Content>{t("Recent Errors")}</Header.Content>
       <ButtonGroup
         size="mini"
         style={{ marginLeft: 'auto' }}
@@ -40,11 +41,11 @@ const ExceptionList = ({ direction, loading, onDirectionChange, rows }) => (
     >
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell>Time</Table.HeaderCell>
-          <Table.HeaderCell>Direction</Table.HeaderCell>
-          <Table.HeaderCell>Username</Table.HeaderCell>
-          <Table.HeaderCell>Filename</Table.HeaderCell>
-          <Table.HeaderCell>Exception</Table.HeaderCell>
+          <Table.HeaderCell>{t("Time")}</Table.HeaderCell>
+          <Table.HeaderCell>{t("Direction")}</Table.HeaderCell>
+          <Table.HeaderCell>{t("Username")}</Table.HeaderCell>
+          <Table.HeaderCell>{t("Filename")}</Table.HeaderCell>
+          <Table.HeaderCell>{t("Exception")}</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
@@ -67,9 +68,7 @@ const ExceptionList = ({ direction, loading, onDirectionChange, rows }) => (
             <Table.Cell
               colSpan={5}
               style={{ opacity: 0.5, textAlign: 'center' }}
-            >
-              No data to display
-            </Table.Cell>
+            >{t("No data to display")}</Table.Cell>
           </Table.Row>
         )}
         {!loading &&

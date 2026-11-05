@@ -1,3 +1,4 @@
+import { t } from '../../../lib/i18n';
 import { getCurrentDebugView } from '../../../lib/options';
 import { CodeEditor, PlaceholderSegment, Switch } from '../../Shared';
 import React, { useEffect, useState } from 'react';
@@ -34,9 +35,7 @@ const DebugModal = ({ onClose, open, theme }) => {
       size="large"
     >
       <Modal.Header>
-        <Icon name="bug" />
-        Options (Debug View)
-      </Modal.Header>
+        <Icon name="bug" />{t("Options (Debug View)")}</Modal.Header>
       <Modal.Content
         className="debug-view-content"
         scrolling
@@ -52,7 +51,7 @@ const DebugModal = ({ onClose, open, theme }) => {
         </Switch>
       </Modal.Content>
       <Modal.Actions>
-        <Button onClick={onClose}>Close</Button>
+        <Button onClick={onClose}>{t("Close")}</Button>
       </Modal.Actions>
     </Modal>
   );

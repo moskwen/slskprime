@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 import './Chat.css';
 import React, { useEffect, useRef } from 'react';
 import { Button, Form, Header, Icon, Input, Modal } from 'semantic-ui-react';
@@ -37,34 +38,32 @@ const SendMessageModal = ({ initiateConversation, ...rest }) => {
     >
       <Header>
         <Icon name="send" />
-        <Modal.Content>Send Private Message</Modal.Content>
+        <Modal.Content>{t("Send Private Message")}</Modal.Content>
       </Header>
       <Modal.Content>
         <Form>
           <Form.Field>
             <Input
               onChange={(_event, data) => setUsername(data.value)}
-              placeholder="Username"
+              placeholder={t("Username")}
               ref={usernameRef}
             />
           </Form.Field>
           <Form.Field>
             <Input
               onChange={(_event, data) => setMessage(data.value)}
-              placeholder="Message"
+              placeholder={t("Message")}
             />
           </Form.Field>
         </Form>
       </Modal.Content>
       <Modal.Actions>
-        <Button onClick={() => setOpen(false)}>Cancel</Button>
+        <Button onClick={() => setOpen(false)}>{t("Cancel")}</Button>
         <Button
           disabled={!validInput()}
           onClick={() => sendMessage()}
           positive
-        >
-          Send
-        </Button>
+        >{t("Send")}</Button>
       </Modal.Actions>
     </Modal>
   );

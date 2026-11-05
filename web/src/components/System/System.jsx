@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 import './System.css';
 import { Switch } from '../Shared';
 import Data from './Data';
@@ -34,9 +35,7 @@ const System = ({ options = {}, state = {}, theme }) => {
             }
           >
             <Icon name="info circle" />
-          </Switch>
-          Info
-        </Menu.Item>
+          </Switch>{t("Info")}</Menu.Item>
       ),
       render: () => (
         <Tab.Pane>
@@ -50,7 +49,7 @@ const System = ({ options = {}, state = {}, theme }) => {
     },
     {
       menuItem: {
-        content: 'Options',
+        content: t("Options"),
         icon: 'options',
         key: 'options',
       },
@@ -78,9 +77,7 @@ const System = ({ options = {}, state = {}, theme }) => {
             }
           >
             <Icon name="share external" />
-          </Switch>
-          Shares
-        </Menu.Item>
+          </Switch>{t("Shares")}</Menu.Item>
       ),
       render: () => (
         <Tab.Pane>
@@ -94,7 +91,7 @@ const System = ({ options = {}, state = {}, theme }) => {
     },
     {
       menuItem: {
-        content: 'Files',
+        content: t("Files"),
         icon: 'folder open',
         key: 'files',
       },
@@ -110,7 +107,7 @@ const System = ({ options = {}, state = {}, theme }) => {
     },
     {
       menuItem: {
-        content: 'Data',
+        content: t("Data"),
         icon: 'database',
         key: 'data',
       },
@@ -123,7 +120,7 @@ const System = ({ options = {}, state = {}, theme }) => {
     },
     {
       menuItem: {
-        content: 'Events',
+        content: t("Events"),
         icon: 'calendar check',
         key: 'events',
       },
@@ -136,7 +133,7 @@ const System = ({ options = {}, state = {}, theme }) => {
     },
     {
       menuItem: {
-        content: 'Logs',
+        content: t("Logs"),
         icon: 'file outline',
         key: 'logs',
       },

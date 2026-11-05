@@ -1,3 +1,4 @@
+import { t } from '../lib/i18n';
 /*
  * Copyright (c) 2026 slskprime contributors.
  * Modified: independent branding, English UI, compact design and browser-local discovery tools.
@@ -53,7 +54,7 @@ const AppFooter = ({
           color={isConnected ? 'green' : 'red'}
           name="circle"
         />
-        {isConnected ? username : 'Disconnected'}
+        {isConnected ? username : t("Disconnected")}
       </Menu.Item>
       <Menu.Item>
         <Icon
@@ -61,9 +62,7 @@ const AppFooter = ({
           name="arrow down"
         />
         <span className="footer-download">{formatSpeed(downloadSpeed)}</span>
-        <span className="footer-stat-detail">
-          {downloadActive} active &middot; {downloadQueued} queued
-        </span>
+        <span className="footer-stat-detail">{t("{0} active · {1} queued", [downloadActive, downloadQueued])}</span>
       </Menu.Item>
       <Menu.Item>
         <Icon
@@ -71,12 +70,10 @@ const AppFooter = ({
           name="arrow up"
         />
         <span className="footer-upload">{formatSpeed(uploadSpeed)}</span>
-        <span className="footer-stat-detail">
-          {uploadActive} active &middot; {uploadQueued} queued
-        </span>
+        <span className="footer-stat-detail">{t("{0} active · {1} queued", [uploadActive, uploadQueued])}</span>
       </Menu.Item>
       <Menu.Menu position="right">
-        <Menu.Item as="a" href="https://github.com/moskwen/slskprime/tree/v0.2.0">Source code</Menu.Item>
+        <Menu.Item as="a" href="https://github.com/moskwen/slskprime/tree/v0.3.0">{t("Source code")}</Menu.Item>
         <Menu.Item
           as="a"
           href="https://github.com/moskwen/slskprime/blob/main/NOTICE"
@@ -88,8 +85,8 @@ const AppFooter = ({
             className="footer-logo"
             src={`${urlBase}/prime-icon.svg`}
           />
-          slskprime v0.2.0 · modified frontend
-          <span className="footer-version">based on slskd {current}</span>
+          slskprime v0.3.0 · modified frontend
+          <span className="footer-version">{t("based on slskd {0}", [current])}</span>
           <span className="footer-license">AGPLv3</span>
         </Menu.Item>
       </Menu.Menu>

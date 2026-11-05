@@ -31,7 +31,9 @@ slskprime is an independent frontend based on the slskd 0.26.2 web interface. It
 | **Stay organized** | Optional repeating wishlist searches with result alerts, hidden sources, transfer filters, pagination and album progress. |
 | **Run it yourself** | Prebuilt frontend download, checksummed installer with backup, and Docker Compose for a new installation. |
 
-The interface is in English. Fonts are bundled with the app; no font service is contacted while you use it.
+Use the **Language** selector in the sidebar or on the sign-in screen. Ten languages are included: English, Simplified Mandarin Chinese, Hindi, Spanish, Arabic, French, Bengali, Brazilian Portuguese, Indonesian and Urdu. English is the default. The choice is saved in this browser and changing it reloads the frontend; server transfers keep running. Arabic and Urdu set right-to-left text direction. Preferences backups include the selected language.
+
+Translation catalogs are bundled locally and use no translation service at runtime. Initial translations are machine-assisted, with a Brazilian Portuguese terminology pass; corrections are welcome. Usernames, filenames, search expressions, YAML, logs and backend-origin error messages retain their original content. Fonts are bundled with the app; no font service is contacted while you use it.
 
 Contacts, notes, searches and preferences are browser-local. Use **Backup** to export them as JSON and merge them into another browser. No passwords or login tokens are exported. Newly imported searches start in manual mode.
 
@@ -50,7 +52,7 @@ Saved searches can repeat every 30 minutes, one hour or three hours while the ap
 Download the prebuilt UI and checksum from [Releases](https://github.com/moskwen/slskprime/releases). If your backend already serves a custom UI directory, clone this repository and run:
 
 ```sh
-sh scripts/install-ui.sh /absolute/path/to/existing/ui-directory v0.2.0
+sh scripts/install-ui.sh /absolute/path/to/existing/ui-directory v0.3.0
 ```
 
 The installer verifies the checksum, backs up the UI directory and installs without deleting existing files. It preserves local installation contacts. It does not touch the container, credentials, downloads or shares. No restart is needed when the content path is unchanged.
@@ -71,7 +73,7 @@ Compose builds a one-shot frontend exporter, then starts the official, unmodifie
 ```sh
 git clone https://github.com/moskwen/slskprime.git
 cd slskprime
-git checkout v0.2.0
+git checkout v0.3.0
 cp .env.example .env
 mkdir -p appdata downloads/complete downloads/incomplete
 ```

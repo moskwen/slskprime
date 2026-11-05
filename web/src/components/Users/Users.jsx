@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 import './Users.css';
 import { activeUserInfoKey } from '../../config';
 import * as users from '../../lib/users';
@@ -107,7 +108,7 @@ const Users = () => {
             <input
               data-lpignore="true"
               disabled={Boolean(user) || fetching}
-              placeholder="Username"
+              placeholder={t("Username")}
               type="search"
             />
           }
@@ -116,7 +117,7 @@ const Users = () => {
           onKeyUp={(event) =>
             event.key === 'Enter' ? setSelectedUsername(usernameInput) : ''
           }
-          placeholder="Username"
+          placeholder={t("Username")}
           ref={inputRef}
           size="big"
         />
@@ -131,10 +132,10 @@ const Users = () => {
       ) : (
         <div>
           {error ? (
-            <span>Failed to retrieve information for {selectedUsername}</span>
+            <span>{t("Failed to retrieve information for {0}", [selectedUsername])}</span>
           ) : user == null ? (
             <PlaceholderSegment
-              caption="No user info to display"
+              caption={t("No user info to display")}
               icon="users"
             />
           ) : (

@@ -1,3 +1,5 @@
+import { t } from '../lib/i18n';
+import LanguageSelector from './LanguageSelector';
 /*
  * Copyright (c) 2026 slskprime contributors.
  * Modified: independent branding, English UI, compact design and browser-local discovery tools.
@@ -87,7 +89,7 @@ const LoginForm = ({ error, loading, onLoginAttempt }) => {
               icon="user"
               iconPosition="left"
               onChange={(event) => handleChange('username', event.target.value)}
-              placeholder="Web interface username"
+              placeholder={t("Web interface username")}
               ref={usernameInput}
             />
             <Form.Input
@@ -96,13 +98,13 @@ const LoginForm = ({ error, loading, onLoginAttempt }) => {
               icon="lock"
               iconPosition="left"
               onChange={(event) => handleChange('password', event.target.value)}
-              placeholder="Password"
+              placeholder={t("Password")}
               type="password"
             />
             <Checkbox
               checked={rememberMe}
               disabled={loading}
-              label="Remember me"
+              label={t("Remember me")}
               onChange={() => handleChange('rememberMe', !rememberMe)}
             />
           </Segment>
@@ -115,9 +117,8 @@ const LoginForm = ({ error, loading, onLoginAttempt }) => {
             primary
             size="large"
           >
-            <Icon name="sign in" />
-            Sign in
-          </Button>
+            <Icon name="sign in" />{t("Sign in")}</Button>
+          <div className="studio-login-language"><LanguageSelector /></div>
           {error && (
             <Message
               className="login-failure"

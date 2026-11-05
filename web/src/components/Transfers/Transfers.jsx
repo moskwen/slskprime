@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 /*
  * Copyright (c) 2026 slskprime contributors.
  * Modified: independent branding, English UI, compact design and browser-local discovery tools.
@@ -167,9 +168,9 @@ const Transfers = ({ direction, server }) => {
     <>
       <StudioTransferSummary transfers={transfers} direction={direction} />
       <div className="studio-transfer-filters">
-        <div className="studio-quick-filters">{[['all','All'],['active','Active'],['queued','Queued'],['done','Completed'],['error','Failed or cancelled']].map(([value,label])=><button type="button" key={value} className={filter===value?'active':''} onClick={()=>setFilter(value)}>{label}</button>)}</div>
-        <div className="studio-transfer-search"><Input icon="search" placeholder="Filter by file, folder or user…" value={query} onChange={(_,d)=>setQuery(d.value)}/><Button size="small" icon={paused?'play':'pause'} content={paused?'Resume refresh':'Pause refresh'} onClick={()=>setPaused(!paused)}/></div>
-        <p className="studio-note">{matching.length} matching files · bulk actions below apply to this filter. {paused?'Display updates paused. Transfers continue.':'Auto-refresh pauses while this tab is hidden.'}</p>
+        <div className="studio-quick-filters">{[['all',t("All")],['active',t("Active")],['queued',t("Queued")],['done',t("Completed")],['error',t("Failed or cancelled")]].map(([value,label])=><button type="button" key={value} className={filter===value?'active':''} onClick={()=>setFilter(value)}>{label}</button>)}</div>
+        <div className="studio-transfer-search"><Input icon="search" placeholder={t("Filter by file, folder or user…")} value={query} onChange={(_,d)=>setQuery(d.value)}/><Button size="small" icon={paused?'play':'pause'} content={paused?t("Resume refresh"):t("Pause refresh")} onClick={()=>setPaused(!paused)}/></div>
+        <p className="studio-note">{t("{0} matching files · bulk actions below apply to this filter. {1}", [matching.length, paused?t("Display updates paused. Transfers continue."):t("Auto-refresh pauses while this tab is hidden.")])}</p>
       </div>
       <TransfersHeader
         cancelling={cancelling}
@@ -184,7 +185,7 @@ const Transfers = ({ direction, server }) => {
       />
       {matching.length === 0 ? (
         <PlaceholderSegment
-          caption="No files match this filter"
+          caption={t("No files match this filter")}
           icon={direction}
         />
       ) : (
@@ -202,7 +203,7 @@ const Transfers = ({ direction, server }) => {
           />
         ))
       )}
-      {pages>1&&<div className="studio-pagination"><Button size="small" icon="arrow left" content="Previous" disabled={currentPage<=1} onClick={()=>setPage(currentPage-1)}/><span>Page {currentPage} of {pages} · up to 50 files per page</span><Button size="small" icon="arrow right" content="Next" disabled={currentPage>=pages} onClick={()=>setPage(currentPage+1)}/></div>}
+      {pages>1&&<div className="studio-pagination"><Button size="small" icon="arrow left" content={t("Previous")} disabled={currentPage<=1} onClick={()=>setPage(currentPage-1)}/><span>{t("Page {0} of {1} · up to 50 files per page", [currentPage, pages])}</span><Button size="small" icon="arrow right" content={t("Next")} disabled={currentPage>=pages} onClick={()=>setPage(currentPage+1)}/></div>}
     </>
   );
 };

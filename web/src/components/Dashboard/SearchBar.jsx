@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 /*
  * Copyright (c) 2026 slskprime contributors.
  * Modified: independent branding, English UI, compact design and browser-local discovery tools.
@@ -48,9 +49,8 @@ const SearchBar = ({ server } = {}) => {
         const label =
           searchText.length > 30 ? `${searchText.slice(0, 15)}...` : searchText;
         toast.info(
-          <span>
-            Search for &lsquo;{label}&rsquo; started.{' '}
-            <Link to={`${urlBase}/searches/${id}`}>View results</Link>
+          <span>{t("Search for ‘")}{label}{t("’ started.")}{' '}
+            <Link to={`${urlBase}/searches/${id}`}>{t("View results")}</Link>
           </span>,
         );
       }
@@ -89,7 +89,7 @@ const SearchBar = ({ server } = {}) => {
             <Button
               disabled={creating || !server?.isConnected}
               icon="search"
-              content="Search"
+              content={t("Search")}
               onClick={() => create({ navigate: true })}
             />
           </>
@@ -101,15 +101,15 @@ const SearchBar = ({ server } = {}) => {
             data-lpignore="true"
             placeholder={
               server?.isConnected
-                ? 'Artist, album or track…'
-                : 'Connect to server to perform a search'
+                ? t("Artist, album or track…")
+                : t("Connect to server to perform a search")
             }
             type="search"
           />
         }
         loading={creating}
         onKeyUp={(keyUpEvent) => (keyUpEvent.key === 'Enter' ? create({ navigate: true }) : '')}
-        placeholder="Search phrase"
+        placeholder={t("Search phrase")}
         ref={inputRef}
         size="big"
       />

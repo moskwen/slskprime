@@ -1,3 +1,4 @@
+import { t } from '../lib/i18n';
 /*
  * Copyright (c) 2026 slskprime contributors.
  * Modified: independent branding, English UI, compact design and browser-local discovery tools.
@@ -18,6 +19,7 @@ import './App.css';
 import './Studio.css';
 import './Appearance.css';
 import Appearance from './Appearance';
+import LanguageSelector from './LanguageSelector';
 import WishlistWorker from './WishlistWorker';
 import PreferencesBackup from './PreferencesBackup';
 import StudioHeading from './StudioHeading';
@@ -109,8 +111,7 @@ const ModeSpecificConnectButton = ({
               name="close"
             />
           )}
-        </Icon.Group>
-        Controller {controller?.state}
+        </Icon.Group>{t("Controller") + " "}{controller?.state}
       </Menu.Item>
     );
   } else {
@@ -130,9 +131,7 @@ const ModeSpecificConnectButton = ({
                 name="star"
               />
             )}
-          </Icon.Group>
-          Connected
-        </Menu.Item>
+          </Icon.Group>{t("Connected")}</Menu.Item>
       );
     }
 
@@ -167,9 +166,7 @@ const ModeSpecificConnectButton = ({
             corner="bottom right"
             name={icon}
           />
-        </Icon.Group>
-        Disconnected
-      </Menu.Item>
+        </Icon.Group>{t("Disconnected")}</Menu.Item>
     );
   }
 };
@@ -356,10 +353,10 @@ class App extends Component {
         <ErrorSegment
           caption={
             <>
-              <span>Lost connection to slskd</span>
+              <span>{t("Lost connection to slskd")}</span>
               <br />
               <span>
-                {retriesExhausted ? 'Refresh to reconnect' : 'Retrying...'}
+                {retriesExhausted ? t("Refresh to reconnect") : t("Retrying...")}
               </span>
             </>
           }
@@ -411,58 +408,40 @@ class App extends Component {
                 <Icon
                   color="yellow"
                   name="flask"
-                />
-                Canary
-              </Menu.Item>
+                />{t("Canary")}</Menu.Item>
             )}
             {isAgent ? (
               <Menu.Item>
-                <Icon name="detective" />
-                Agent Mode
-              </Menu.Item>
+                <Icon name="detective" />{t("Agent Mode")}</Menu.Item>
             ) : (
               <>
                 <NavLink activeClassName="studio-active" to={`${urlBase}/searches`}>
                   <Menu.Item>
-                    <Icon name="search" />
-                    Search
-                  </Menu.Item>
+                    <Icon name="search" />{t("Search")}</Menu.Item>
                 </NavLink>
                 <NavLink activeClassName="studio-active" to={`${urlBase}/downloads`}>
                   <Menu.Item>
-                    <Icon name="download" />
-                    Downloads
-                  </Menu.Item>
+                    <Icon name="download" />{t("Downloads")}</Menu.Item>
                 </NavLink>
                 <NavLink activeClassName="studio-active" to={`${urlBase}/uploads`}>
                   <Menu.Item>
-                    <Icon name="upload" />
-                    Uploads
-                  </Menu.Item>
+                    <Icon name="upload" />{t("Uploads")}</Menu.Item>
                 </NavLink>
                 <NavLink activeClassName="studio-active" to={`${urlBase}/rooms`}>
                   <Menu.Item>
-                    <Icon name="comments" />
-                    Rooms
-                  </Menu.Item>
+                    <Icon name="comments" />{t("Rooms")}</Menu.Item>
                 </NavLink>
                 <NavLink activeClassName="studio-active" to={`${urlBase}/chat`}>
                   <Menu.Item>
-                    <Icon name="comment" />
-                    Messages
-                  </Menu.Item>
+                    <Icon name="comment" />{t("Messages")}</Menu.Item>
                 </NavLink>
                 <NavLink activeClassName="studio-active" to={`${urlBase}/users`}>
                   <Menu.Item>
-                    <Icon name="users" />
-                    Users
-                  </Menu.Item>
+                    <Icon name="users" />{t("Users")}</Menu.Item>
                 </NavLink>
                 <NavLink activeClassName="studio-active" to={`${urlBase}/browse`}>
                   <Menu.Item>
-                    <Icon name="folder open" />
-                    Browse
-                  </Menu.Item>
+                    <Icon name="folder open" />{t("Browse")}</Menu.Item>
                 </NavLink>
               </>
             )}
@@ -471,6 +450,7 @@ class App extends Component {
               inverted
             >
               <Appearance />
+              <LanguageSelector />
               <PreferencesBackup />
               <ModeSpecificConnectButton
                 connectionWatchdog={connectionWatchdog}
@@ -489,9 +469,7 @@ class App extends Component {
                         name="exclamation circle"
                       />
                     </NavLink>
-                  </Icon.Group>
-                  Pending Action
-                </Menu.Item>
+                  </Icon.Group>{t("Pending Action")}</Menu.Item>
               )}
               {isUpdateAvailable && (
                 <Modal
@@ -505,18 +483,14 @@ class App extends Component {
                           color="yellow"
                           name="bullhorn"
                         />
-                      </Icon.Group>
-                      New Version!
-                    </Menu.Item>
+                      </Icon.Group>{t("New Version!")}</Menu.Item>
                   }
                 >
-                  <Modal.Header>New Version!</Modal.Header>
+                  <Modal.Header>{t("New Version!")}</Modal.Header>
                   <Modal.Content>
-                    <p>
-                      You are currently running version{' '}
-                      <strong>{current}</strong> while version{' '}
-                      <strong>{latest}</strong> is available.
-                    </p>
+                    <p>{t("You are currently running version")}{' '}
+                      <strong>{current}</strong>{" " + t("while version")}{' '}
+                      <strong>{latest}</strong>{" " + t("is available.")}</p>
                   </Modal.Content>
                   <Modal.Actions>
                     <Button
@@ -524,43 +498,37 @@ class App extends Component {
                       href="https://github.com/slskd/slskd/releases"
                       primary
                       style={{ marginLeft: 0 }}
-                    >
-                      See Release Notes
-                    </Button>
+                    >{t("See Release Notes")}</Button>
                   </Modal.Actions>
                 </Modal>
               )}
               <NavLink activeClassName="studio-active" to={`${urlBase}/system`}>
                 <Menu.Item>
-                  <Icon name="cogs" />
-                  System
-                </Menu.Item>
+                  <Icon name="cogs" />{t("System")}</Menu.Item>
               </NavLink>
               {session.isLoggedIn() && (
                 <Modal
                   actions={[
                     'Cancel',
                     {
-                      content: 'Log Out',
+                      content: t("Log Out"),
                       key: 'done',
                       negative: true,
                       onClick: this.logout,
                     },
                   ]}
                   centered
-                  content="Are you sure you want to log out?"
+                  content={t("Are you sure you want to log out?")}
                   header={
                     <Header
-                      content="Confirm Log Out"
+                      content={t("Confirm Log Out")}
                       icon="sign-out"
                     />
                   }
                   size="mini"
                   trigger={
                     <Menu.Item>
-                      <Icon name="sign-out" />
-                      Sign out
-                    </Menu.Item>
+                      <Icon name="sign-out" />{t("Sign out")}</Menu.Item>
                   }
                 />
               )}

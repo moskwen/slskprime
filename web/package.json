@@ -64,7 +64,7 @@
     "test": "craco test",
     "test-unattended": "craco test --watchAll false --passWithNoTests"
   },
-  "version": "0.2.0",
+  "version": "0.3.0",
   "license": "AGPL-3.0-only",
   "repository": {
     "type": "git",

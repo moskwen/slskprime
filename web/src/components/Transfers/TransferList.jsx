@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 /*
  * Copyright (c) 2026 slskprime contributors.
  * Modified: independent branding, English UI, compact design and browser-local discovery tools.
@@ -125,7 +126,7 @@ class TransferList extends Component {
           />
           {directoryName}
         </Header>
-        <div className="studio-album-progress"><div><span>{complete}/{files.length} files completed</span><strong>{percent}%</strong></div><div className="studio-album-track"><span style={{width: percent + '%'}} /></div><small>{formatBytes(received)} of {formatBytes(total)}</small></div>
+        <div className="studio-album-progress"><div><span>{t("{0}/{1} files completed", [complete, files.length])}</span><strong>{percent}%</strong></div><div className="studio-album-track"><span style={{width: percent + '%'}} /></div><small>{t("{0} of {1}", [formatBytes(received), formatBytes(total)])}</small></div>
         {isFolded === false ? (
           <List>
             <List.Item>
@@ -147,15 +148,9 @@ class TransferList extends Component {
                         }
                       />
                     </Table.HeaderCell>
-                    <Table.HeaderCell className="transferlist-filename">
-                      File
-                    </Table.HeaderCell>
-                    <Table.HeaderCell className="transferlist-progress">
-                      Progress
-                    </Table.HeaderCell>
-                    <Table.HeaderCell className="transferlist-size">
-                      Size
-                    </Table.HeaderCell>
+                    <Table.HeaderCell className="transferlist-filename">{t("File")}</Table.HeaderCell>
+                    <Table.HeaderCell className="transferlist-progress">{t("Progress")}</Table.HeaderCell>
+                    <Table.HeaderCell className="transferlist-size">{t("Size")}</Table.HeaderCell>
                     <Table.HeaderCell className="transferlist-detail">
                       <Icon
                         name="info circle"
@@ -184,7 +179,7 @@ class TransferList extends Component {
                         </Table.Cell>
                         <Table.Cell className="transferlist-filename">
                           {getFileName(f.filename)}
-                          {f.direction === 'Download' && (isRetryableState(f.state) || isQueuedState(f.state)) && <Button className="studio-alternative" size="mini" icon="search" content="Find another source" title="Find another source without cancelling this download" loading={this.state.findingAlternative === (f.id || f.filename)} disabled={Boolean(this.state.findingAlternative)} onClick={() => this.findAlternative(f)} />}
+                          {f.direction === 'Download' && (isRetryableState(f.state) || isQueuedState(f.state)) && <Button className="studio-alternative" size="mini" icon="search" content={t("Find another source")} title={t("Find another source without cancelling this download")} loading={this.state.findingAlternative === (f.id || f.filename)} disabled={Boolean(this.state.findingAlternative)} onClick={() => this.findAlternative(f)} />}
                         </Table.Cell>
                         <Table.Cell className="transferlist-progress">
                           {f.state === 'InProgress' ? (
@@ -218,9 +213,9 @@ class TransferList extends Component {
                                 isRetryableState(f.state) && (
                                   <Icon name="redo" />
                                 )}
-                              {({'Completed, Succeeded':'Completed','Queued, Remotely':'Queued remotely','Queued, Locally':'Queued locally','Requested':'Requested','Initializing':'Connecting','Completed, Cancelled':'Cancelled','Completed, TimedOut':'Timed out','Completed, Errored':'Failed','Completed, Rejected':'Rejected'})[f.state] || f.state}
+                              {({'Completed, Succeeded':t("Completed"),'Queued, Remotely':t("Queued remotely"),'Queued, Locally':t("Queued locally"),'Requested':t("Requested"),'Initializing':t("Connecting"),'Completed, Cancelled':t("Cancelled"),'Completed, TimedOut':t("Timed out"),'Completed, Errored':t("Failed"),'Completed, Rejected':t("Rejected")})[f.state] || f.state}
                               {f.placeInQueue ? ` (#${f.placeInQueue})` : ''}
-                              {f.attempts > 1 ? ` (Retry #${f.attempts})` : ''}
+                              {f.attempts > 1 ? " " + t("(Retry #{0})", [f.attempts]) : ''}
                             </Button>
                           )}
                         </Table.Cell>

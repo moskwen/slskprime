@@ -1,3 +1,4 @@
+import { t } from '../../../lib/i18n';
 import { Switch } from '../../Shared';
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -8,16 +9,12 @@ const ShareTable = ({ onClick, shares }) => {
     <Table>
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell>Host</Table.HeaderCell>
-          <Table.HeaderCell>Local Path</Table.HeaderCell>
-          <Table.HeaderCell className="share-count-column">
-            Directories
-          </Table.HeaderCell>
-          <Table.HeaderCell className="share-count-column">
-            Files
-          </Table.HeaderCell>
-          <Table.HeaderCell>Alias</Table.HeaderCell>
-          <Table.HeaderCell>Remote Path</Table.HeaderCell>
+          <Table.HeaderCell>{t("Host")}</Table.HeaderCell>
+          <Table.HeaderCell>{t("Local Path")}</Table.HeaderCell>
+          <Table.HeaderCell className="share-count-column">{t("Directories")}</Table.HeaderCell>
+          <Table.HeaderCell className="share-count-column">{t("Files")}</Table.HeaderCell>
+          <Table.HeaderCell>{t("Alias")}</Table.HeaderCell>
+          <Table.HeaderCell>{t("Remote Path")}</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
@@ -32,9 +29,7 @@ const ShareTable = ({ onClick, shares }) => {
                     padding: '10px !important',
                     textAlign: 'center',
                   }}
-                >
-                  No shares configured
-                </Table.Cell>
+                >{t("No shares configured")}</Table.Cell>
               </Table.Row>
             )
           }

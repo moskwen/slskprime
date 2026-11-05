@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 import './Rooms.css';
 import * as rooms from '../../lib/rooms';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -82,7 +83,7 @@ const RoomJoinModal = ({ joinRoom: parentJoinRoom, ...modalOptions }) => {
     >
       <Header>
         <Icon name="comments" />
-        <Modal.Content>Join Room</Modal.Content>
+        <Modal.Content>{t("Join Room")}</Modal.Content>
       </Header>
       <Modal.Content scrolling>
         {loading ? (
@@ -91,7 +92,7 @@ const RoomJoinModal = ({ joinRoom: parentJoinRoom, ...modalOptions }) => {
             inverted
           >
             <Loader
-              content="Loading Room List"
+              content={t("Loading Room List")}
               inverted
             />
           </Dimmer>
@@ -101,7 +102,7 @@ const RoomJoinModal = ({ joinRoom: parentJoinRoom, ...modalOptions }) => {
               fluid
               icon="filter"
               onChange={(_, event) => setFilter(event.value)}
-              placeholder="Room Filter"
+              placeholder={t("Room Filter")}
             />
             <Table
               celled
@@ -109,9 +110,7 @@ const RoomJoinModal = ({ joinRoom: parentJoinRoom, ...modalOptions }) => {
             >
               <Table.Header>
                 <Table.Row>
-                  <Table.HeaderCell onClick={() => setSortBy('name')}>
-                    Name
-                    <Icon
+                  <Table.HeaderCell onClick={() => setSortBy('name')}>{t("Name")}<Icon
                       link={sortBy === 'name'}
                       name={
                         sortBy === 'name' &&
@@ -122,9 +121,7 @@ const RoomJoinModal = ({ joinRoom: parentJoinRoom, ...modalOptions }) => {
                       }
                     />
                   </Table.HeaderCell>
-                  <Table.HeaderCell onClick={() => setSortBy('userCount')}>
-                    Users
-                    <Icon
+                  <Table.HeaderCell onClick={() => setSortBy('userCount')}>{t("Users")}<Icon
                       link={sortBy === 'userCount'}
                       name={
                         sortBy === 'userCount' &&
@@ -165,14 +162,12 @@ const RoomJoinModal = ({ joinRoom: parentJoinRoom, ...modalOptions }) => {
         )}
       </Modal.Content>
       <Modal.Actions>
-        <Button onClick={() => setOpen(false)}>Cancel</Button>
+        <Button onClick={() => setOpen(false)}>{t("Cancel")}</Button>
         <Button
           disabled={!selected}
           onClick={() => joinRoom()}
           positive
-        >
-          Join
-        </Button>
+        >{t("Join")}</Button>
       </Modal.Actions>
     </Modal>
   );

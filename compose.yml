@@ -1,7 +1,7 @@
 services:
   ui:
     build: .
-    image: slskprime-ui:0.2.0
+    image: slskprime-ui:0.3.0
     network_mode: none
     restart: "no"
     volumes:

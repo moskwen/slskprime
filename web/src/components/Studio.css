@@ -240,3 +240,22 @@ html body .dashboard .ui.statistics .statistic>.label { font-size:10px!important
 .studio-saved-row > div:first-child { min-width:0; overflow-wrap:anywhere; }
 .studio-backup-actions { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0; }
 @media(max-width:700px) { .studio-saved-row { flex-direction:column; align-items:stretch; gap:12px; } .studio-wish-actions { justify-content:flex-start; } }
+.studio-language { display:flex!important; align-items:center; gap:7px; }
+.studio-language label { font-size:12px; }
+.studio-language select { max-width:160px; border:1px solid var(--dc-2b3542,#46535e); background:var(--dc-10161b,#10161b); color:var(--dc-d9e4ee,#e6edf3); border-radius:6px; padding:7px 24px 7px 8px; font:inherit; font-size:12px; cursor:pointer; }
+.studio-language select:focus-visible { outline:2px solid #75d8b7; outline-offset:2px; }
+.studio-login-language { display:flex; justify-content:center; margin-top:12px; }
+:root[data-palette="paper"] .studio-language select { background:#fff; color:#18252c; }
+:root[dir="rtl"] .app-content-body { text-align:start; }
+:root[dir="rtl"] .studio-topbar, :root[dir="rtl"] .studio-user-toolbar, :root[dir="rtl"] .studio-saved-row { direction:rtl; }
+:root[dir="rtl"] .studio-wish-actions, :root[dir="rtl"] .studio-backup-actions { justify-content:flex-start; }
+:root[dir="rtl"] .cm-editor, :root[dir="rtl"] pre, :root[dir="rtl"] code { direction:ltr; text-align:left; }
+:root[lang="ar"], :root[lang="ur"] { font-family:var(--dc-font),"Segoe UI",Tahoma,sans-serif; }
+:root[lang="hi"], :root[lang="bn"] { font-family:var(--dc-font),"Nirmala UI",sans-serif; }
+.navigation.ui.menu .studio-language { display:grid!important; grid-template-columns:20px minmax(0,1fr); gap:8px!important; }
+.navigation.ui.menu .studio-language select { grid-column:1/-1; width:100%; max-width:100%; min-width:0; }
+@media(max-width:767px) {
+  .navigation.ui.menu .studio-language { display:flex!important; flex-direction:column; padding:8px 2px!important; gap:6px!important; }
+  .navigation.ui.menu .studio-language label { display:none; }
+  .navigation.ui.menu .studio-language select { max-width:44px; padding:5px 0; font-size:10px; }
+}

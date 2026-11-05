@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 import {
   formatAttributes,
   formatBytes,
@@ -374,17 +375,11 @@ const FileBrowser = ({
                 />
               </Table.HeaderCell>
               <Table.HeaderCell className="filelist-filename">
-                {childDirs.length > 0 ? 'Name' : 'File'}
+                {childDirs.length > 0 ? t("Name") : t("File")}
               </Table.HeaderCell>
-              <Table.HeaderCell className="filelist-size">
-                Size
-              </Table.HeaderCell>
-              <Table.HeaderCell className="filelist-attributes">
-                Attributes
-              </Table.HeaderCell>
-              <Table.HeaderCell className="filelist-length">
-                Length
-              </Table.HeaderCell>
+              <Table.HeaderCell className="filelist-size">{t("Size")}</Table.HeaderCell>
+              <Table.HeaderCell className="filelist-attributes">{t("Attributes")}</Table.HeaderCell>
+              <Table.HeaderCell className="filelist-length">{t("Length")}</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>

@@ -1,3 +1,4 @@
+import { t } from '../../../lib/i18n';
 /*
  * Copyright (c) 2026 slskprime contributors.
  * Modified: independent branding, English UI, compact design and browser-local discovery tools.
@@ -38,7 +39,7 @@ const RefreshButton = ({
       onClick={() => onCreate({ navigate: true, search: searchText })}
     >
       <Icon name="refresh" />
-      {(!isSmallScreen || isTinyScreen) && 'Search again'}
+      {(!isSmallScreen || isTinyScreen) && t("Search again")}
     </Button>
   );
 
@@ -62,7 +63,7 @@ const StopOrDeleteButton = ({
   >
     <Icon name={isComplete ? 'trash alternate' : 'stop circle'} />
     {(!isSmallScreen || isTinyScreen) &&
-      (loaded && isComplete ? 'Remove search' : 'Stop')}
+      (loaded && isComplete ? t("Remove search") : t("Stop"))}
   </Button>
 );
 
@@ -103,11 +104,11 @@ const SearchDetailHeader = ({
       >
         <Header>
           <SearchStatusIcon state={state} />
-          <span className="studio-eyebrow">RESULTADOS DA BUSCA</span><span>{searchText}</span>
+          <span className="studio-eyebrow">{t("RESULTADOS DA BUSCA")}</span><span>{searchText}</span>
         </Header>
         {!isTinyScreen && (
           <div className="search-detail-header-buttons">
-            <Button icon="bookmark outline" content="Save search" onClick={()=>{saveWish(searchText);toast.success("Search saved");}} />
+            <Button icon="bookmark outline" content={t("Save search")} onClick={()=>{saveWish(searchText);toast.success(t("Search saved"));}} />
             <RefreshButton
               creating={creating}
               disabled={disabled}

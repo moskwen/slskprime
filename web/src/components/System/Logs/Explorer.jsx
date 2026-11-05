@@ -1,3 +1,4 @@
+import { t } from '../../../lib/i18n';
 import '../Files/Files.css';
 import { getFileBlob, list } from '../../../lib/logs';
 import { downloadFile, formatBytes, formatDate } from '../../../lib/util';
@@ -16,7 +17,7 @@ const view = async (filename) => {
 
   if (!tab) {
     toast.error(
-      'Unable to open a new window; allow pop-ups for this site to view logs',
+      t("Unable to open a new window; allow pop-ups for this site to view logs"),
     );
     return;
   }
@@ -58,13 +59,13 @@ const FileRow = ({ length, modifiedAt, name }) => (
         name="external alternate"
         onClick={() => view(name)}
         style={{ cursor: 'pointer', marginRight: '0.5em' }}
-        title={`View ${name} in a new window`}
+        title={t("View {0} in a new window", [name])}
       />
       <Icon
         name="download"
         onClick={() => download(name)}
         style={{ cursor: 'pointer' }}
-        title={`Download ${name}`}
+        title={t("Download {0}", [name])}
       />
     </Table.Cell>
   </Table.Row>
@@ -147,7 +148,7 @@ const Explorer = () => {
           !error &&
           files.length === 0 && (
             <PlaceholderSegment
-              caption="No log files"
+              caption={t("No log files")}
               icon="file alternate outline"
             />
           )
@@ -165,9 +166,7 @@ const Explorer = () => {
                 className="explorer-list-name"
                 onClick={() => handleSort('name')}
                 style={{ cursor: 'pointer' }}
-              >
-                Name
-                {sortColumn === 'name' && (
+              >{<>{t("Name")}{sortColumn === 'name' && (
                   <Icon
                     name={
                       sortDirection === 'ascending'
@@ -175,15 +174,12 @@ const Explorer = () => {
                         : 'chevron down'
                     }
                   />
-                )}
-              </Table.HeaderCell>
+                )}</>}</Table.HeaderCell>
               <Table.HeaderCell
                 className="explorer-list-date"
                 onClick={() => handleSort('date')}
                 style={{ cursor: 'pointer' }}
-              >
-                Date Modified
-                {sortColumn === 'date' && (
+              >{<>{t("Date Modified")}{sortColumn === 'date' && (
                   <Icon
                     name={
                       sortDirection === 'ascending'
@@ -191,11 +187,8 @@ const Explorer = () => {
                         : 'chevron down'
                     }
                   />
-                )}
-              </Table.HeaderCell>
-              <Table.HeaderCell className="explorer-list-size">
-                Size
-              </Table.HeaderCell>
+                )}</>}</Table.HeaderCell>
+              <Table.HeaderCell className="explorer-list-size">{t("Size")}</Table.HeaderCell>
               <Table.HeaderCell className="explorer-list-action" />
             </Table.Row>
           </Table.Header>

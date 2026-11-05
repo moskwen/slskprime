@@ -1,3 +1,4 @@
+import { t } from '../../../lib/i18n';
 /*
  * Copyright (c) 2026 slskprime contributors.
  * Modified: independent branding, English UI, compact design and browser-local discovery tools.
@@ -32,15 +33,15 @@ import { Button, Checkbox, Dropdown, Input, Segment } from 'semantic-ui-react';
 const defaultsKey = 'soulspool-search-defaults-v1';
 function readDefaults() { try { const d=JSON.parse(localStorage.getItem(defaultsKey))||{}; return { resultSort:['recommended','uploadSpeed','queueLength'].includes(d.resultSort)?d.resultSort:'recommended',hideLocked:d.hideLocked!==false,hideNoFreeSlots:d.hideNoFreeSlots===true,foldResults:d.foldResults===true,resultFilters:typeof d.resultFilters==='string'?d.resultFilters:'',favoritesOnly:d.favoritesOnly===true }; } catch { return {resultSort:'recommended',hideLocked:true}; } }
 const sortDropdownOptions = [
-  { key: 'recommended', text: 'Best sources first', value: 'recommended' },
+  { key: 'recommended', text: t("Best sources first"), value: 'recommended' },
   {
     key: 'uploadSpeed',
-    text: 'Fastest upload',
+    text: t("Fastest upload"),
     value: 'uploadSpeed',
   },
   {
     key: 'queueLength',
-    text: 'Shortest queue',
+    text: t("Shortest queue"),
     value: 'queueLength',
   },
 ];
@@ -194,12 +195,10 @@ const SearchDetail = ({
           !isComplete && (
             <LoaderSegment>
               {state === 'InProgress'
-                ? `Found ${fileCount} files ${
-                    lockedFileCount > 0
+                ? t("Found {0} files {1}from {2} users", [fileCount, lockedFileCount > 0
                       ? `(plus ${lockedFileCount} locked) `
-                      : ''
-                  }from ${responseCount} users`
-                : 'Loading results...'}
+                      : '', responseCount])
+                : t("Loading results...")}
             </LoaderSegment>
           )
         }
@@ -209,11 +208,11 @@ const SearchDetail = ({
             className="search-options"
             raised
           >
-            <div className="studio-results-summary"><span><strong>{sortedAndFilteredResults.length}</strong> sources found</span></div>
-            <Button size="small" icon="save" content={savedDefaults?'Default saved':'Save filters as default'} onClick={()=>{localStorage.setItem(defaultsKey,JSON.stringify({resultSort,hideLocked,hideNoFreeSlots,foldResults,resultFilters,favoritesOnly}));setSavedDefaults(true);}}/>
+            <div className="studio-results-summary"><span><strong>{sortedAndFilteredResults.length}</strong>{" " + t("sources found")}</span></div>
+            <Button size="small" icon="save" content={savedDefaults?t("Default saved"):t("Save filters as default")} onClick={()=>{localStorage.setItem(defaultsKey,JSON.stringify({resultSort,hideLocked,hideNoFreeSlots,foldResults,resultFilters,favoritesOnly}));setSavedDefaults(true);}}/>
             <div className="studio-quick-filters">
-              {[['All',''],['Lossless','islossless'],['24 bits','minbitdepth:24'],['MP3 320','islossy minbitrate:320']].map(([label,value]) => <button type="button" className={resultFilters===value ? 'active' : ''} key={label} onClick={()=>setResultFilters(value)}>{label}</button>)}
-              <button type="button" className={favoritesOnly?'active':''} onClick={()=>setFavoritesOnly(!favoritesOnly)}>★ Favorites</button>
+              {[[t("All"),''],[t("Lossless"),'islossless'],['24 bits','minbitdepth:24'],[t("MP3 320"),'islossy minbitrate:320']].map(([label,value]) => <button type="button" className={resultFilters===value ? 'active' : ''} key={label} onClick={()=>setResultFilters(value)}>{label}</button>)}
+              <button type="button" className={favoritesOnly?'active':''} onClick={()=>setFavoritesOnly(!favoritesOnly)}>{t("★ Favorites")}</button>
             </div>
             <Dropdown
               button
@@ -231,21 +230,21 @@ const SearchDetail = ({
               <Checkbox
                 checked={hideLocked}
                 className="search-options-hide-locked"
-                label="Hide locked files"
+                label={t("Hide locked files")}
                 onChange={() => setHideLocked(!hideLocked)}
                 toggle
               />
               <Checkbox
                 checked={hideNoFreeSlots}
                 className="search-options-hide-no-slots"
-                label="Free upload slots only"
+                label={t("Free upload slots only")}
                 onChange={() => setHideNoFreeSlots(!hideNoFreeSlots)}
                 toggle
               />
               <Checkbox
                 checked={foldResults}
                 className="search-options-fold-results"
-                label="Collapse tracks"
+                label={t("Collapse tracks")}
                 onChange={() => setFoldResults(!foldResults)}
                 toggle
               />
@@ -259,12 +258,12 @@ const SearchDetail = ({
                 }
               }
               className="search-filter"
-              label={{ content: 'Filter', icon: 'filter' }}
+              label={{ content: t("Filter"), icon: 'filter' }}
               onChange={(_event, data) => setResultFilters(data.value)}
-              placeholder={'e.g. islossless "deluxe edition" -"live at"'}
+              placeholder={t("e.g. islossless \"deluxe edition\" -\"live at\"")}
               value={resultFilters}
             />
-            <p className="studio-note">Use "exact phrases", -word or -"excluded phrase". Quality: islossless, minbitrate:320, minbitdepth:24.</p>
+            <p className="studio-note">{t("Use \"exact phrases\", -word or -\"excluded phrase\". Quality: islossless, minbitrate:320, minbitdepth:24.")}</p>
           </Segment>
         )}
         {loaded &&
@@ -285,17 +284,14 @@ const SearchDetail = ({
               onClick={() => setDisplayCount(displayCount + 5)}
               primary
               size="large"
-            >
-              Show more {remainingCount > 5 ? 5 : remainingCount} sources{' '}
-              {`(${remainingCount} remaining, ${filteredCount} hidden by filter(s))`}
-            </Button>
+            >{t("Show more {0} sources{1}{2}", [remainingCount > 5 ? 5 : remainingCount, ' ', t("({0} remaining, {1} hidden by filter(s))", [remainingCount, filteredCount])])}</Button>
           ) : filteredCount > 0 ? (
             <Button
               className="showmore-button"
               disabled
               fluid
               size="large"
-            >{`All results shown. ${filteredCount} results hidden by filter(s)`}</Button>
+            >{t("All results shown. {0} results hidden by filter(s)", [filteredCount])}</Button>
           ) : (
             ''
           ))}

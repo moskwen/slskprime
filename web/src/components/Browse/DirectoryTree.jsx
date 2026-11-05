@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import React, {
   forwardRef,
@@ -330,26 +331,26 @@ const DirectoryTree = forwardRef(
                 onClick: () => setSearchInput(''),
               }
             }
-            label={{ content: 'Filter', icon: 'filter' }}
+            label={{ content: t("Filter"), icon: 'filter' }}
             onChange={(_, { value }) => setSearchInput(value)}
-            placeholder="lackluster container"
+            placeholder={t("lackluster container")}
             value={searchInput}
           />
           <Button
             icon="chevron down"
             onClick={handleExpandAll}
-            title="Expand all"
+            title={t("Expand all")}
           />
           <Button
             icon="chevron up"
             onClick={handleCollapseAll}
-            title="Collapse all"
+            title={t("Collapse all")}
           />
           <Button
             disabled={!selectedDirectoryName}
             icon="bullseye"
             onClick={() => navigateToDirectory(selectedDirectoryName)}
-            title="Show selected directory"
+            title={t("Show selected directory")}
           />
         </div>
         <div
@@ -389,7 +390,7 @@ const DirectoryTree = forwardRef(
           </Table>
         </div>
         <div
-          aria-label="Resize the directory tree"
+          aria-label={t("Resize the directory tree")}
           aria-orientation="horizontal"
           aria-valuemin={MIN_H}
           aria-valuenow={treeHeight}
@@ -398,7 +399,7 @@ const DirectoryTree = forwardRef(
           onMouseDown={handleResizeStart}
           role="slider"
           tabIndex={0}
-          title="Drag or use arrow keys to resize"
+          title={t("Drag or use arrow keys to resize")}
         >
           <div className="browse-folderlist-resize-grip">
             <span />

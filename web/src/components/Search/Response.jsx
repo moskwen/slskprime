@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 /*
  * Copyright (c) 2026 slskprime contributors.
  * Modified: independent branding, English UI, compact design and browser-local discovery tools.
@@ -84,7 +85,7 @@ class Response extends Component {
         }));
         if (requests.length === 0) throw new Error('Select available files to download.');
         await transfers.download({ files: requests, username });
-        toast.success(`${requests.length} file(s) added to downloads`);
+        toast.success(t("{0} file(s) added to downloads", [requests.length]));
 
         this.setState({ downloadRequest: 'complete' });
       } catch (error) {
@@ -188,8 +189,8 @@ class Response extends Component {
               name="circle"
             />
             <span className="studio-source-name">{response.username}</span>
-            <button className="studio-star" type="button" aria-label={`Favoritar ${response.username}`} aria-pressed={this.state.favorite} onClick={() => this.setState({favorite: toggleFavorite(response.username)})}><Icon name={this.state.favorite ? 'star' : 'star outline'} /></button>
-            <button className="studio-ignore-source" title="Hide this source from future results in this browser" type="button" onClick={()=>{blockSource(response.username);this.props.onHide();toast.info("Source hidden. Restore it from the Search page.");}}>Hide source</button>
+            <button className="studio-star" type="button" aria-label={t("Add to favorites {0}", [response.username])} aria-pressed={this.state.favorite} onClick={() => this.setState({favorite: toggleFavorite(response.username)})}><Icon name={this.state.favorite ? 'star' : 'star outline'} /></button>
+            <button className="studio-ignore-source" title={t("Hide this source from future results in this browser")} type="button" onClick={()=>{blockSource(response.username);this.props.onHide();toast.info(t("Source hidden. Restore it from the Search page."));}}>{t("Hide source")}</button>
             <Icon
               className="close-button"
               color="red"
@@ -201,13 +202,13 @@ class Response extends Component {
           <Card.Meta className="result-meta">
             <span>
               <span className="studio-speed">{formatBytes(response.uploadSpeed)}/s</span>
-              <span className={free ? 'studio-pill available' : 'studio-pill queued'}>{free ? 'Available now' : 'Queued'}</span>
-              <span>{response.queueLength} queued · {Object.keys(tree).length} folder(s)</span>
+              <span className={free ? 'studio-pill available' : 'studio-pill queued'}>{free ? t("Available now") : t("Queued")}</span>
+              <span>{t("{0} queued · {1} folder(s)", [response.queueLength, Object.keys(tree).length])}</span>
             </span>
           </Card.Meta>
           <div className="studio-selection-bar">
-            <span>{selectedFiles.length ? selectedFiles.length + ' selected · ' + selectedSize : 'Select tracks or use Download folder'}</span>
-            <Button size="small" color="green" icon="download" content="Download selection" disabled={!selectedFiles.length || this.props.disabled || downloadRequest === 'inProgress'} loading={downloadRequest === 'inProgress'} onClick={() => this.download(response.username, selectedFiles)} />
+            <span>{selectedFiles.length ? selectedFiles.length + ' selected · ' + selectedSize : t("Select tracks or use Download folder")}</span>
+            <Button size="small" color="green" icon="download" content={t("Download selection")} disabled={!selectedFiles.length || this.props.disabled || downloadRequest === 'inProgress'} loading={downloadRequest === 'inProgress'} onClick={() => this.download(response.username, selectedFiles)} />
           </div>
           {((!isFolded && Object.keys(tree)) || []).map((directory) => (
             <FileList
@@ -233,9 +234,7 @@ class Response extends Component {
                   <Icon
                     loading={fetchingDirectoryContents}
                     name={fetchingDirectoryContents ? 'circle notch' : 'search'}
-                  />
-                  Search for remaining files in this folder
-                </button>
+                  />{t("Search for remaining files in this folder")}</button>
               }
               key={directory}
               locked={tree[directory].find((file) => file.locked)}
@@ -248,7 +247,7 @@ class Response extends Component {
             <span>
               <Button
                 color="green"
-                content="Download"
+                content={t("Download")}
                 disabled={
                   this.props.disabled || downloadRequest === 'inProgress'
                 }

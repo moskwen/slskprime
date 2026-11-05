@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 import React from 'react';
 import { Header, Icon, Table } from 'semantic-ui-react';
 
@@ -18,8 +19,7 @@ const getLastTwoSegments = (path) => {
 const TopDirectories = ({ rows }) => (
   <>
     <Header size="small">
-      <Icon name="folder open" /> Directories
-    </Header>
+      <Icon name="folder open" />{" " + t("Directories")}</Header>
     <Table
       className="unstackable"
       compact="very"
@@ -32,9 +32,9 @@ const TopDirectories = ({ rows }) => (
           >
             #
           </Table.HeaderCell>
-          <Table.HeaderCell>Directory</Table.HeaderCell>
-          <Table.HeaderCell textAlign="right">Downloads</Table.HeaderCell>
-          <Table.HeaderCell textAlign="right">Distinct Users</Table.HeaderCell>
+          <Table.HeaderCell>{t("Directory")}</Table.HeaderCell>
+          <Table.HeaderCell textAlign="right">{t("Downloads")}</Table.HeaderCell>
+          <Table.HeaderCell textAlign="right">{t("Distinct Users")}</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
@@ -43,9 +43,7 @@ const TopDirectories = ({ rows }) => (
             <Table.Cell
               colSpan={4}
               style={{ opacity: 0.5, textAlign: 'center' }}
-            >
-              No data to display
-            </Table.Cell>
+            >{t("No data to display")}</Table.Cell>
           </Table.Row>
         )}
         {rows &&

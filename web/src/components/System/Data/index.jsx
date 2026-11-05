@@ -1,3 +1,4 @@
+import { t } from '../../../lib/i18n';
 import { clearCompleted } from '../../../lib/transfers';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -7,7 +8,7 @@ const clear = async ({ direction, setState }) => {
   setState(true);
   await clearCompleted({ direction });
   setState(false);
-  toast.success(`Completed ${direction}s cleared!`);
+  toast.success(t("Completed {0}s cleared!", [direction]));
 };
 
 const Data = () => {
@@ -19,33 +20,23 @@ const Data = () => {
       <Header
         as="h3"
         className="transfer-header"
-      >
-        Transfer Data
-      </Header>
+      >{t("Transfer Data")}</Header>
       <Divider />
       <p>
-        <span>
-          The Uploads and Downloads pages can become unresponsive if too many
-          transfers are displayed. If you're having trouble with either page,
-          try using the buttons below to remove completed transfers.
-        </span>
+        <span>{t("The Uploads and Downloads pages can become unresponsive if too many transfers are displayed. If you're having trouble with either page, try using the buttons below to remove completed transfers.")}</span>
       </p>
       <Button
         loading={up}
         onClick={() => clear({ direction: 'upload', setState: setUp })}
         primary
       >
-        <Icon name="trash alternate" />
-        Clear All Completed Uploads
-      </Button>
+        <Icon name="trash alternate" />{t("Clear All Completed Uploads")}</Button>
       <Button
         loading={down}
         onClick={() => clear({ direction: 'download', setState: setDown })}
         primary
       >
-        <Icon name="trash alternate" />
-        Clear All Completed Downloads
-      </Button>
+        <Icon name="trash alternate" />{t("Clear All Completed Downloads")}</Button>
     </div>
   );
 };

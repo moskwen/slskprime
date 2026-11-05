@@ -1,3 +1,4 @@
+import { t } from '../lib/i18n';
 /*
  * Copyright (c) 2026 slskprime contributors.
  * Modified: independent branding, English UI, compact design and browser-local discovery tools.
@@ -21,6 +22,6 @@ import { Icon } from 'semantic-ui-react';
 export default function StudioHeading() {
   const { pathname } = useLocation();
   const section = pathname.split('/').filter(Boolean).find(p => ['searches','downloads','uploads','favorites','dashboard','system','browse','users','user-info','chat','rooms'].includes(p)) || 'dashboard';
-  const titles = {dashboard:'Overview',searches:'Search',downloads:'Downloads',uploads:'Uploads',favorites:'Favorites',system:'Settings',browse:'Browse files',users:'Users','user-info':'Look up user',chat:'Messages',rooms:'Rooms'};
-  return <header className="studio-topbar"><div><h1>{titles[section]}</h1></div><div className="studio-topbar-actions"><Link to={`${urlBase}/searches`} className="studio-search-shortcut"><Icon name="search"/>New search</Link><span className="studio-avatar" title="slskprime">P</span></div></header>;
+  const titles = {dashboard:t("Overview"),searches:t("Search"),downloads:t("Downloads"),uploads:t("Uploads"),favorites:t("Favorites"),system:t("Settings"),browse:t("Browse files"),users:t("Users"),'user-info':t("Look up user"),chat:t("Messages"),rooms:t("Rooms")};
+  return <header className="studio-topbar"><div><h1>{titles[section]}</h1></div><div className="studio-topbar-actions"><Link to={`${urlBase}/searches`} className="studio-search-shortcut"><Icon name="search"/>{t("New search")}</Link><span className="studio-avatar" title="slskprime">P</span></div></header>;
 }

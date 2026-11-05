@@ -1,3 +1,4 @@
+import { t } from '../../../lib/i18n';
 import { browse } from '../../../lib/shares';
 import { CodeEditor, LoaderSegment, Switch } from '../../Shared';
 import React, { useEffect, useState } from 'react';
@@ -67,7 +68,7 @@ const ContentsModal = ({ onClose, share, theme }) => {
         </Switch>
       </Modal.Content>
       <Modal.Actions>
-        <Button onClick={onClose}>Close</Button>
+        <Button onClick={onClose}>{t("Close")}</Button>
       </Modal.Actions>
     </Modal>
   );

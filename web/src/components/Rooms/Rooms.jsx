@@ -1,3 +1,4 @@
+import { t } from '../../lib/i18n';
 import { activeRoomKey } from '../../config';
 import * as rooms from '../../lib/rooms';
 import PlaceholderSegment from '../Shared/PlaceholderSegment';
@@ -274,21 +275,15 @@ class Rooms extends Component {
           <Button
             className="ui compact button popup-option"
             onClick={this.handleReply}
-          >
-            Reply
-          </Button>
+          >{t("Reply")}</Button>
           <Button
             className="ui compact button popup-option"
             onClick={this.handleUserProfile}
-          >
-            User Profile
-          </Button>
+          >{t("User Profile")}</Button>
           <Button
             className="ui compact button popup-option"
             onClick={this.handleBrowseShares}
-          >
-            Browse Shares
-          </Button>
+          >{t("Browse Shares")}</Button>
         </div>
       </Portal>
     );
@@ -318,7 +313,7 @@ class Rooms extends Component {
         </Segment>
         {active?.length === 0 ? (
           <PlaceholderSegment
-            caption="No rooms to display"
+            caption={t("No rooms to display")}
             icon="comments"
           />
         ) : (

@@ -1,3 +1,4 @@
+import { t } from '../../../lib/i18n';
 import { list } from '../../../lib/events';
 import { LoaderSegment } from '../../Shared';
 import React, { useEffect, useState } from 'react';
@@ -61,16 +62,10 @@ const Events = () => {
       >
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell className="events-list-id">Id</Table.HeaderCell>
-            <Table.HeaderCell className="events-list-timestamp">
-              Timestamp
-            </Table.HeaderCell>
-            <Table.HeaderCell className="events-list-type">
-              Type
-            </Table.HeaderCell>
-            <Table.HeaderCell className="events-list-data">
-              Data
-            </Table.HeaderCell>
+            <Table.HeaderCell className="events-list-id">{t("Id")}</Table.HeaderCell>
+            <Table.HeaderCell className="events-list-timestamp">{t("Timestamp")}</Table.HeaderCell>
+            <Table.HeaderCell className="events-list-type">{t("Type")}</Table.HeaderCell>
+            <Table.HeaderCell className="events-list-data">{t("Data")}</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body className="events-table-body">
@@ -83,9 +78,7 @@ const Events = () => {
                   padding: '10px !important',
                   textAlign: 'center',
                 }}
-              >
-                No events
-              </Table.Cell>
+              >{t("No events")}</Table.Cell>
             </Table.Row>
           ) : (
             events.map((event) => (

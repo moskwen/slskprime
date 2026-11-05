@@ -1,3 +1,4 @@
+import { t } from '../../../lib/i18n';
 import '../System.css';
 import { Table } from 'semantic-ui-react';
 
@@ -22,9 +23,9 @@ const LogTable = ({ emptyMessage = 'No logs', logs }) => (
   >
     <Table.Header>
       <Table.Row>
-        <Table.HeaderCell>Timestamp</Table.HeaderCell>
-        <Table.HeaderCell>Level</Table.HeaderCell>
-        <Table.HeaderCell>Message</Table.HeaderCell>
+        <Table.HeaderCell>{t("Timestamp")}</Table.HeaderCell>
+        <Table.HeaderCell>{t("Level")}</Table.HeaderCell>
+        <Table.HeaderCell>{t("Message")}</Table.HeaderCell>
       </Table.Row>
     </Table.Header>
     <Table.Body className="logs-table-body">
