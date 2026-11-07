@@ -1,6 +1,7 @@
 import { t } from '../../lib/i18n';
 import { isStateCancellable, isStateRetryable } from '../../lib/transfers';
-import { Div, Nbsp } from '../Shared';
+import Div from '../Shared/Div';
+import Nbsp from '../Shared/Nbsp';
 import ShrinkableDropdownButton from '../Shared/ShrinkableDropdownButton';
 import React, { useMemo, useState } from 'react';
 import { Icon, Segment } from 'semantic-ui-react';

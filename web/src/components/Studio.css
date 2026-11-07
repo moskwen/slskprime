@@ -269,3 +269,4 @@ html body .dashboard .ui.statistics .statistic>.label { font-size:10px!important
 @media(max-width:767px) { .navigation.ui.menu .studio-language-trigger > span,.navigation.ui.menu .studio-language-trigger > small { display:none; } }
 @media(max-width:420px) { .studio-language-grid { grid-template-columns:1fr; } }
 .studio-language-trigger { border:0; background:transparent; color:inherit; }
+.studio-transfer-top-actions { display:flex; justify-content:flex-end; margin:0 0 14px; }

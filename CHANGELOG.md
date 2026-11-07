@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0 — 2026-11-07
+
+- Add Clear all at the top of Downloads, independent of filters and pagination.
+- Confirmation shows the full record count and warns when queued or active downloads will be cancelled. Completed and partial files and storage paths are kept.
+- Clear only the confirmed snapshot, preserving downloads added later. Requests use bounded concurrency and verify removal; unresolved records are reported instead of claiming success.
+- Protect the refreshed list against stale polling responses and translate the new controls in all ten languages.
+
+
 ## 0.3.1 — 2026-11-05
 
 - Replace the native language dropdown with a modal containing ten explicit language buttons. The picker stays open during pointer movement and parent updates; selecting the current language closes it without reloading.

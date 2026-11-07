@@ -73,7 +73,7 @@ const AppFooter = ({
         <span className="footer-stat-detail">{t("{0} active · {1} queued", [uploadActive, uploadQueued])}</span>
       </Menu.Item>
       <Menu.Menu position="right">
-        <Menu.Item as="a" href="https://github.com/moskwen/slskprime/tree/v0.3.1">{t("Source code")}</Menu.Item>
+        <Menu.Item as="a" href="https://github.com/moskwen/slskprime/tree/v0.4.0">{t("Source code")}</Menu.Item>
         <Menu.Item
           as="a"
           href="https://github.com/moskwen/slskprime/blob/main/NOTICE"
@@ -85,7 +85,7 @@ const AppFooter = ({
             className="footer-logo"
             src={`${urlBase}/prime-icon.svg`}
           />
-          slskprime v0.3.1 · modified frontend
+          slskprime v0.4.0 · modified frontend
           <span className="footer-version">{t("based on slskd {0}", [current])}</span>
           <span className="footer-license">AGPLv3</span>
         </Menu.Item>

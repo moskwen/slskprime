@@ -18,11 +18,14 @@ import './Transfers.css';
 import { Button, Input } from 'semantic-ui-react';
 import { transferRows, groupTransferRows } from '../../lib/studio';
 import * as transfersLibrary from '../../lib/transfers';
-import { LoaderSegment, PlaceholderSegment } from '../Shared';
+import LoaderSegment from '../Shared/LoaderSegment';
+import PlaceholderSegment from '../Shared/PlaceholderSegment';
 import TransferGroup from './TransferGroup';
 import TransfersHeader from './TransfersHeader';
 import StudioTransferSummary from '../StudioTransferSummary';
-import React, { useEffect, useMemo, useState } from 'react';
+import ClearAllDownloads from './ClearAllDownloads';
+import { clearTransferRecords } from '../../lib/clearTransfers';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
 const Transfers = ({ direction, server }) => {
@@ -36,6 +39,7 @@ const Transfers = ({ direction, server }) => {
   const [retrying, setRetrying] = useState(false);
   const [cancelling, setCancelling] = useState(false);
   const [removing, setRemoving] = useState(false);
+  const refreshEpoch = useRef(0);
 
   const fetch = async () => {
     try {
@@ -54,9 +58,10 @@ const Transfers = ({ direction, server }) => {
       if(paused){setConnecting(false);return;}
       if(document.hidden&&!first){timer=window.setTimeout(update,15000);return;}
       working=true;
+      const epoch=refreshEpoch.current;
       const response=await fetch();
       if(!stopped){
-        if(response)setTransfers(response);
+        if(response&&epoch===refreshEpoch.current)setTransfers(response);
         setConnecting(false);first=false;
         const active=(response||[]).some(u=>(u.directories||[]).some(d=>(d.files||[]).some(f=>['InProgress','Initializing'].includes(f.state))));
         timer=window.setTimeout(update,active?2500:10000);
@@ -159,6 +164,16 @@ const Transfers = ({ direction, server }) => {
   const currentPage=Math.min(page,pages);
   const pageUsers=groupTransferRows(matching.slice((currentPage-1)*50,currentPage*50));
   const matchedUsers=groupTransferRows(matching);
+  const allRecords=transferRows(transfers).map(({username,file})=>({username,id:file.id,state:file.state||''}));
+  const clearAll=async(records)=>{
+    setRemoving(true);refreshEpoch.current++;
+    try {
+      const result=await clearTransferRecords({records});
+      refreshEpoch.current++;setTransfers(result.latest);setFilter('all');setQuery('');setPage(1);
+      if(!result.remaining)toast.success(t('Download list cleared. Your files are kept.'));
+      return result;
+    } finally {refreshEpoch.current++;setRemoving(false);}
+  };
 
   if (connecting) {
     return <LoaderSegment />;
@@ -166,6 +181,7 @@ const Transfers = ({ direction, server }) => {
 
   return (
     <>
+      {direction==='download'&&<ClearAllDownloads records={allRecords} disabled={removing||retrying||cancelling} onClear={clearAll}/>}
       <StudioTransferSummary transfers={transfers} direction={direction} />
       <div className="studio-transfer-filters">
         <div className="studio-quick-filters">{[['all',t("All")],['active',t("Active")],['queued',t("Queued")],['done',t("Completed")],['error',t("Failed or cancelled")]].map(([value,label])=><button type="button" key={value} className={filter===value?'active':''} onClick={()=>setFilter(value)}>{label}</button>)}</div>
