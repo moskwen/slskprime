@@ -362,5 +362,9 @@
   "· checking {0}/{1}": "· comprobando {0}/{1}",
   "· {0} files found": "· Archivos {0} encontrados",
   "’ started.": "' comenzó.",
-  "★ Favorites": "★ Favoritos"
+  "★ Favorites": "★ Favoritos",
+  "Resize column": "Resize column",
+  "Open containing folder": "Open containing folder",
+  "User added": "User added",
+  "Open users": "Open users"
 }

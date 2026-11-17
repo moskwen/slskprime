@@ -80,11 +80,14 @@ const initialState = {
   username: '',
 };
 
-class Browse extends Component {
+// Keep up to ten browsed users while navigating between the main tabs.
+const browseSessions = new Map();
+export class Browse extends Component {
   constructor(props) {
     super(props);
 
     this.state = initialState;
+    this.sessions = browseSessions;
     this.directoryTreeRef = React.createRef();
   }
 
@@ -105,6 +108,11 @@ class Browse extends Component {
     document.addEventListener('keyup', this.keyUp, false);
   }
 
+  componentDidUpdate(previousProps) {
+    const next=this.props.location.state;
+    if(next?.user && this.props.location.key!==previousProps.location.key){this.browse(next.user);}
+  }
+
   componentWillUnmount() {
     clearInterval(this.state.interval);
     this.setState({ interval: undefined });
@@ -113,6 +121,10 @@ class Browse extends Component {
 
   browse = async (requestedUsername) => {
     const username = typeof requestedUsername === 'string' ? requestedUsername : this.inputtext.inputRef.current.value;
+    if(this.state.browseState==='pending')return;
+    if(this.state.username&&this.state.browseState==='complete')this.sessions.set(this.state.username,{...this.state});
+    const cached=this.sessions.get(username);
+    if(cached){this.setState({...cached,interval:this.state.interval},()=>{this.saveState();this.saveTree();const path=this.props.location.state?.user===username?this.props.location.state?.directory:undefined;if(path)this.handleDirectoryNavigate(path);});return;}
     this.inputtext.inputRef.current.value = username;
     this.setState({ browseError: undefined, browseState: 'pending', username });
 
@@ -155,7 +167,10 @@ class Browse extends Component {
         tree: this.getDirectoryTree({ directories, separator }),
       });
 
-      this.setState({ browseError: undefined, browseState: 'complete' }, () => {
+      this.setState({ browseError: undefined, browseState: 'complete', selected:null }, () => {
+        const requested=this.props.location.state?.user===username?this.props.location.state?.directory:undefined;
+        const node=(requested&&this.findDirectoryByPath(requested,this.state.tree))||this.state.tree[0];
+        if(node){this.selectDirectory(node);if(requested)setTimeout(()=>this.handleDirectoryNavigate(requested),0);}
         this.saveState();
         setTimeout(() => this.saveTree(), 0);
       });
@@ -165,7 +180,7 @@ class Browse extends Component {
   };
 
   clear = () => {
-    this.setState(initialState, () => {
+    this.setState({...initialState,interval:this.state.interval}, () => {
       this.saveTree();
       this.saveState();
       this.inputtext.focus();
@@ -184,6 +199,10 @@ class Browse extends Component {
   };
 
   saveState = () => {
+    if(this.state.username&&this.state.browseState==='complete'){
+      this.sessions.set(this.state.username,{...this.state});
+      if(this.sessions.size>10)this.sessions.delete(this.sessions.keys().next().value);
+    }
     this.inputtext.inputRef.current.value = this.state.username;
     this.inputtext.inputRef.current.disabled =
       this.state.browseState !== 'idle';
@@ -447,6 +466,7 @@ class Browse extends Component {
         </Card>
         {selectedDirectory && (
           <Selection
+            key={username}
             defaultSelectedFiles={selected.files}
             defaultSubdirectory={selected.subdirectory}
             directorySuffix={this.renderDirectoryAction}
@@ -499,6 +519,9 @@ class Browse extends Component {
 
     return (
       <div className="search-container">
+        <nav className="classic-browse-tabs" aria-label={t('Open users')}>
+          {[...new Set([...this.sessions.keys(),this.state.username])].filter(Boolean).map(name=><button type="button" key={name} aria-pressed={name===this.state.username} disabled={pending} onClick={()=>this.browse(name)}>{name}</button>)}
+        </nav>
         {this.renderUsernameBar()}
         {pending ? (
           <Loader

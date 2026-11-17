@@ -362,5 +362,9 @@
   "· checking {0}/{1}": "· {0}/{1} পরীক্ষা করা হচ্ছে",
   "· {0} files found": "· {0} ফাইল পাওয়া গেছে",
   "’ started.": "' শুরু করেছে।",
-  "★ Favorites": "★ প্রিয়"
+  "★ Favorites": "★ প্রিয়",
+  "Resize column": "Resize column",
+  "Open containing folder": "Open containing folder",
+  "User added": "User added",
+  "Open users": "Open users"
 }

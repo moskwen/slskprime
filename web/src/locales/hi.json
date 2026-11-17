@@ -362,5 +362,9 @@
   "· checking {0}/{1}": "· {0}/{1} की जाँच करना",
   "· {0} files found": "· {0} फ़ाइलें मिलीं",
   "’ started.": "' शुरू हुआ.",
-  "★ Favorites": "★ पसंदीदा"
+  "★ Favorites": "★ पसंदीदा",
+  "Resize column": "Resize column",
+  "Open containing folder": "Open containing folder",
+  "User added": "User added",
+  "Open users": "Open users"
 }

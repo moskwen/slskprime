@@ -362,5 +362,9 @@
   "· checking {0}/{1}": "· 检查{0}/{1}",
   "· {0} files found": "· 找到 {0} 文件",
   "’ started.": "’开始了。",
-  "★ Favorites": "★ 收藏夹"
+  "★ Favorites": "★ 收藏夹",
+  "Resize column": "Resize column",
+  "Open containing folder": "Open containing folder",
+  "User added": "User added",
+  "Open users": "Open users"
 }

@@ -26,12 +26,12 @@ slskprime is an independent frontend based on the slskd 0.26.2 web interface. It
 | --- | --- |
 | **Make it yours** | Jade, Midnight, Plum and Paper themes; three text sizes; locally hosted Inter, Manrope and IBM Plex Sans, plus your system font. |
 | **Find better sources** | Quality shortcuts, exact phrase includes/excludes, saved filter defaults, available-slot filtering and source ranking. |
-| **Keep your people close** | Contact list, presence checks, direct browsing of shared files, personal notes and contact export. |
-| **Download with less friction** | Compact result tables, click-to-select, double-click download, selection downloads and full remote-folder downloads. |
+| **Keep your people close** | Contact list, presence checks, side-by-side folder browsing with user session tabs, personal notes and contact export. |
+| **Download with less friction** | Sortable, resizable result tables; Ctrl/Shift selection; right-click actions; double-click download; and full remote-folder downloads. |
 | **Stay organized** | Optional repeating wishlist searches with result alerts, hidden sources, status tabs, pagination and direct queue controls. |
 | **Run it yourself** | Prebuilt frontend download, checksummed installer with backup, and Docker Compose for a new installation. |
 
-Use the **Language** selector in the sidebar or on the sign-in screen. Ten languages are included: English, Simplified Mandarin Chinese, Hindi, Spanish, Arabic, French, Bengali, Brazilian Portuguese, Indonesian and Urdu. English is the default. The choice is saved in this browser and changing it reloads the frontend; server transfers keep running. Arabic and Urdu set right-to-left text direction. Preferences backups include the selected language.
+Use the **Language** selector in the top toolbar or on the sign-in screen. Ten languages are included: English, Simplified Mandarin Chinese, Hindi, Spanish, Arabic, French, Bengali, Brazilian Portuguese, Indonesian and Urdu. English is the default. The choice is saved in this browser and changing it reloads the frontend; server transfers keep running. Arabic and Urdu set right-to-left text direction. Preferences backups include the selected language.
 
 Translation catalogs are bundled locally and use no translation service at runtime. Initial translations are machine-assisted, with a Brazilian Portuguese terminology pass; corrections are welcome. Usernames, filenames, search expressions, YAML, logs and backend-origin error messages retain their original content. Fonts are bundled with the app; no font service is contacted while you use it.
 
@@ -52,7 +52,7 @@ Saved searches can repeat every 30 minutes, one hour or three hours while the ap
 Download the prebuilt UI and checksum from [Releases](https://github.com/moskwen/slskprime/releases). If your backend already serves a custom UI directory, clone this repository and run:
 
 ```sh
-sh scripts/install-ui.sh /absolute/path/to/existing/ui-directory v0.5.0
+sh scripts/install-ui.sh /absolute/path/to/existing/ui-directory v0.6.0
 ```
 
 The installer verifies the checksum, backs up the UI directory and installs without deleting existing files. It preserves local installation contacts. It does not touch the container, credentials, downloads or shares. No restart is needed when the content path is unchanged.
@@ -73,7 +73,7 @@ Compose builds a one-shot frontend exporter, then starts the official, unmodifie
 ```sh
 git clone https://github.com/moskwen/slskprime.git
 cd slskprime
-git checkout v0.5.0
+git checkout v0.6.0
 cp .env.example .env
 mkdir -p appdata downloads/complete downloads/incomplete
 ```

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.0 — 2026-11-17
+
+- Add a keyboard-accessible search result context menu for downloads, browsing the exact containing folder, saving users and viewing user information.
+- Support Ctrl/Cmd multi-selection and Shift range selection in search results.
+- Add numeric/text column sorting and browser-persisted, mouse/keyboard column widths to search and browse tables.
+- Keep remote folders and files in side-by-side panels on desktop, with a stacked layout on narrow screens.
+- Keep browsed users in session tabs, preserving their folder and file selection while switching users.
+- Preserve existing download paths, backend configuration and private imported contacts.
+
 ## 0.5.0 — 2026-11-17
 
 - Return to a classic client workflow: horizontal primary tabs, a tab per search, compact result rows and compact download/upload tables. Saved-search tools are collapsed by default; large summary cards and per-folder action panels are removed from the transfer workflow.

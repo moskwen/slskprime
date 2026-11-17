@@ -8,6 +8,7 @@ import {
 import React, { useMemo, useState } from 'react';
 import { Checkbox, Header, Icon, Table } from 'semantic-ui-react';
 
+import ClassicColumn,{useClassicColumns,compareValues} from '../Shared/ClassicColumns';
 const formatDirCaption = (fileCount, dirCount) => {
   const parts = [];
   if (fileCount > 0) {
@@ -72,7 +73,7 @@ const File = ({ disabled, file, indent, locked, onSelectionChange }) => (
       {onSelectionChange != null && (
         <Checkbox
           checked={file.selected || false}
-          disabled={disabled}
+          disabled={disabled||locked}
           fitted
           onChange={(_, data) => onSelectionChange(file, data.checked)}
         />
@@ -245,6 +246,10 @@ const FileBrowser = ({
   rootDirectory,
   separator,
 }) => {
+  const columns=useClassicColumns('slskprime-browse-columns-v1');
+  const [sort,setSort]=useState({key:'File',desc:false});
+  const changeSort=name=>setSort(old=>({key:name,desc:old.key===name?!old.desc:false}));
+  const sortFile=(a,b)=>(sort.desc?-1:1)*compareValues(sort.key==='Size'?a.size||0:sort.key==='Length'?a.length||0:sort.key==='Attributes'?a.bitRate||a.bitDepth||0:a.filename,sort.key==='Size'?b.size||0:sort.key==='Length'?b.length||0:sort.key==='Attributes'?b.bitRate||b.bitDepth||0:b.filename);
   const [folded, setFolded] = useState(false);
 
   // flatten the list of files that we've been given and turn it into a map
@@ -268,13 +273,13 @@ const FileBrowser = ({
           ...f,
           fullFilename: `${directoryName}${sep}${f.filename}`,
         }))
-        .sort((a, b) => a.filename.localeCompare(b.filename)),
-    [directoryName, rootDirectory, sep],
+        .sort(sortFile),
+    [directoryName, rootDirectory, sep,sort],
   );
 
   const childDirs = useMemo(
-    () => rootDirectory?.children || [],
-    [rootDirectory],
+    () => [...(rootDirectory?.children || [])].sort((a,b)=>(sort.desc?-1:1)*compareValues(sort.key==='Size'?(a.files||[]).reduce((n,f)=>n+(f.size||0),0):sort.key==='Length'?(a.files||[]).reduce((n,f)=>n+(f.length||0),0):sort.key==='Attributes'?getAttributes(a.files):a.name,sort.key==='Size'?(b.files||[]).reduce((n,f)=>n+(f.size||0),0):sort.key==='Length'?(b.files||[]).reduce((n,f)=>n+(f.length||0),0):sort.key==='Attributes'?getAttributes(b.files):b.name)),
+    [rootDirectory,sort],
   );
 
   // Group all files by their direct child directory in a single O(N) pass,
@@ -363,7 +368,7 @@ const FileBrowser = ({
         </div>
       </Header>
       {!folded && hasContent && (
-        <Table>
+        <Table className="classic-resizable-table">
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell className="filelist-selector">
@@ -374,12 +379,7 @@ const FileBrowser = ({
                   onChange={handleSelectAll}
                 />
               </Table.HeaderCell>
-              <Table.HeaderCell className="filelist-filename">
-                {childDirs.length > 0 ? t("Name") : t("File")}
-              </Table.HeaderCell>
-              <Table.HeaderCell className="filelist-size">{t("Size")}</Table.HeaderCell>
-              <Table.HeaderCell className="filelist-attributes">{t("Attributes")}</Table.HeaderCell>
-              <Table.HeaderCell className="filelist-length">{t("Length")}</Table.HeaderCell>
+              {['File','Size','Attributes','Length'].map(name=><ClassicColumn key={name} name={name} columns={columns} sort={sort} onSort={changeSort}/>)}
             </Table.Row>
           </Table.Header>
           <Table.Body>
