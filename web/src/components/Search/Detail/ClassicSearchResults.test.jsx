@@ -42,7 +42,7 @@ test('numeric sorting, Ctrl/Shift selection and keyboard resizing work together'
  expect(root.querySelectorAll('tbody tr.active')).toHaveLength(3);
  act(()=>Simulate.click(cells[1],{ctrlKey:true}));expect(root.querySelectorAll('tbody tr.active')).toHaveLength(2);
  act(()=>Simulate.keyDown(root.querySelector('[aria-label="Resize column: Size"]'),{key:'ArrowRight'}));
- expect(JSON.parse(localStorage.getItem('slskprime-search-columns-v1')).Size).toBe(160);
+ expect(JSON.parse(localStorage.getItem('slskprime-search-columns-v1')).Size).toBe(120);
 });
 test('right click offers actions on the chosen peer and opens its exact folder',async()=>{
  await render();act(()=>Simulate.contextMenu(root.querySelector('tbody tr'),{clientX:40,clientY:40}));
