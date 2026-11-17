@@ -13,7 +13,7 @@ const key=r=>`${r.username}\n${r.file.filename}`;
 const errorText=e=>typeof e?.response?.data==='string'?e.response.data:e?.message||t('Request failed');
 export default function ClassicSearchResults({search,disabled,creating,removing,stopping,onCreate,onRemove,onStop}){
  const [responses,setResponses]=useState([]),[loading,setLoading]=useState(false),[error,setError]=useState(''),[notice,setNotice]=useState('');
- const [filter,setFilter]=useState(''),[format,setFormat]=useState(''),[freeOnly,setFreeOnly]=useState(false),[selected,setSelected]=useState(new Set()),[page,setPage]=useState(1),[working,setWorking]=useState(false);
+ const [filter,setFilter]=useState(''),[format,setFormat]=useState('all'),[freeOnly,setFreeOnly]=useState(false),[selected,setSelected]=useState(new Set()),[page,setPage]=useState(1),[working,setWorking]=useState(false);
  useEffect(()=>{let stopped=false;setResponses([]);setSelected(new Set());setPage(1);setError('');setNotice('');
   if(search.isComplete){setLoading(true);(async()=>{
    let result=[];
@@ -31,7 +31,7 @@ export default function ClassicSearchResults({search,disabled,creating,removing,
   ...(response.lockedFiles||[]).map(file=>({username:response.username,response,file,locked:true}))
  ]),[responses]);
  const visible=useMemo(()=>{
-  const filters=searches.parseFiltersFromString([filter,format].filter(Boolean).join(' '));
+  const filters=searches.parseFiltersFromString([filter,format==='all'?'':format].filter(Boolean).join(' '));
   return responses.filter(r=>!isSourceBlocked(r.username)&&(!freeOnly||r.hasFreeUploadSlot))
    .sort((a,b)=>Number(b.hasFreeUploadSlot)-Number(a.hasFreeUploadSlot)||b.uploadSpeed-a.uploadSpeed)
    .flatMap(response=>{const result=searches.filterResponse({response,filters});return [...(result.files||[]).map(file=>({username:response.username,response,file,locked:false})),...(result.lockedFiles||[]).map(file=>({username:response.username,response,file,locked:true}))];});
@@ -63,14 +63,14 @@ export default function ClassicSearchResults({search,disabled,creating,removing,
   <div className="classic-search-caption"><strong>{search.searchText}</strong><div><Button size="mini" icon="refresh" content={t('Search again')} disabled={disabled||creating||!search.isComplete} onClick={()=>onCreate({navigate:true,search:search.searchText})}/><Button size="mini" icon="bookmark outline" content={t('Save search')} onClick={()=>{saveWish(search.searchText);setNotice(t('Search saved'));}}/><Button size="mini" icon={search.isComplete?'close':'stop'} content={t(search.isComplete?'Close search':'Stop')} disabled={removing||stopping} onClick={()=>search.isComplete?onRemove(search):onStop(search)}/></div></div>
   <div className="classic-transfer-toolbar"><Button size="small" color="green" icon="download" content={t('Download selection')} loading={working} disabled={disabled||working||!chosen.length} onClick={()=>download(chosen)}/><Button size="small" icon="folder open outline" content={t('Download folder')} disabled={disabled||working||!sameFolder} onClick={downloadFolder}/>{first&&<Button as={Link} size="small" icon="user" content={t('Browse files')} to={{pathname:`${urlBase}/browse`,state:{user:first.username}}}/>}</div>
   <div className="classic-transfer-filterbar"><Input size="small" icon="filter" placeholder={t('Filter')} value={filter} onChange={(_,d)=>{setFilter(d.value);setPage(1);setSelected(new Set());}}/>
-   <Dropdown compact selection aria-label={t('Format')} value={format} options={[{key:'all',value:'',text:t('All')},{key:'lossless',value:'islossless',text:t('Lossless')},{key:'mp3',value:'.mp3',text:'MP3'}]} onChange={(_,d)=>{setFormat(d.value);setPage(1);setSelected(new Set());}}/>
+   <Dropdown className="classic-format-filter" compact selection aria-label={t('Format')} value={format} options={[{key:'all',value:'all',text:t('All')},{key:'lossless',value:'islossless',text:t('Lossless')},{key:'mp3',value:'.mp3',text:'MP3'}]} onChange={(_,d)=>{setFormat(d.value);setPage(1);setSelected(new Set());}}/>
    <Checkbox label={t('Free upload slots only')} checked={freeOnly} onChange={(_,d)=>{setFreeOnly(d.checked);setPage(1);setSelected(new Set());}}/>
   </div>
   {error&&<Message negative role="alert">{error}</Message>}{notice&&<Message positive role="status">{notice}</Message>}
   {(!search.isComplete||loading)&&<p role="status">{loading?t('Loading results...'):t('Searching…')} · {search.fileCount||0} {t('Files')}</p>}
   <div className="classic-transfer-table"><Table compact selectable unstackable><Table.Header><Table.Row>
    <Table.HeaderCell collapsing><Checkbox aria-label={t('Select visible files')} checked={!!available.length&&available.every(r=>selected.has(key(r)))} onChange={(_,d)=>setSelected(old=>{const next=new Set(old);available.forEach(r=>d.checked?next.add(key(r)):next.delete(key(r)));return next;})}/></Table.HeaderCell>
-   {['File','User','Directory','Size','Bitrate','Length','Speed','Queue'].map(label=><Table.HeaderCell key={label}>{t(label)}</Table.HeaderCell>)}
+   {['File','User','Directory','Size','Quality','Length','Speed','Queue'].map(label=><Table.HeaderCell key={label}>{t(label)}</Table.HeaderCell>)}
   </Table.Row></Table.Header><Table.Body>{shown.map(row=><Table.Row key={key(row)} active={selected.has(key(row))} className={row.locked?'classic-locked':''} onClick={event=>{if(!row.locked&&!event.target.closest?.("a,input,label,button,.checkbox"))setSelected(new Set([key(row)]));}} onDoubleClick={()=>!row.locked&&!disabled&&!working&&download([row])}>
    <Table.Cell collapsing><Checkbox aria-label={`${t('Select')} ${getFileName(row.file.filename)}`} disabled={row.locked||working} checked={selected.has(key(row))} onChange={(_,d)=>toggle(row,d.checked)}/></Table.Cell>
    <Table.Cell className="classic-file-cell" title={row.file.filename}>{row.locked?'🔒 ':''}{getFileName(row.file.filename)}</Table.Cell>

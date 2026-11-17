@@ -14,7 +14,8 @@ beforeEach(()=>{localStorage.clear();root=document.createElement('div');document
 afterEach(()=>{act(()=>{ReactDOM.unmountComponentAtNode(root);});root.remove();});
 const render=async()=>{await act(async()=>{ReactDOM.render(<MemoryRouter><Results search={{id:'test',searchText:'Album',isComplete:true}}/></MemoryRouter>,root);});};
 test('a row selects the exact file and Download selection queues its original peer and path',async()=>{
- await render();const row=[...root.querySelectorAll('tbody tr')].find(r=>r.textContent.includes('one.flac'));
+ await render();expect(root.querySelector('.classic-format-filter .text').textContent).toBe('All');
+ const row=[...root.querySelectorAll('tbody tr')].find(r=>r.textContent.includes('one.flac'));
  act(()=>{Simulate.click(row.querySelector('.classic-file-cell'));});
  const download=[...root.querySelectorAll('button')].find(b=>b.textContent==='Download selection');
  expect(download.disabled).toBe(false);await act(async()=>{Simulate.click(download);});
