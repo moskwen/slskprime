@@ -2,7 +2,7 @@ import api from './api';
 
 export const getAll = async ({ direction }) => {
   const response = (
-    await api.get(`/transfers/${encodeURIComponent(direction)}s`)
+    await api.get(`/transfers/${encodeURIComponent(direction)}s`, {timeout:20000})
   ).data;
 
   if (!Array.isArray(response)) {
@@ -17,6 +17,7 @@ export const download = ({ username, files = [] }) => {
   return api.post(
     `/transfers/downloads/${encodeURIComponent(username)}`,
     files,
+    {timeout:20000},
   );
 };
 
@@ -59,11 +60,12 @@ export const enqueueBatch = ({
 export const cancel = ({ direction, username, id, remove = false }) => {
   return api.delete(
     `/transfers/${direction}s/${encodeURIComponent(username)}/${encodeURIComponent(id)}?remove=${remove}`,
+    {timeout:20000},
   );
 };
 
 export const clearCompleted = ({ direction }) => {
-  return api.delete(`/transfers/${direction}s/all/completed`);
+  return api.delete(`/transfers/${direction}s/all/completed`, {timeout:20000});
 };
 
 export const getPlaceInQueue = ({ username, id }) => {

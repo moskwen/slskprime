@@ -27,7 +27,7 @@ export const getStatus = async ({ id, includeResponses = false, timeout }) => {
 
 export const getResponses = async ({ id }) => {
   const response = (
-    await api.get(`/searches/${encodeURIComponent(id)}/responses`)
+    await api.get(`/searches/${encodeURIComponent(id)}/responses`, {timeout:20000})
   ).data;
 
   if (!Array.isArray(response)) {

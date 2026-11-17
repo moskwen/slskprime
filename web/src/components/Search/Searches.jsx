@@ -1,3 +1,4 @@
+import { urlBase } from '../../config';
 import { t } from '../../lib/i18n';
 /*
  * Copyright (c) 2026 slskprime contributors.
@@ -21,7 +22,8 @@ import * as library from '../../lib/searches';
 import ErrorSegment from '../Shared/ErrorSegment';
 import LoaderSegment from '../Shared/LoaderSegment';
 import PlaceholderSegment from '../Shared/PlaceholderSegment';
-import SearchDetail from './Detail/SearchDetail';
+import SearchDetail from './Detail/ClassicSearchResults';
+import SearchTabs from './SearchTabs';
 import SearchList from './List/SearchList';
 import React, { useEffect, useRef, useState } from 'react';
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
@@ -37,6 +39,7 @@ const Searches = ({ server } = {}) => {
   const [removing, setRemoving] = useState(false);
   const [stopping, setStopping] = useState(false);
   const [creating, setCreating] = useState(false);
+  const [query, setQuery] = useState('');
 
   const inputRef = useRef();
 
@@ -64,11 +67,13 @@ const Searches = ({ server } = {}) => {
   };
 
   useEffect(() => {
+    let disposed = false;
     onConnecting();
 
     const searchHub = createSearchHubConnection();
 
     searchHub.on('list', (searchesEvent) => {
+      if(disposed)return;
       onUpdate(
         searchesEvent.reduce((accumulator, search) => {
           accumulator[search.id] = search;
@@ -79,10 +84,12 @@ const Searches = ({ server } = {}) => {
     });
 
     searchHub.on('update', (search) => {
+      if(disposed)return;
       onUpdate((old) => ({ ...old, [search.id]: search }));
     });
 
     searchHub.on('delete', (search) => {
+      if(disposed)return;
       onUpdate((old) => {
         delete old[search.id];
         return { ...old };
@@ -90,15 +97,16 @@ const Searches = ({ server } = {}) => {
     });
 
     searchHub.on('create', (search) => {
+      if(disposed)return;
       onUpdate((old) => ({ ...old, [search.id]: search }));
     });
 
     searchHub.onreconnecting((connectionError) =>
-      onConnectionError(connectionError?.message ?? 'Disconnected'),
+      !disposed && onConnectionError(connectionError?.message ?? 'Disconnected'),
     );
-    searchHub.onreconnected(() => onConnected());
+    searchHub.onreconnected(() => !disposed && onConnected());
     searchHub.onclose((connectionError) =>
-      onConnectionError(connectionError?.message ?? 'Disconnected'),
+      !disposed && onConnectionError(connectionError?.message ?? 'Disconnected'),
     );
 
     const connect = async () => {
@@ -106,6 +114,7 @@ const Searches = ({ server } = {}) => {
         onConnecting();
         await searchHub.start();
       } catch (connectionError) {
+        if(disposed)return;
         toast.error(connectionError?.message ?? 'Failed to connect');
         onConnectionError(connectionError?.message ?? 'Failed to connect');
       }
@@ -114,7 +123,8 @@ const Searches = ({ server } = {}) => {
     connect();
 
     return () => {
-      searchHub.stop();
+      disposed = true;
+      Promise.resolve(searchHub.stop()).catch(()=>{});
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -122,12 +132,15 @@ const Searches = ({ server } = {}) => {
   // we do this if the user clicks the search icon, or repeats an existing search
   const create = async ({ navigate = false, search } = {}) => {
     const ref = inputRef?.current?.inputRef?.current;
-    const searchText = search || ref.value;
+    const searchText = (search || ref?.value || '').trim();
+    if(!searchText)return;
     const id = uuidv4();
 
     try {
       setCreating(true);
       await library.create({ id, searchText });
+      setSearches(old=>({...old,[id]:old[id]||{id,searchText,isComplete:false,fileCount:0,lockedFileCount:0,responseCount:0,state:'Requested'}}));
+      setQuery('');
 
       try {
         ref.value = '';
@@ -156,6 +169,7 @@ const Searches = ({ server } = {}) => {
       setRemoving(true);
 
       await library.remove({ id: search.id });
+      if(searchId===search.id)history.replace(`${urlBase}/searches`);
       setSearches((old) => {
         delete old[search.id];
         return { ...old };
@@ -164,7 +178,7 @@ const Searches = ({ server } = {}) => {
       setRemoving(false);
     } catch (error_) {
       console.error(error_);
-      toast.error(error?.response?.data ?? error?.message ?? error);
+      toast.error(error_?.response?.data ?? error_?.message ?? error_);
       setRemoving(false);
     }
   };
@@ -199,7 +213,7 @@ const Searches = ({ server } = {}) => {
   if (searchId) {
     if (searches[searchId]) {
       return (
-        <SearchDetail
+        <><SearchTabs searches={searches}/><SearchDetail
           creating={creating}
           disabled={!server?.isConnected}
           onCreate={create}
@@ -208,7 +222,7 @@ const Searches = ({ server } = {}) => {
           removing={removing}
           search={searches[searchId]}
           stopping={stopping}
-        />
+        /></>
       );
     }
 
@@ -219,6 +233,7 @@ const Searches = ({ server } = {}) => {
 
   return (
     <>
+      <SearchTabs searches={searches}/>
       <Segment
         className="search-segment"
         raised
@@ -233,12 +248,7 @@ const Searches = ({ server } = {}) => {
           action={
             <>
               <Button
-                disabled={creating || !server.isConnected}
-                icon="plus"
-                onClick={create}
-              />
-              <Button
-                disabled={creating || !server.isConnected}
+                disabled={creating || !server.isConnected || !query.trim()}
                 icon="search"
                 content={t("Search")}
                 onClick={() => create({ navigate: true })}
@@ -246,6 +256,8 @@ const Searches = ({ server } = {}) => {
             </>
           }
           className="search-input"
+          value={query}
+          onChange={(_,data)=>setQuery(data.value)}
           disabled={creating || !server.isConnected}
           input={
             <input
@@ -266,7 +278,7 @@ const Searches = ({ server } = {}) => {
           size="big"
         />
       </Segment>
-      <StudioSearchTools searches={searches} />
+      <details className="classic-saved-tools"><summary>{t("Saved searches")}</summary><StudioSearchTools searches={searches}/></details>
       {Object.keys(searches).length === 0 ? (
         <PlaceholderSegment
           caption={t("No searches to display")}

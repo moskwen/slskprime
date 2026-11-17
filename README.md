@@ -12,7 +12,7 @@
 
 <p align="center"><a href="https://github.com/moskwen/slskprime/releases/latest"><strong>Download</strong></a> · <a href="#existing-installation">Install on your server</a> · <a href="#new-docker-compose-installation">Docker Compose</a> · <a href="https://github.com/moskwen/slskprime/issues">Feedback &amp; ideas</a></p>
 
-Find a rare album. Browse a collector's shared files. Keep your favorite sources close. slskprime brings those everyday Soulseek tasks into a clean web interface with smaller typography, useful filters and a choice of themes.
+Find a rare album. Browse a collector's shared files. Keep your favorite sources close. slskprime uses a classic client workflow: horizontal tabs, a tab for each search, compact file tables and direct selection, download and queue commands. Themes and saved-search tools stay available without dominating the workflow.
 
 Created and maintained by [Hernani Moskwen (@moskwen)](https://github.com/moskwen), with AI-assisted development.
 
@@ -27,8 +27,8 @@ slskprime is an independent frontend based on the slskd 0.26.2 web interface. It
 | **Make it yours** | Jade, Midnight, Plum and Paper themes; three text sizes; locally hosted Inter, Manrope and IBM Plex Sans, plus your system font. |
 | **Find better sources** | Quality shortcuts, exact phrase includes/excludes, saved filter defaults, available-slot filtering and source ranking. |
 | **Keep your people close** | Contact list, presence checks, direct browsing of shared files, personal notes and contact export. |
-| **Download with less friction** | Visible folder-download actions, selection tools and a manual search for another source. |
-| **Stay organized** | Optional repeating wishlist searches with result alerts, hidden sources, transfer filters, pagination and album progress. |
+| **Download with less friction** | Compact result tables, click-to-select, double-click download, selection downloads and full remote-folder downloads. |
+| **Stay organized** | Optional repeating wishlist searches with result alerts, hidden sources, status tabs, pagination and direct queue controls. |
 | **Run it yourself** | Prebuilt frontend download, checksummed installer with backup, and Docker Compose for a new installation. |
 
 Use the **Language** selector in the sidebar or on the sign-in screen. Ten languages are included: English, Simplified Mandarin Chinese, Hindi, Spanish, Arabic, French, Bengali, Brazilian Portuguese, Indonesian and Urdu. English is the default. The choice is saved in this browser and changing it reloads the frontend; server transfers keep running. Arabic and Urdu set right-to-left text direction. Preferences backups include the selected language.
@@ -52,7 +52,7 @@ Saved searches can repeat every 30 minutes, one hour or three hours while the ap
 Download the prebuilt UI and checksum from [Releases](https://github.com/moskwen/slskprime/releases). If your backend already serves a custom UI directory, clone this repository and run:
 
 ```sh
-sh scripts/install-ui.sh /absolute/path/to/existing/ui-directory v0.4.0
+sh scripts/install-ui.sh /absolute/path/to/existing/ui-directory v0.5.0
 ```
 
 The installer verifies the checksum, backs up the UI directory and installs without deleting existing files. It preserves local installation contacts. It does not touch the container, credentials, downloads or shares. No restart is needed when the content path is unchanged.
@@ -73,7 +73,7 @@ Compose builds a one-shot frontend exporter, then starts the official, unmodifie
 ```sh
 git clone https://github.com/moskwen/slskprime.git
 cd slskprime
-git checkout v0.4.0
+git checkout v0.5.0
 cp .env.example .env
 mkdir -p appdata downloads/complete downloads/incomplete
 ```
@@ -115,6 +115,8 @@ pnpm exec semantic-ui-css-patch
 CI=true pnpm exec craco test --watchAll=false --runInBand
 DISABLE_ESLINT_PLUGIN=true GENERATE_SOURCEMAP=false pnpm run build
 ```
+
+On Linux with Docker, `python3 tests/integration/backend_actions.py` runs a disposable, loopback-only official backend with Soulseek connection disabled, seeds synthetic transfer records, and verifies completed/queue clearing. It does not mount production data or use account credentials.
 
 The inherited CRA ESLint webpack integration is disabled for production builds because its plugin configuration does not resolve reliably. Behavior tests run separately in CI. The upstream dependency stack is retained; validate compatibility before upgrading beyond backend 0.26.2.
 

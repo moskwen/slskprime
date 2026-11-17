@@ -22,7 +22,6 @@ import Appearance from './Appearance';
 import LanguageSelector from './LanguageSelector';
 import WishlistWorker from './WishlistWorker';
 import PreferencesBackup from './PreferencesBackup';
-import StudioHeading from './StudioHeading';
 import Brand from './Brand';
 import StudioFavorites from './StudioFavorites';
 import { urlBase } from '../config';
@@ -389,64 +388,12 @@ class App extends Component {
       <>
         <Sidebar.Pushable
           as={Segment}
-          className="app"
+          className="app classic-app"
         >
-          <Sidebar
-            animation="overlay"
-            as={Menu}
-            className="navigation"
-            direction="top"
-            horizontal="true"
-            icon="labeled"
-            inverted
-            visible
-            width="thin"
-          >
-            <div className="studio-brand"><Brand/></div>
-            {version.isCanary && (
-              <Menu.Item>
-                <Icon
-                  color="yellow"
-                  name="flask"
-                />{t("Canary")}</Menu.Item>
-            )}
-            {isAgent ? (
-              <Menu.Item>
-                <Icon name="detective" />{t("Agent Mode")}</Menu.Item>
-            ) : (
-              <>
-                <NavLink activeClassName="studio-active" to={`${urlBase}/searches`}>
-                  <Menu.Item>
-                    <Icon name="search" />{t("Search")}</Menu.Item>
-                </NavLink>
-                <NavLink activeClassName="studio-active" to={`${urlBase}/downloads`}>
-                  <Menu.Item>
-                    <Icon name="download" />{t("Downloads")}</Menu.Item>
-                </NavLink>
-                <NavLink activeClassName="studio-active" to={`${urlBase}/uploads`}>
-                  <Menu.Item>
-                    <Icon name="upload" />{t("Uploads")}</Menu.Item>
-                </NavLink>
-                <NavLink activeClassName="studio-active" to={`${urlBase}/rooms`}>
-                  <Menu.Item>
-                    <Icon name="comments" />{t("Rooms")}</Menu.Item>
-                </NavLink>
-                <NavLink activeClassName="studio-active" to={`${urlBase}/chat`}>
-                  <Menu.Item>
-                    <Icon name="comment" />{t("Messages")}</Menu.Item>
-                </NavLink>
-                <NavLink activeClassName="studio-active" to={`${urlBase}/users`}>
-                  <Menu.Item>
-                    <Icon name="users" />{t("Users")}</Menu.Item>
-                </NavLink>
-                <NavLink activeClassName="studio-active" to={`${urlBase}/browse`}>
-                  <Menu.Item>
-                    <Icon name="folder open" />{t("Browse")}</Menu.Item>
-                </NavLink>
-              </>
-            )}
+          <header className="classic-navigation">
+            <div className="classic-toolbar"><div className="classic-brand"><Brand compact/></div>
             <Menu
-              className="right"
+              className="classic-tools"
               inverted
             >
               <Appearance />
@@ -533,10 +480,54 @@ class App extends Component {
                 />
               )}
             </Menu>
-          </Sidebar>
+            </div>
+            <nav className="classic-tabs" aria-label={t("Navigation")}>
+            {version.isCanary && (
+              <Menu.Item>
+                <Icon
+                  color="yellow"
+                  name="flask"
+                />{t("Canary")}</Menu.Item>
+            )}
+            {isAgent ? (
+              <Menu.Item>
+                <Icon name="detective" />{t("Agent Mode")}</Menu.Item>
+            ) : (
+              <>
+                <NavLink activeClassName="studio-active" to={`${urlBase}/searches`}>
+                  <Menu.Item>
+                    <Icon name="search" />{t("Search")}</Menu.Item>
+                </NavLink>
+                <NavLink activeClassName="studio-active" to={`${urlBase}/downloads`}>
+                  <Menu.Item>
+                    <Icon name="download" />{t("Downloads")}</Menu.Item>
+                </NavLink>
+                <NavLink activeClassName="studio-active" to={`${urlBase}/uploads`}>
+                  <Menu.Item>
+                    <Icon name="upload" />{t("Uploads")}</Menu.Item>
+                </NavLink>
+                <NavLink activeClassName="studio-active" to={`${urlBase}/rooms`}>
+                  <Menu.Item>
+                    <Icon name="comments" />{t("Rooms")}</Menu.Item>
+                </NavLink>
+                <NavLink activeClassName="studio-active" to={`${urlBase}/chat`}>
+                  <Menu.Item>
+                    <Icon name="comment" />{t("Messages")}</Menu.Item>
+                </NavLink>
+                <NavLink activeClassName="studio-active" to={`${urlBase}/users`}>
+                  <Menu.Item>
+                    <Icon name="users" />{t("Users")}</Menu.Item>
+                </NavLink>
+                <NavLink activeClassName="studio-active" to={`${urlBase}/browse`}>
+                  <Menu.Item>
+                    <Icon name="folder open" />{t("Browse")}</Menu.Item>
+                </NavLink>
+              </>
+            )}
+            </nav>
+          </header>
           <Sidebar.Pusher className="app-content">
             <div className="app-content-body">
-              <StudioHeading />
               <AppContext.Provider
                 // eslint-disable-next-line no-warning-comments
                 // TODO: needs useMemo, but class component. yolo for now.

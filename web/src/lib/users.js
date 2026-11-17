@@ -24,6 +24,6 @@ export const getDirectoryContents = async ({ username, directory }) => {
   return (
     await api.post(`/users/${encodeURIComponent(username)}/directory`, {
       directory,
-    })
+      }, {timeout:20000})
   ).data;
 };

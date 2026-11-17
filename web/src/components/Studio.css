@@ -270,3 +270,57 @@ html body .dashboard .ui.statistics .statistic>.label { font-size:10px!important
 @media(max-width:420px) { .studio-language-grid { grid-template-columns:1fr; } }
 .studio-language-trigger { border:0; background:transparent; color:inherit; }
 .studio-transfer-top-actions { display:flex; justify-content:flex-end; margin:0 0 14px; }
+/* Classic client layout: primary tabs, one toolbar and compact file rows. */
+.classic-navigation { position:sticky; top:0; z-index:900; background:var(--dc-10141a,#10141a); border-bottom:1px solid var(--dc-28313d,#28313d); }
+.classic-toolbar { display:flex; gap:16px; align-items:center; padding:9px 16px; min-height:52px; }
+.classic-brand { min-width:145px; flex-shrink:0; }
+.classic-brand .studio-brand { margin:0; }
+.classic-tools.ui.menu { flex:1; justify-content:flex-end; margin:0!important; border:0!important; box-shadow:none!important; background:transparent!important; overflow-x:auto; min-width:0; }
+.classic-tools.ui.menu .item { font-size:11px!important; padding:9px!important; white-space:nowrap; }
+.classic-tools .studio-language-trigger { width:auto; display:flex!important; gap:5px; }
+.classic-tools .studio-language-trigger small { display:none; }
+.classic-tabs { display:flex; align-items:stretch; overflow-x:auto; padding:0 12px; gap:3px; }
+.classic-tabs>a { display:block; color:var(--dc-a9b4c2,#a9b4c2); border:1px solid transparent; border-bottom:0; border-radius:5px 5px 0 0; white-space:nowrap; }
+.classic-tabs .item { display:flex; align-items:center; gap:7px; padding:12px 18px; font-weight:600; font-size:12px; }
+.classic-tabs .studio-active { color:var(--dc-a2f0d7,#a2f0d7)!important; border-color:var(--dc-30433f,#30433f); background:var(--dc-172320,#172320); box-shadow:inset 0 2px #75d8b7; }
+.classic-app.pushable>.pusher.app-content { margin-left:0!important; min-height:calc(100vh - 100px)!important; }
+.classic-app .app-content-body { padding:18px 20px 62px; }
+.classic-app .view,.classic-app .search-container { max-width:none!important; }
+.classic-transfer-toolbar { display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+.classic-transfer-toolbar .ui.button { margin:0; font-size:12px; padding:10px 12px; }
+.classic-toolbar-divider { width:1px; height:24px; background:var(--dc-30433f,#30433f); margin:0 5px; }
+.classic-transfer-filterbar { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:center; margin-bottom:10px; }
+.classic-status-tabs { display:flex; gap:3px; flex-wrap:wrap; }
+.classic-status-tabs button { border:1px solid transparent; background:transparent; color:inherit; border-radius:4px; padding:8px 10px; cursor:pointer; font:inherit; font-size:12px; }
+.classic-status-tabs button span { opacity:.65; margin-inline-start:5px; }
+.classic-status-tabs button[aria-pressed="true"] { background:var(--dc-20372f,#20372f); border-color:var(--dc-30433f,#30433f); }
+.classic-transfer-table { overflow-x:auto; border:1px solid var(--dc-28313d,#28313d); border-radius:5px; }
+.classic-transfer-table .ui.table { margin:0!important; border:0!important; font-size:12px; }
+.classic-transfer-table .ui.table td,.classic-transfer-table .ui.table th { padding:8px 10px!important; white-space:nowrap; }
+.classic-transfer-table .classic-file-cell { min-width:230px; max-width:500px; white-space:normal!important; }
+.classic-file-cell strong { display:block; font-weight:500; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.classic-file-cell small { display:block; opacity:.55; font-size:10px; max-width:440px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.classic-state-error { color:#e6a5a5; }.classic-state-done { color:#83d4af; }
+.classic-transfer-table td.classic-empty { text-align:center; padding:50px 10px!important; opacity:.65; }
+.classic-transfer-footer { display:flex; justify-content:space-between; align-items:center; gap:10px; font-size:11px; opacity:.8; padding:12px 0; }
+.classic-transfer-footer>div { display:flex; align-items:center; gap:10px; }
+.classic-transfer-status { color:#83d4af; font-size:12px; }
+.classic-search-tabs { display:flex; align-items:center; gap:3px; overflow-x:auto; padding-bottom:8px; margin-bottom:8px; }
+.classic-search-tabs a { color:inherit; display:block; border:1px solid var(--dc-28313d,#28313d); padding:8px 12px; border-radius:5px; white-space:nowrap; font-size:12px; }
+.classic-search-tabs a[aria-current="page"] { border-color:#75d8b7; background:var(--dc-20372f,#20372f); }
+@media(max-width:767px) { .classic-toolbar { padding:7px 10px; gap:8px; }.classic-brand {min-width:105px;} .classic-tools .item>i.icon {display:none;} .classic-tabs .item {padding:11px 12px;} .classic-app .app-content-body {padding:12px 10px 60px;} .classic-transfer-filterbar .ui.input {width:100%;} }
+.classic-search-caption { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px; margin:6px 0 14px; }
+.classic-search-caption strong { font-size:15px; font-weight:600; }
+.classic-search-results .classic-transfer-filterbar { justify-content:flex-start; }
+.classic-folder-cell { max-width:300px; overflow:hidden; text-overflow:ellipsis; }
+.classic-locked { opacity:.55; }
+.classic-saved-tools { border:1px solid var(--dc-28313d,#28313d); border-radius:5px; padding:10px 12px; margin:12px 0; }
+.classic-saved-tools>summary { cursor:pointer; font-size:12px; }
+.classic-app .search-segment { margin-top:0!important; padding:12px!important; }
+.classic-app .search-input input { padding:9px!important; }
+.classic-app .ui.input>input:focus-visible { outline:none!important; box-shadow:none!important; }
+.classic-app .search-segment-icon i.icon { font-size:18px!important; }
+.classic-app .placeholder-segment { min-height:110px!important; padding:24px!important; background:transparent!important; border:0!important; }
+.classic-app .placeholder-segment .icon.header>i.icon { display:none!important; }
+.classic-transfer-table .ui.table tr.active td { background:var(--dc-20372f,#20372f)!important; color:inherit!important; }
+.classic-transfer-table .ui.table tbody tr:hover td { background:var(--dc-1c242d,#1c242d)!important; }

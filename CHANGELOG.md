@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.5.0 — 2026-11-17
+
+- Return to a classic client workflow: horizontal primary tabs, a tab per search, compact result rows and compact download/upload tables. Saved-search tools are collapsed by default; large summary cards and per-folder action panels are removed from the transfer workflow.
+- Select rows or checkboxes, download a selection, double-click a result to download it, or request and enqueue a complete remote folder. Locked results remain visible and cannot be queued by selection.
+- Replace transfer action dropdowns with direct Retry selected, Cancel selected, Clear selected, Clear completed, Clear queue and Clear all commands. Actions immediately refresh the table and show request errors instead of swallowing them.
+- Clear completed uses the backend bulk operation. Queue/all clearing verifies removal over a longer cancellation window, reports server failures and retains transfers added after confirmation. Disk files and storage configuration are unchanged.
+- Fix error reporting when closing a search tab, suppress connection errors from intentional tab teardown, and open new result tabs without waiting for a live-update event. Use one Search button and request timeouts for transfers, results and remote folder requests.
+- Regression tests cover actual enqueue arguments, complete-folder requests, filtered lists, immediate clearing and visible server errors. A disposable official-backend test also verified removal of completed, failed, queued and stuck-active records without a Soulseek login or production mounts.
+
+
 ## 0.4.0 — 2026-11-07
 
 - Add Clear all at the top of Downloads, independent of filters and pagination.
