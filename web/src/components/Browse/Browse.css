@@ -153,3 +153,7 @@
 .classic-browse-tabs {display:flex;gap:4px;flex-wrap:wrap;margin:8px 0;}
 .classic-browse-tabs button {font:inherit;color:inherit;background:transparent;border:1px solid #78838d60;padding:8px 14px;border-radius:4px;cursor:pointer;}
 .classic-browse-tabs button[aria-pressed=true] {background:var(--dc-20372f,#20372f);border-color:var(--dc-83e6cb,#83e6cb);}
+
+.browse-container .browse-folderlist-header,.browse-container .browse-folderlist-icon {color:var(--dc-d9dfe8,#d9dfe8)!important;}
+.browse-container .browse-folderlist-header.selected,.browse-container .browse-folderlist-icon.selected {color:var(--dc-83e6cb,#83e6cb)!important;}
+.browse-container .browse-folderlist-caption {color:var(--dc-d9dfe8,#d9dfe8);opacity:.7;}
