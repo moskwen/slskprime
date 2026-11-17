@@ -396,10 +396,10 @@
   "Simultaneous uploads": "Simultaneous uploads",
   "Save settings": "Save settings",
   "Reload settings": "Reload settings",
-  "Some server changes may require a reconnect or restart. Check System → Info after saving.": "Some server changes may require a reconnect or restart. Check System → Info after saving.",
   "Settings saved. Existing files were not moved.": "Settings saved. Existing files were not moved.",
   "Settings changed elsewhere. Reload before saving.": "Settings changed elsewhere. Reload before saving.",
   "Invalid configuration": "Invalid configuration",
   "Advanced configuration": "Advanced configuration",
-  "Speed is in KiB/s. Set any limit to zero for unlimited.": "Speed is in KiB/s. Set any limit to zero for unlimited."
+  "Speed is in KiB/s. Set any limit to zero for unlimited.": "Speed is in KiB/s. Set any limit to zero for unlimited.",
+  "Some server changes may require a reconnect or restart. Check System → Options → Advanced after saving.": "Some server changes may require a reconnect or restart. Check System → Options → Advanced after saving."
 }

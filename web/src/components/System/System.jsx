@@ -1,10 +1,10 @@
 import { t } from '../../lib/i18n';
 import './System.css';
+import {urlBase} from '../../config';
 import { Switch } from '../Shared';
 import Data from './Data';
 import Events from './Events';
 import Files from './Files';
-import Info from './Info';
 import Logs from './Logs';
 import Options from './Options';
 import Shares from './Shares';
@@ -21,33 +21,6 @@ const System = ({ options = {}, state = {}, theme }) => {
 
   const panes = [
     {
-      menuItem: (
-        <Menu.Item key="info">
-          <Switch
-            pending={
-              ((state?.pendingRestart ?? false) ||
-                (state?.pendingReconnect ?? false)) && (
-                <Icon
-                  color="yellow"
-                  name="exclamation circle"
-                />
-              )
-            }
-          >
-            <Icon name="info circle" />
-          </Switch>{t("Info")}</Menu.Item>
-      ),
-      render: () => (
-        <Tab.Pane>
-          <Info
-            state={state}
-            theme={theme}
-          />
-        </Tab.Pane>
-      ),
-      route: 'info',
-    },
-    {
       menuItem: {
         content: t("Options"),
         icon: 'options',
@@ -56,6 +29,7 @@ const System = ({ options = {}, state = {}, theme }) => {
       render: () => (
         <Tab.Pane className="full-height">
           <Options
+            state={state}
             options={options}
             theme={theme}
           />
@@ -152,6 +126,8 @@ const System = ({ options = {}, state = {}, theme }) => {
   const onTabChange = (_event, { activeIndex: newActiveIndex }) => {
     history.push(panes[newActiveIndex].route);
   };
+
+  if (tab === 'info') return <Redirect to={`${urlBase}/system/options#advanced-info`} />;
 
   if (tab === undefined) {
     return <Redirect to={`${route.url}/${panes[0].route}`} />;

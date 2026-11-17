@@ -370,3 +370,6 @@ html body .dashboard .ui.statistics .statistic>.label { font-size:10px!important
 .classic-settings-actions {display:flex;gap:8px;}
 
 .classic-settings-form.ui.form .ui.message {display:block;}
+
+.classic-advanced-info {margin:0 14px 18px;}
+.classic-advanced-info>summary {padding:12px 0;cursor:pointer;font-size:13px;font-weight:600;}

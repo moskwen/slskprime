@@ -33,6 +33,6 @@ export default function SettingsForm({options={},section}){
   </Segment>
   {section!=='shares'&&<Segment><h3>{t('Transfer limits')}</h3><p>{t('Speed is in KiB/s. Set any limit to zero for unlimited.')}</p><Form.Group widths="equal">{field('downloadSpeed','Download speed limit','number')}{field('uploadSpeed','Upload speed limit','number')}</Form.Group><Form.Group widths="equal">{field('downloadSlots','Simultaneous downloads','number')}{field('uploadSlots','Simultaneous uploads','number')}</Form.Group></Segment>}
   <div className="classic-settings-actions"><Button type="button" positive icon="save" content={t('Save settings')} disabled={disabled||!Object.keys(changes).length} loading={saving} onClick={save}/><Button type="button" content={t('Reload settings')} disabled={saving||loading} onClick={load}/></div>
-  <p className="studio-note">{t('Some server changes may require a reconnect or restart. Check System → Info after saving.')}</p>
+  <p className="studio-note">{t('Some server changes may require a reconnect or restart. Check System → Options → Advanced after saving.')}</p>
  </Form>;
 }

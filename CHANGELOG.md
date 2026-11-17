@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.1 — 2026-11-17
+
+- Remove the technical Info tab from the main System navigation. System now opens on Options.
+- Keep application details and administrative controls inside Options → Advanced configuration → Info, collapsed by default.
+- Redirect existing /system/info links to their new location and update settings guidance.
+
 ## 0.7.0 — 2026-11-17
 
 - Group transfers by user and album/folder, with per-group selection, progress, retry, cancel and confirmed list clearing. Group actions cover matching files across pagination.

@@ -396,10 +396,10 @@
   "Simultaneous uploads": "Envios simultâneos",
   "Save settings": "Salvar configurações",
   "Reload settings": "Recarregar configurações",
-  "Some server changes may require a reconnect or restart. Check System → Info after saving.": "Algumas mudanças no servidor podem exigir reconexão ou reinicialização. Confira Sistema → Informações após salvar.",
   "Settings saved. Existing files were not moved.": "Configurações salvas. Os arquivos existentes não foram movidos.",
   "Settings changed elsewhere. Reload before saving.": "As configurações foram alteradas em outro lugar. Recarregue antes de salvar.",
   "Invalid configuration": "Configuração inválida",
   "Advanced configuration": "Configuração avançada",
-  "Speed is in KiB/s. Set any limit to zero for unlimited.": "Velocidade em KiB/s. Use zero em qualquer limite para deixá-lo ilimitado."
+  "Speed is in KiB/s. Set any limit to zero for unlimited.": "Velocidade em KiB/s. Use zero em qualquer limite para deixá-lo ilimitado.",
+  "Some server changes may require a reconnect or restart. Check System → Options → Advanced after saving.": "Algumas mudanças no servidor podem exigir reconexão ou reinicialização. Confira Sistema → Opções → Avançado após salvar."
 }

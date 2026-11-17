@@ -31,7 +31,7 @@ slskprime is an independent frontend based on the slskd 0.26.2 web interface. It
 | **Stay organized** | Optional repeating wishlist searches with result alerts, hidden sources, status tabs, user/album transfer groups, pagination and direct queue controls. |
 | **Run it yourself** | Prebuilt frontend download, checksummed installer with backup, and Docker Compose for a new installation. |
 
-Open **System → Options** for the settings form. Download folders, per-user organization and transfer limits have regular fields. Open **System → Shares** to add or remove shared folders and inspect/rescan indexed files. Paths must be available to the backend (inside its container when using Docker); adding a share does not create a Docker mount. Save explicitly to apply a change. Existing files are not moved. The YAML editor remains under **Advanced configuration**.
+Open **System → Options** for the settings form. Download folders, per-user organization and transfer limits have regular fields. Open **System → Shares** to add or remove shared folders and inspect/rescan indexed files. Paths must be available to the backend (inside its container when using Docker); adding a share does not create a Docker mount. Save explicitly to apply a change. Existing files are not moved. The YAML editor and technical application information remain under **Options → Advanced configuration**.
 
 Right-click a transfer or contact for its peer actions. A private message is only sent after you enter text and click **Send**. Filters, sort order, expanded groups and scroll positions are retained in this browser session.
 
@@ -56,7 +56,7 @@ Saved searches can repeat every 30 minutes, one hour or three hours while the ap
 Download the prebuilt UI and checksum from [Releases](https://github.com/moskwen/slskprime/releases). If your backend already serves a custom UI directory, clone this repository and run:
 
 ```sh
-sh scripts/install-ui.sh /absolute/path/to/existing/ui-directory v0.7.0
+sh scripts/install-ui.sh /absolute/path/to/existing/ui-directory v0.7.1
 ```
 
 The installer verifies the checksum, backs up the UI directory and installs without deleting existing files. It preserves local installation contacts. It does not touch the container, credentials, downloads or shares. No restart is needed when the content path is unchanged.
@@ -77,7 +77,7 @@ Compose builds a one-shot frontend exporter, then starts the official, unmodifie
 ```sh
 git clone https://github.com/moskwen/slskprime.git
 cd slskprime
-git checkout v0.7.0
+git checkout v0.7.1
 cp .env.example .env
 mkdir -p appdata downloads/complete downloads/incomplete
 ```

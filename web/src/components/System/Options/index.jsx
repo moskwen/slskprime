@@ -5,6 +5,8 @@ import {
   ShrinkableButton,
   Switch,
 } from '../../Shared';
+import {useLocation} from 'react-router-dom';
+import Info from '../Info';
 import SettingsForm from './SettingsForm';
 import DebugModal from './DebugModal';
 import EditModal from './EditModal';
@@ -52,8 +54,11 @@ const EditButton = ({ remoteConfiguration, setEditModal, ...props }) => {
   );
 };
 
-const Options = ({ options, theme }) => {
-  const [advanced,setAdvanced]=useState(false);
+const Options = ({ options, state={}, theme }) => {
+  const location=useLocation();
+  const [advanced,setAdvanced]=useState(location.hash.startsWith('#advanced'));
+  const [infoOpen,setInfoOpen]=useState(location.hash==='#advanced-info');
+  useEffect(()=>{if(location.hash.startsWith('#advanced'))setAdvanced(true);if(location.hash==='#advanced-info')setInfoOpen(true);},[location.hash]);
   const [debugModal, setDebugModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [contents, setContents] = useState();
@@ -71,8 +76,10 @@ const Options = ({ options, theme }) => {
   return (
     <>
       <SettingsForm options={options}/>
-      <details className="classic-advanced-options" onToggle={event=>setAdvanced(event.currentTarget.open)}><summary>{t('Advanced configuration')}</summary>
-      {advanced&&<><div className="header-buttons">
+      <details open={advanced} className="classic-advanced-options" onToggle={event=>setAdvanced(event.currentTarget.open)}><summary>{t('Advanced configuration')}</summary>
+      {advanced&&<>
+      <details open={infoOpen} onToggle={event=>setInfoOpen(event.currentTarget.open)} className="classic-advanced-info"><summary>{t('Info')}</summary>{infoOpen&&<Info state={state} theme={theme}/>}</details>
+      <div className="header-buttons">
         <DebugButton
           debug={debug}
           disabled={!contents}
