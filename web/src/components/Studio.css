@@ -326,3 +326,4 @@ html body .dashboard .ui.statistics .statistic>.label { font-size:10px!important
 .classic-transfer-table .ui.table tbody tr:hover td { background:var(--dc-1c242d,#1c242d)!important; }
 .classic-format-filter.ui.selection.dropdown { min-width:130px!important; background:var(--dc-141920,#141920)!important; color:inherit!important; border-color:var(--dc-28313d,#28313d)!important; }
 .classic-transfer-table .ui.table th { font-size:11px!important; }
+.classic-transfer-table .ui.table tr.active td,.classic-transfer-table .ui.table tr.active:hover td { color:var(--dc-d9dfe8,#d9dfe8)!important; background:var(--dc-20372f,#20372f)!important; }
