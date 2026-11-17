@@ -5,6 +5,7 @@ import {
   ShrinkableButton,
   Switch,
 } from '../../Shared';
+import SettingsForm from './SettingsForm';
 import DebugModal from './DebugModal';
 import EditModal from './EditModal';
 import React, { useEffect, useState } from 'react';
@@ -52,6 +53,7 @@ const EditButton = ({ remoteConfiguration, setEditModal, ...props }) => {
 };
 
 const Options = ({ options, theme }) => {
+  const [advanced,setAdvanced]=useState(false);
   const [debugModal, setDebugModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [contents, setContents] = useState();
@@ -68,7 +70,9 @@ const Options = ({ options, theme }) => {
 
   return (
     <>
-      <div className="header-buttons">
+      <SettingsForm options={options}/>
+      <details className="classic-advanced-options" onToggle={event=>setAdvanced(event.currentTarget.open)}><summary>{t('Advanced configuration')}</summary>
+      {advanced&&<><div className="header-buttons">
         <DebugButton
           debug={debug}
           disabled={!contents}
@@ -90,6 +94,7 @@ const Options = ({ options, theme }) => {
           value={contents}
         />
       </Switch>
+      </>}</details>
       <DebugModal
         onClose={() => setDebugModal(false)}
         open={debugModal}

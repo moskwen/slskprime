@@ -213,7 +213,7 @@ const Searches = ({ server } = {}) => {
   if (searchId) {
     if (searches[searchId]) {
       return (
-        <><SearchTabs searches={searches}/><SearchDetail
+        <><SearchTabs searches={searches}/><SearchDetail key={searchId}
           creating={creating}
           disabled={!server?.isConnected}
           onCreate={create}

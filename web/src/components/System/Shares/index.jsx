@@ -1,6 +1,7 @@
 import { t } from '../../../lib/i18n';
 import * as sharesLibrary from '../../../lib/shares';
 import { LoaderSegment, ShrinkableButton, Switch } from '../../Shared';
+import SettingsForm from '../Options/SettingsForm';
 import ContentsModal from './ContentsModal';
 import ExclusionTable from './ExclusionTable';
 import ShareTable from './ShareTable';
@@ -30,7 +31,7 @@ const CancelButton = ({ cancel, working }) => (
   >{t("Cancel Scan")}</ShrinkableButton>
 );
 
-const Shares = ({ state = {}, theme } = {}) => {
+const Shares = ({ state = {}, theme,options } = {}) => {
   const [loading, setLoading] = useState(true);
   const [working, setWorking] = useState(false);
   const [shares, setShares] = useState([]);
@@ -108,7 +109,7 @@ const Shares = ({ state = {}, theme } = {}) => {
   const shared = shares.filter((share) => !share.isExcluded);
   const excluded = shares.filter((share) => share.isExcluded);
 
-  return (
+  return (<><SettingsForm options={options} section="shares"/>
     <Switch loading={loading && <LoaderSegment />}>
       <div className="header-buttons">
         <Switch
@@ -152,7 +153,7 @@ const Shares = ({ state = {}, theme } = {}) => {
         share={modal}
         theme={theme}
       />
-    </Switch>
+    </Switch></>
   );
 };
 

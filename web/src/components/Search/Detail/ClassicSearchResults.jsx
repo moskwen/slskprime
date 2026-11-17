@@ -12,16 +12,21 @@ import {t} from '../../../lib/i18n';
 import ClassicColumn,{useClassicColumns,compareValues} from '../../Shared/ClassicColumns';
 import ClassicContextMenu from '../../Shared/ClassicContextMenu';
 import {isFavorite,toggleFavorite} from '../../StudioFavorites';
+import {useViewState,useViewScroll} from '../../../lib/viewState';
+import PrivateMessageComposer from '../../Shared/PrivateMessageComposer';
 const key=r=>`${r.username}\n${r.file.filename}`;
 const errorText=e=>typeof e?.response?.data==='string'?e.response.data:e?.message||t('Request failed');
 export default function ClassicSearchResults({search,disabled,creating,removing,stopping,onCreate,onRemove,onStop}){
+ const viewKey=`search:${search.id}`;
+ const [messageUser,setMessageUser]=useState(null);
  const history=useHistory(),columns=useClassicColumns('slskprime-search-columns-v1');
- const [sort,setSort]=useState({key:null,desc:false}),[menu,setMenu]=useState(null),[anchor,setAnchor]=useState(null);
+ const [sort,setSort]=useViewState(viewKey+':sort',{key:null,desc:false}),[menu,setMenu]=useState(null),[anchor,setAnchor]=useState(null);
  const changeSort=name=>{setSort(old=>({key:name,desc:old.key===name?!old.desc:false}));setPage(1);};
  const value=(r,name)=>({File:getFileName(r.file.filename),User:r.username,Directory:getDirectoryName(r.file.filename),Size:r.file.size||0,Quality:r.file.bitRate||r.file.bitDepth||0,Length:r.file.length||0,Speed:r.response.uploadSpeed||0,Queue:r.response.hasFreeUploadSlot?0:r.response.queueLength||0})[name];
  const [responses,setResponses]=useState([]),[loading,setLoading]=useState(false),[error,setError]=useState(''),[notice,setNotice]=useState('');
- const [filter,setFilter]=useState(''),[format,setFormat]=useState('all'),[freeOnly,setFreeOnly]=useState(false),[selected,setSelected]=useState(new Set()),[page,setPage]=useState(1),[working,setWorking]=useState(false);
- useEffect(()=>{let stopped=false;setResponses([]);setSelected(new Set());setPage(1);setError('');setNotice('');
+ const [filter,setFilter]=useViewState(viewKey+':filter',''),[format,setFormat]=useViewState(viewKey+':format','all'),[freeOnly,setFreeOnly]=useViewState(viewKey+':free',false),[selected,setSelected]=useState(new Set()),[page,setPage]=useViewState(viewKey+':page',1),[working,setWorking]=useState(false);
+ const scrollRef=useViewScroll(viewKey,search.isComplete&&!loading&&responses.length>0);
+ useEffect(()=>{let stopped=false;setResponses([]);setSelected(new Set());setError('');setNotice('');
   if(search.isComplete){setLoading(true);(async()=>{
    let result=[];
    for(let attempt=0;attempt<4&&!stopped;attempt++){
@@ -69,8 +74,9 @@ export default function ClassicSearchResults({search,disabled,creating,removing,
  const browse=(row,folder=false)=>history.push({pathname:`${urlBase}/browse`,state:{user:row.username,directory:folder?getDirectoryName(row.file.filename):undefined}});
  const selectRow=(row,event)=>{if(row.locked)return;const id=key(row);setSelected(old=>{if(event.shiftKey&&anchor){const a=visible.findIndex(r=>key(r)===anchor),b=visible.findIndex(r=>key(r)===id);if(a>=0&&b>=0){const next=new Set(event.ctrlKey||event.metaKey?old:[]);visible.slice(Math.min(a,b),Math.max(a,b)+1).filter(r=>!r.locked).forEach(r=>next.add(key(r)));return next;}}if(event.ctrlKey||event.metaKey){const next=new Set(old);next.has(id)?next.delete(id):next.add(id);return next;}return new Set([id]);});if(!event.shiftKey)setAnchor(id);};
  const toggle=(row,checked)=>setSelected(old=>{const next=new Set(old);checked?next.add(key(row)):next.delete(key(row));return next;});
- return <section className="classic-search-results">
-  <ClassicContextMenu position={menu} onClose={()=>setMenu(null)} items={menu?[{label:t('Download selection'),disabled:disabled||working||!chosen.length,action:()=>download(chosen)},{label:t('Download folder'),disabled:disabled||working||!sameFolder,action:downloadFolder},{label:t('Open containing folder'),action:()=>browse(menu.row,true)},{label:t('Browse files'),action:()=>browse(menu.row)},{label:t('Add user'),disabled:isFavorite(menu.row.username),action:()=>{if(!isFavorite(menu.row.username))toggleFavorite(menu.row.username);setNotice(t('User added'));}},{label:t('User information'),action:()=>history.push({pathname:`${urlBase}/user-info`,state:{user:menu.row.username}})}]:[]}/>
+ return <section className="classic-search-results" ref={scrollRef}>
+  {messageUser&&<PrivateMessageComposer key={messageUser} username={messageUser} onClose={()=>setMessageUser(null)}/>}
+  <ClassicContextMenu position={menu} onClose={()=>setMenu(null)} items={menu?[{label:t('Download selection'),disabled:disabled||working||!chosen.length,action:()=>download(chosen)},{label:t('Download folder'),disabled:disabled||working||!sameFolder,action:downloadFolder},{label:t('Open containing folder'),action:()=>browse(menu.row,true)},{label:t('Browse files'),action:()=>browse(menu.row)},{label:t('Send Private Message'),action:()=>setMessageUser(menu.row.username)},{label:t('Add user'),disabled:isFavorite(menu.row.username),action:()=>{if(!isFavorite(menu.row.username))toggleFavorite(menu.row.username);setNotice(t('User added'));}},{label:t('User information'),action:()=>history.push({pathname:`${urlBase}/user-info`,state:{user:menu.row.username}})}]:[]}/>
   <div className="classic-search-caption"><strong>{search.searchText}</strong><div><Button size="mini" icon="refresh" content={t('Search again')} disabled={disabled||creating||!search.isComplete} onClick={()=>onCreate({navigate:true,search:search.searchText})}/><Button size="mini" icon="bookmark outline" content={t('Save search')} onClick={()=>{saveWish(search.searchText);setNotice(t('Search saved'));}}/><Button size="mini" icon={search.isComplete?'close':'stop'} content={t(search.isComplete?'Close search':'Stop')} disabled={removing||stopping} onClick={()=>search.isComplete?onRemove(search):onStop(search)}/></div></div>
   <div className="classic-transfer-toolbar"><Button size="small" color="green" icon="download" content={t('Download selection')} loading={working} disabled={disabled||working||!chosen.length} onClick={()=>download(chosen)}/><Button size="small" icon="folder open outline" content={t('Download folder')} disabled={disabled||working||!sameFolder} onClick={downloadFolder}/>{first&&<Button as={Link} size="small" icon="user" content={t('Browse files')} to={{pathname:`${urlBase}/browse`,state:{user:first.username}}}/>}</div>
   <div className="classic-transfer-filterbar"><Input size="small" icon="filter" placeholder={t('Filter')} value={filter} onChange={(_,d)=>{setFilter(d.value);setPage(1);setSelected(new Set());}}/>
@@ -79,7 +85,7 @@ export default function ClassicSearchResults({search,disabled,creating,removing,
   </div>
   {error&&<Message negative role="alert">{error}</Message>}{notice&&<Message positive role="status">{notice}</Message>}
   {(!search.isComplete||loading)&&<p role="status">{loading?t('Loading results...'):t('Searching…')} · {search.fileCount||0} {t('Files')}</p>}
-  <div className="classic-transfer-table"><Table compact selectable unstackable className="classic-resizable-table"><Table.Header><Table.Row>
+  <div className="classic-transfer-table" data-scroll-region="results"><Table compact selectable unstackable className="classic-resizable-table"><Table.Header><Table.Row>
    <Table.HeaderCell collapsing><Checkbox aria-label={t('Select visible files')} checked={!!available.length&&available.every(r=>selected.has(key(r)))} onChange={(_,d)=>setSelected(old=>{const next=new Set(old);available.forEach(r=>d.checked?next.add(key(r)):next.delete(key(r)));return next;})}/></Table.HeaderCell>
    {['File','User','Directory','Size','Quality','Length','Speed','Queue'].map(label=><ClassicColumn key={label} name={label} columns={columns} sort={sort} onSort={changeSort}/>)}
   </Table.Row></Table.Header><Table.Body>{shown.map(row=><Table.Row key={key(row)} active={selected.has(key(row))} className={row.locked?'classic-locked':''} onClick={event=>{if(!event.target.closest?.("a,input,label,button,.checkbox"))selectRow(row,event);}} onContextMenu={event=>{event.preventDefault();if(!selected.has(key(row)))setSelected(row.locked?new Set():new Set([key(row)]));setMenu({x:event.clientX,y:event.clientY,row});}} tabIndex={0} onKeyDown={event=>{if(event.key==='ContextMenu'||(event.shiftKey&&event.key==='F10')){event.preventDefault();const box=event.currentTarget.getBoundingClientRect();if(!selected.has(key(row)))setSelected(row.locked?new Set():new Set([key(row)]));setMenu({x:box.left+40,y:box.top,row});}else if(event.key===' '){event.preventDefault();selectRow(row,event);}}} onDoubleClick={()=>!row.locked&&!disabled&&!working&&download([row])}>

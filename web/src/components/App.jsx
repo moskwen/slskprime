@@ -449,10 +449,9 @@ class App extends Component {
                   </Modal.Actions>
                 </Modal>
               )}
-              <NavLink activeClassName="studio-active" to={`${urlBase}/system`}>
-                <Menu.Item>
-                  <Icon name="cogs" />{t("System")}</Menu.Item>
-              </NavLink>
+              <Menu.Item as={NavLink} activeClassName="studio-active" to={`${urlBase}/system`}>
+                <Icon name="cogs" />{t("System")}
+              </Menu.Item>
               {session.isLoggedIn() && (
                 <Modal
                   actions={[

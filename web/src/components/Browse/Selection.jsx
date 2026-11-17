@@ -1,6 +1,7 @@
 import { t } from '../../lib/i18n';
 import * as transfers from '../../lib/transfers';
 import { formatBytes } from '../../lib/util';
+import {readView,writeView} from '../../lib/viewState';
 import FileBrowser from './FileBrowser';
 import React, { Component } from 'react';
 import { toast } from 'react-toastify';
@@ -45,6 +46,9 @@ class Selection extends Component {
     };
   }
 
+  scrollKey=()=>`browse-files:${this.props.username}:${this.props.node?.name}:scroll`;
+  restoreScroll=()=>{const saved=readView(this.scrollKey(),{});if(this.scrollElement){this.scrollElement.scrollTop=saved.y||0;this.scrollElement.scrollLeft=saved.x||0;}};
+  componentDidMount(){this.restoreScroll();}
   componentDidUpdate(previousProps) {
     if (this.props.node?.name !== previousProps.node?.name) {
       this.setState({
@@ -53,7 +57,7 @@ class Selection extends Component {
         files: getAllFilesFromNode(this.props.node, this.props.separator).map(
           (f) => ({ selected: false, ...f }),
         ),
-      });
+      },this.restoreScroll);
     }
   }
 
@@ -166,8 +170,8 @@ class Selection extends Component {
         raised
       >
         <Card.Content>
-          <div className="browse-selection-content">
-            <FileBrowser
+          <div className="browse-selection-content" ref={element=>{this.scrollElement=element;}} onScroll={event=>writeView(this.scrollKey(),{x:event.currentTarget.scrollLeft,y:event.currentTarget.scrollTop})}>
+            <FileBrowser viewKey={`browse-files:${this.props.username}:${node.name}`}
               directorySuffix={directorySuffix}
               disabled={downloadRequest === 'inProgress'}
               expandedDirectory={expandedDirectory}

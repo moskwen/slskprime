@@ -343,3 +343,30 @@ html body .dashboard .ui.statistics .statistic>.label { font-size:10px!important
 
 .classic-resizable-table .classic-file-cell {white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
 .classic-resizable-table th:first-child,.classic-resizable-table td:first-child {width:38px!important;min-width:38px!important;}
+
+.classic-tools.ui.menu {align-items:center;}
+.classic-tools.ui.menu>.item,.classic-tools.ui.menu>a {display:flex!important;align-items:center!important;min-height:36px;align-self:center;}
+.classic-tools.ui.menu .item>i.icon {align-self:center;line-height:1;margin-top:0!important;}
+.classic-transfer-group td {background:var(--dc-1b242d,#1b242d)!important;color:var(--dc-d9dfe8,#d9dfe8)!important;}
+.classic-transfer-group-folder td {background:var(--dc-141c24,#141c24)!important;}
+.classic-group-line {display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.classic-group-toggle {border:0;background:transparent;color:inherit;font:inherit;font-weight:600;cursor:pointer;text-align:start;max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.classic-transfer-group-folder .classic-group-toggle {padding-inline-start:22px;}
+.classic-group-line>span {font-size:11px;opacity:.8;}
+.classic-group-actions {display:flex;gap:4px;margin-inline-start:auto;}
+.classic-group-actions .ui.button {margin:0;}
+.classic-settings-form {max-width:1100px;margin:0 auto 24px!important;}
+.classic-settings-form h3 {font-size:15px;margin:0 0 12px;}
+.classic-settings-form p {font-size:12px;line-height:1.6;}
+.classic-settings-form .ui.segment {background:var(--dc-141c24,#141c24);color:var(--dc-d9dfe8,#d9dfe8);border:1px solid var(--dc-30433f,#30433f);}
+.classic-settings-form.ui.form .field>label {color:inherit;font-size:12px;}
+.classic-settings-form.ui.form select {background:var(--dc-10141a,#10141a);color:var(--dc-d9dfe8,#d9dfe8);border-color:var(--dc-30433f,#30433f);}
+.classic-share-paths {list-style:none;padding:0;}
+.classic-share-paths li {display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px;border-bottom:1px solid var(--dc-30433f,#30433f);}
+.classic-share-paths code {overflow-wrap:anywhere;}
+.classic-add-share {display:flex;gap:8px;flex-wrap:wrap;}
+.classic-add-share .ui.input {flex:1;min-width:180px;}
+.classic-advanced-options>summary {cursor:pointer;font-size:12px;padding:14px;border-top:1px solid var(--dc-30433f,#30433f);}
+.classic-settings-actions {display:flex;gap:8px;}
+
+.classic-settings-form.ui.form .ui.message {display:block;}

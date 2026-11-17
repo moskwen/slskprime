@@ -82,6 +82,7 @@ const System = ({ options = {}, state = {}, theme }) => {
       render: () => (
         <Tab.Pane>
           <Shares
+            options={options}
             state={state.shares}
             theme={theme}
           />

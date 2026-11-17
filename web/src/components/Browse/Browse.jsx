@@ -455,7 +455,7 @@ export class Browse extends Component {
               <span>{formatBrowseSummary(info)}</span>
             </Card.Meta>
             <div className="browse-tree-wrapper">
-              <DirectoryTree
+              <DirectoryTree key={username} stateKey={username}
                 onSelect={(_, value) => this.selectDirectory(value)}
                 ref={this.directoryTreeRef}
                 selectedDirectoryName={selected?.directoryName}

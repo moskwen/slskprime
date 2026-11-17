@@ -15,23 +15,28 @@ import { t } from '../lib/i18n';
  * of the AGPLv3. See the LICENSE file for the complete terms and conditions.
  */
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useHistory } from 'react-router-dom';
 import { urlBase } from '../config';
 import * as users from '../lib/users';
 import { Button, Input, Modal, TextArea } from 'semantic-ui-react';
 import { getInstallationContacts } from '../lib/installationContacts';
+import ClassicContextMenu from './Shared/ClassicContextMenu';
+import PrivateMessageComposer from './Shared/PrivateMessageComposer';
+import {useViewState,useViewScroll} from '../lib/viewState';
 const key = 'slskd-studio-favorites-v1';
 export function getFavorites() { try { const list=JSON.parse(localStorage.getItem(key)); return Array.isArray(list)?list:getInstallationContacts(); } catch { return getInstallationContacts(); } }
 export function isFavorite(name) { return getFavorites().some(n=>n.toLowerCase()===name.toLowerCase()); }
 export function toggleFavorite(name) { const list=getFavorites();const found=isFavorite(name);localStorage.setItem(key,JSON.stringify(found?list.filter(n=>n.toLowerCase()!==name.toLowerCase()):[...list,name]));return !found; }
 const labels={Online:t("Online"),Away:t("Away"),Offline:t("Offline"),Unknown:t("No response")};
 export default function StudioFavorites() {
+ const history=useHistory(),scrollRef=useViewScroll('contacts');
+ const [menu,setMenu]=useState(null),[messageUser,setMessageUser]=useState(null);
  const [noteUser,setNoteUser]=useState(null),[note,setNote]=useState('');
  const editNote=name=>{setNoteUser(name);let notes={};try{notes=JSON.parse(localStorage.getItem('soulspool-user-notes-v1'))||{};}catch{}setNote(notes[name]||'');};
  const saveNote=()=>{let notes={};try{notes=JSON.parse(localStorage.getItem('soulspool-user-notes-v1'))||{};}catch{}if(note.trim())notes[noteUser]=note.trim();else delete notes[noteUser];localStorage.setItem('soulspool-user-notes-v1',JSON.stringify(notes));setNoteUser(null);};
- const [list,setList]=useState(getFavorites); const [query,setQuery]=useState('');
+ const [list,setList]=useState(getFavorites); const [query,setQuery]=useViewState('contacts:filter','');
  const [status,setStatus]=useState({}); const [refreshing,setRefreshing]=useState(false);
- const [onlyOnline,setOnlyOnline]=useState(false);const [checked,setChecked]=useState(0);
+ const [onlyOnline,setOnlyOnline]=useViewState('contacts:online',false);const [checked,setChecked]=useState(0);
  const cancelled=useRef(false);const refreshingRef=useRef(false);
  const refresh=async()=>{
   if(refreshingRef.current)return;refreshingRef.current=true;setRefreshing(true);setChecked(0);
@@ -50,11 +55,19 @@ export default function StudioFavorites() {
  const add=()=>{const name=query.trim();if(name&&!isFavorite(name)){toggleFavorite(name);setList(getFavorites());}};
  const online=list.filter(n=>['Online','Away'].includes(status[n])).length;
  const visible=list.filter(n=>n.toLowerCase().includes(query.toLowerCase())).filter(n=>!onlyOnline||['Online','Away'].includes(status[n])).sort((a,b)=>a.localeCompare(b));
- return <div className="studio-users view"><Modal size="tiny" open={Boolean(noteUser)} onClose={()=>setNoteUser(null)} closeIcon><Modal.Header>{t("Note · {0}", [noteUser])}</Modal.Header><Modal.Content><TextArea aria-label={t("Personal note")} style={{width:'100%',minHeight:130}} maxLength={4000} value={note} onChange={(_,d)=>setNote(d.value)}/><p className="studio-note">{t("Private, saved in this browser.")}</p></Modal.Content><Modal.Actions><Button onClick={()=>setNoteUser(null)}>{t("Cancel")}</Button><Button color="green" onClick={saveNote}>{t("Save")}</Button></Modal.Actions></Modal>
+ return <div className="studio-users view" ref={scrollRef}>
+  {messageUser&&<PrivateMessageComposer key={messageUser} username={messageUser} onClose={()=>setMessageUser(null)}/>}
+  <ClassicContextMenu position={menu} onClose={()=>setMenu(null)} items={menu?[
+   {label:t('Browse files'),action:()=>history.push({pathname:`${urlBase}/browse`,state:{user:menu.name}})},
+   {label:t('Send Private Message'),action:()=>setMessageUser(menu.name)},
+   {label:t('User information'),action:()=>history.push({pathname:`${urlBase}/user-info`,state:{user:menu.name}})},
+   {label:t('Personal note'),action:()=>editNote(menu.name)},
+   {label:t('Remove from this browser list'),action:()=>{if(isFavorite(menu.name))toggleFavorite(menu.name);setList(getFavorites());}}
+  ]:[]}/><Modal size="tiny" open={Boolean(noteUser)} onClose={()=>setNoteUser(null)} closeIcon><Modal.Header>{t("Note · {0}", [noteUser])}</Modal.Header><Modal.Content><TextArea aria-label={t("Personal note")} style={{width:'100%',minHeight:130}} maxLength={4000} value={note} onChange={(_,d)=>setNote(d.value)}/><p className="studio-note">{t("Private, saved in this browser.")}</p></Modal.Content><Modal.Actions><Button onClick={()=>setNoteUser(null)}>{t("Cancel")}</Button><Button color="green" onClick={saveNote}>{t("Save")}</Button></Modal.Actions></Modal>
   <div className="studio-user-toolbar"><div><strong>{t("{0} users", [list.length])}</strong><span>{t("{0} online or away{1}", [online, refreshing?" " + t("· checking {0}/{1}", [checked, list.length]):''])}</span></div><div><Button size="small" icon="refresh" content={t("Refresh presence")} loading={refreshing} disabled={refreshing} onClick={refresh}/><Button size="small" icon="download" content={t("Export list")} onClick={download}/><Button as={Link} to={`${urlBase}/user-info`} size="small" icon="user" content={t("Look up another user")}/></div></div>
   <div className="studio-user-filters"><Input fluid icon="search" placeholder={t("Filter your user list…")} value={query} onChange={(_,d)=>setQuery(d.value)}/><Button basic={onlyOnline} color={!onlyOnline?'green':undefined} content={t("All")} onClick={()=>setOnlyOnline(false)}/><Button basic={!onlyOnline} color={onlyOnline?'green':undefined} content={t("Online")} onClick={()=>setOnlyOnline(true)}/>{query.trim()&&!isFavorite(query.trim())&&<Button icon="plus" content={t("Add user")} onClick={add}/>}</div>
   <div className="studio-user-list"><div className="studio-user-columns"><span>{t("User")}</span><span>{t("Presence")}</span><span>{t("Shared files")}</span></div>
-   {visible.map(name=><div className="studio-user-row" key={name}><Link className="studio-user-name" to={{pathname:`${urlBase}/browse`,state:{user:name}}}><span className={'studio-presence '+(status[name]||'Unchecked').toLowerCase()}/>{name}</Link><span className="studio-user-status">{status[name]?labels[status[name]]||status[name]:t("Checking…")}</span><div className="studio-user-actions"><Button size="small" icon="sticky note outline" title={t("Personal note")} onClick={()=>editNote(name)}/><Button as={Link} to={{pathname:`${urlBase}/browse`,state:{user:name}}} size="small" color="green" icon="folder open outline" content={t("Browse files")}/><Button as={Link} to={{pathname:`${urlBase}/user-info`,state:{user:name}}} size="small" icon="info circle" title={t("User information")}/><Button size="small" icon="star" title={t("Remove from this browser list")} onClick={()=>{toggleFavorite(name);setList(getFavorites());}}/></div></div>)}
+   {visible.map(name=><div className="studio-user-row" key={name} tabIndex={0} onContextMenu={event=>{event.preventDefault();setMenu({x:event.clientX,y:event.clientY,name});}} onKeyDown={event=>{if(event.key==='ContextMenu'||(event.shiftKey&&event.key==='F10')){event.preventDefault();const box=event.currentTarget.getBoundingClientRect();setMenu({x:box.left+40,y:box.top,name});}}}><Link className="studio-user-name" to={{pathname:`${urlBase}/browse`,state:{user:name}}}><span className={'studio-presence '+(status[name]||'Unchecked').toLowerCase()}/>{name}</Link><span className="studio-user-status">{status[name]?labels[status[name]]||status[name]:t("Checking…")}</span><div className="studio-user-actions"><Button size="small" icon="sticky note outline" title={t("Personal note")} onClick={()=>editNote(name)}/><Button as={Link} to={{pathname:`${urlBase}/browse`,state:{user:name}}} size="small" color="green" icon="folder open outline" content={t("Browse files")}/><Button as={Link} to={{pathname:`${urlBase}/user-info`,state:{user:name}}} size="small" icon="info circle" title={t("User information")}/><Button size="small" icon="star" title={t("Remove from this browser list")} onClick={()=>{toggleFavorite(name);setList(getFavorites());}}/></div></div>)}
    {!visible.length&&<p className="studio-note">{t("No users match your filter.")}</p>}
   </div>
  </div>;

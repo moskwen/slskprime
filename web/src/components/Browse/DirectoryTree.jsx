@@ -11,6 +11,7 @@ import React, {
 } from 'react';
 import { Button, Icon, Input, Table } from 'semantic-ui-react';
 
+import {readView,useViewState,writeView} from '../../lib/viewState';
 const ROW_H = 33;
 const MIN_H = ROW_H;
 const DEFAULT_H = 300;
@@ -157,16 +158,19 @@ const TreeRow = ({
 };
 
 const DirectoryTree = forwardRef(
-  ({ onSelect, selectedDirectoryName, tree }, ref) => {
+  ({ onSelect, selectedDirectoryName, tree,stateKey='default' }, ref) => {
     const parentRef = useRef(null);
-    const [expandedPaths, setExpandedPaths] = useState(new Set());
-    const [searchInput, setSearchInput] = useState('');
+    const treeKey='browse-tree:'+stateKey;
+    const [expandedPaths,setExpandedPaths]=useState(()=>new Set(readView(treeKey+':expanded',[])));
+    const [searchInput,setSearchInput]=useViewState(treeKey+':filter','');
+    useEffect(()=>{writeView(treeKey+':expanded',[...expandedPaths]);},[expandedPaths,treeKey]);
     const [searchQuery, setSearchQuery] = useState('');
     const [treeHeight, setTreeHeight] = useState(loadHeight);
     const [scrollTarget, setScrollTarget] = useState(null);
 
     // lets the drag handler read the latest height without being recreated
     // on every resize
+    useEffect(()=>{if(parentRef.current)parentRef.current.scrollTop=readView(treeKey+':scroll',0);},[treeKey]);
     const treeHeightRef = useRef(treeHeight);
     treeHeightRef.current = treeHeight;
 
@@ -174,10 +178,8 @@ const DirectoryTree = forwardRef(
       // expand the first root by default as a hint that folders can be toggled
       const firstRoot = tree?.[0];
       setExpandedPaths(
-        firstRoot?.children?.length > 0 ? new Set([firstRoot.name]) : new Set(),
+        new Set(readView(treeKey+':expanded',firstRoot?.children?.length > 0?[firstRoot.name]:[])),
       );
-      setSearchInput('');
-      setSearchQuery('');
     }, [tree]);
 
     useEffect(() => {
@@ -355,6 +357,8 @@ const DirectoryTree = forwardRef(
         </div>
         <div
           className="browse-folderlist-scroll"
+          data-scroll-region="tree"
+          onScroll={event=>writeView(treeKey+':scroll',event.currentTarget.scrollTop)}
           ref={parentRef}
           style={{ height: `${treeHeight}px` }}
         >

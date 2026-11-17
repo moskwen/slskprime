@@ -10,7 +10,7 @@ jest.mock('../../../lib/searches',()=>({...jest.requireActual('../../../lib/sear
 jest.mock('../../../lib/transfers',()=>({download:jest.fn()}));
 jest.mock('../../../lib/users',()=>({getDirectoryContents:jest.fn()}));
 let root;
-beforeEach(()=>{jest.clearAllMocks();localStorage.clear();root=document.createElement('div');document.body.appendChild(root);searches.getResponses.mockResolvedValue([{username:'peer',hasFreeUploadSlot:true,uploadSpeed:1000,files:[{filename:'Music\\Album\\one.flac',size:100,bitDepth:16,sampleRate:44100}],lockedFiles:[{filename:'Music\\Locked\\private.flac',size:200}]}]);transfers.download.mockResolvedValue({});});
+beforeEach(()=>{jest.clearAllMocks();localStorage.clear();sessionStorage.clear();root=document.createElement('div');document.body.appendChild(root);searches.getResponses.mockResolvedValue([{username:'peer',hasFreeUploadSlot:true,uploadSpeed:1000,files:[{filename:'Music\\Album\\one.flac',size:100,bitDepth:16,sampleRate:44100}],lockedFiles:[{filename:'Music\\Locked\\private.flac',size:200}]}]);transfers.download.mockResolvedValue({});});
 afterEach(()=>{act(()=>{ReactDOM.unmountComponentAtNode(root);});root.remove();});
 const render=async()=>{await act(async()=>{ReactDOM.render(<MemoryRouter><Results search={{id:'test',searchText:'Album',isComplete:true}}/></MemoryRouter>,root);});};
 test('a row selects the exact file and Download selection queues its original peer and path',async()=>{
@@ -54,4 +54,9 @@ test('right click offers actions on the chosen peer and opens its exact folder',
  expect(JSON.parse(localStorage.getItem('slskd-studio-favorites-v1'))).toContain('peer');
  expect(root.querySelector('[role="menu"]')).toBeNull();
  expect(transfers.download).not.toHaveBeenCalled();
+});
+
+test('search filtering is restored when returning to its tab',async()=>{
+ await render();act(()=>Simulate.change(root.querySelector('input[placeholder="Filter"]'),{target:{value:'one.flac'}}));
+ act(()=>ReactDOM.unmountComponentAtNode(root));await render();expect(root.querySelector('input[placeholder="Filter"]').value).toBe('one.flac');
 });

@@ -8,6 +8,7 @@ import {
 import React, { useMemo, useState } from 'react';
 import { Checkbox, Header, Icon, Table } from 'semantic-ui-react';
 
+import {useViewState} from '../../lib/viewState';
 import ClassicColumn,{useClassicColumns,compareValues} from '../Shared/ClassicColumns';
 const formatDirCaption = (fileCount, dirCount) => {
   const parts = [];
@@ -236,6 +237,7 @@ const Directory = ({
 
 const FileBrowser = ({
   directorySuffix,
+  viewKey='browse-files',
   disabled,
   expandedDirectory,
   files,
@@ -247,10 +249,10 @@ const FileBrowser = ({
   separator,
 }) => {
   const columns=useClassicColumns('slskprime-browse-columns-v1');
-  const [sort,setSort]=useState({key:'File',desc:false});
+  const [sort,setSort]=useViewState(viewKey+':sort',{key:'File',desc:false});
   const changeSort=name=>setSort(old=>({key:name,desc:old.key===name?!old.desc:false}));
   const sortFile=(a,b)=>(sort.desc?-1:1)*compareValues(sort.key==='Size'?a.size||0:sort.key==='Length'?a.length||0:sort.key==='Attributes'?a.bitRate||a.bitDepth||0:a.filename,sort.key==='Size'?b.size||0:sort.key==='Length'?b.length||0:sort.key==='Attributes'?b.bitRate||b.bitDepth||0:b.filename);
-  const [folded, setFolded] = useState(false);
+  const [folded, setFolded] = useViewState(viewKey+':folded',false);
 
   // flatten the list of files that we've been given and turn it into a map
   // keyed on the fully qualified name of the file and with a value of the file object

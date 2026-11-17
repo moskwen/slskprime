@@ -21,7 +21,7 @@ import StudioFavorites from './StudioFavorites';
 const recovered=['example-listener','demo-collector','test-browser'];
 jest.mock('../lib/users',()=>({getStatus:jest.fn(()=>new Promise(()=>{}))}));
 test('shows the complete contact list and opens the correct contact in the file browser',async()=>{
- localStorage.clear();localStorage.setItem('slskd-studio-favorites-v1',JSON.stringify(recovered));const root=document.createElement('div');document.body.appendChild(root);
+ localStorage.clear();sessionStorage.clear();localStorage.setItem('slskd-studio-favorites-v1',JSON.stringify(recovered));const root=document.createElement('div');document.body.appendChild(root);
  await act(async()=>{ReactDOM.render(<MemoryRouter initialEntries={['/users']}><Switch><Route exact path="/users" component={StudioFavorites}/><Route path="/browse" render={({location})=><div data-testid="target">{location.state.user}</div>}/></Switch></MemoryRouter>,root);});
  expect(root.querySelectorAll('.studio-user-row')).toHaveLength(recovered.length);
  const input=root.querySelector('input');
@@ -34,7 +34,7 @@ test('shows the complete contact list and opens the correct contact in the file 
  act(()=>{ReactDOM.unmountComponentAtNode(root);});root.remove();
 });
 test('keeps contact notes local and restores them when reopened',async()=>{
- localStorage.clear();localStorage.setItem('slskd-studio-favorites-v1',JSON.stringify(['example-listener']));
+ localStorage.clear();sessionStorage.clear();localStorage.setItem('slskd-studio-favorites-v1',JSON.stringify(['example-listener']));
  const root=document.createElement('div');document.body.appendChild(root);
  await act(async()=>{ReactDOM.render(<MemoryRouter><StudioFavorites/></MemoryRouter>,root);});
  act(()=>{Simulate.click(root.querySelector('[title="Personal note"]'));});

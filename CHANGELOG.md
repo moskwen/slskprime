@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.7.0 — 2026-11-17
+
+- Group transfers by user and album/folder, with per-group selection, progress, retry, cancel and confirmed list clearing. Group actions cover matching files across pagination.
+- Add context menus to transfers and contacts, with peer browsing, user information, contacts and an explicit private-message composer.
+- Restore search filters, sorting, pagination and scroll position; retain transfer filters/collapsed groups and per-user folder-tree and file-browser state in the browser session.
+- Replace the default technical Options screen with a settings form for download directories, organization, transfer limits and shared folders. Shared folders can also be managed directly on the Shares tab.
+- Preserve comments, credentials and unrelated YAML keys; validate on the server and detect concurrent edits before saving form changes.
+- Keep the technical editor under Advanced configuration and correct its validation race.
+- Align the System toolbar item with the other utility controls.
+
 ## 0.6.0 — 2026-11-17
 
 - Add a keyboard-accessible search result context menu for downloads, browsing the exact containing folder, saving users and viewing user information.
